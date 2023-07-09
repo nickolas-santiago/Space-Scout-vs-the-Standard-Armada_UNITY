@@ -80,10 +80,10 @@ public class PlayerControls : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D coll)
     {
-        Debug.Log("hello");
+        //Debug.Log("hello");
         if (coll.gameObject.tag == "Trigger")
         {
-            Debug.Log("hello again buddy");
+            //Debug.Log("hello again buddy");
         }
     }
 }

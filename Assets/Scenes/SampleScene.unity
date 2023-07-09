@@ -242,6 +242,7 @@ GameObject:
   m_Component:
   - component: {fileID: 328395360}
   - component: {fileID: 328395359}
+  - component: {fileID: 328395363}
   - component: {fileID: 328395362}
   - component: {fileID: 328395361}
   m_Layer: 0
@@ -363,6 +364,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &328395363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 328395358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58d8236aebd08e14a9e05e085dcda631, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy_max_health: 2
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -546,7 +560,7 @@ MonoBehaviour:
   speedx: 5
   speedy: 5
   projectile: {fileID: 7501979095678634194, guid: 8238eff422bbc534d9610a607553e5f0, type: 3}
-  cooldown_time: 20
+  cooldown_time: 50
 --- !u!61 &1506431740
 BoxCollider2D:
   m_ObjectHideFlags: 0

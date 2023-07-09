@@ -16,10 +16,10 @@ public class BulletScript : MonoBehaviour
     {
         //---find the mouse's position relative to the camera's position
         mouse_pos = main_camera.ScreenToWorldPoint(Input.mousePosition);
-        Debug.Log("screentoworldpoint:  " + mouse_pos);
+        //Debug.Log("screentoworldpoint:  " + mouse_pos);
         //---calculate the bullet's direction 
         direction = (mouse_pos - transform.position);
-        Debug.Log(direction);
+        //Debug.Log(direction);
         //---set the bullet's rigidbody component
         bullet_rigidbody = GetComponent<Rigidbody2D>();
         //---update the rigidbody's velocity with the caluculated direction and the public force
@@ -30,5 +30,9 @@ public class BulletScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if((transform.position.x > 7) || (transform.position.x < -7) || (transform.position.y > 7) || (transform.position.y < -7))
+        {
+            Object.Destroy(this.gameObject);
+        }
     }
 }
