@@ -42,13 +42,7 @@ public class PlayerControls : MonoBehaviour
                 Debug.Log("space");
                 current_cooldown_time = cooldown_time;
                 myPJ = Instantiate(projectile, transform.position, Quaternion.identity) as GameObject;
-            }
-            
-            //---get mouse position
-            Vector3 mouse_pos = Input.mousePosition;
-            Debug.Log(mouse_pos);
-            Debug.Log("nnnnn   n   " + transform.position);
-            
+            }            
         }
         //---cooldown any weapons
         if(current_cooldown_time > 0)
