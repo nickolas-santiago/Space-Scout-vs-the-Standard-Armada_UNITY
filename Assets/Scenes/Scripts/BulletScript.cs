@@ -25,7 +25,9 @@ public class BulletScript : MonoBehaviour
         }
         if(gameObject.tag == "EnemyBullet")
         {
+            //---find the player's position
             player_object = GameObject.FindGameObjectWithTag("Player");
+            //---calculate the bullet's direction 
             direction = (player_object.transform.position - transform.position);
         }
         //---set the bullet's rigidbody component
