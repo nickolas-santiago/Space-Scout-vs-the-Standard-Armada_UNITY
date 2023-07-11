@@ -43,10 +43,6 @@ public class EnemyScript : MonoBehaviour
     {
         time_alive++;
         
-        
-        
-        
-        
         //---calculate and set the enemy's direction 
         direction = (player_object.transform.position - transform.position);
         transform.up = direction;
@@ -76,10 +72,9 @@ public class EnemyScript : MonoBehaviour
             if((time_alive % 60) == 0)
             {
                 float chance_to_shoot = Random.Range(0,50);
-                Debug.Log(chance_to_shoot);
+                //Debug.Log(chance_to_shoot);
                 if(chance_to_shoot <= 5)
                 {
-                    Debug.Log("taking my shot, takingmy chance.");
                     current_state = "aiming";
                     enemy_rigidbody.velocity = new Vector2(0,0);
                     num_of_shots_left = Random.Range(1,max_num_of_shots);
@@ -101,7 +96,6 @@ public class EnemyScript : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D coll)
     {
-        Debug.Log("hello");
         //---if an enemy collides with player bullet, destroy bullet and deplete enemy's health
         if (coll.gameObject.tag == "PlayerBullet")
         {

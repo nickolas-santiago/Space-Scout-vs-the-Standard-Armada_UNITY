@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class PlayerControls : MonoBehaviour
 {
-    
-    // Start is called before the first frame update
-    /*void Start() {    }*/
-    
     //---set the public variables for player speed
     public float speedx = 25;
     public float speedy = 25;
@@ -17,6 +13,9 @@ public class PlayerControls : MonoBehaviour
     GameObject myPJ;
     public int cooldown_time = 20;
     private int current_cooldown_time = 0;
+    
+    // Start is called before the first frame update
+    /*void Start() {    }*/
 
     // Update is called once per frame
     void Update()
@@ -39,7 +38,6 @@ public class PlayerControls : MonoBehaviour
             //---a successful shot happens when cooldown is at 0
             if(current_cooldown_time == 0)
             {
-                Debug.Log("space");
                 current_cooldown_time = cooldown_time;
                 myPJ = Instantiate(projectile, transform.position, Quaternion.identity) as GameObject;
             }            
@@ -59,7 +57,7 @@ public class PlayerControls : MonoBehaviour
             Debug.Log(coll);
         }
         Vector3 collPosition = coll.transform.position;
-        if(collPosition.y > transform.position.y)
+       /* if(collPosition.y > transform.position.y)
         {
             Debug.Log("The object that hit me is above me!");
         }
@@ -76,6 +74,7 @@ public class PlayerControls : MonoBehaviour
         {
             Debug.Log("The object that hit me is to my left!");
         }
+        */
     }
     
     private void OnTriggerEnter2D(Collider2D coll)
