@@ -380,6 +380,7 @@ MonoBehaviour:
   enemy_max_health: 2
   enemy_bullet_object: {fileID: 2741618122835359047, guid: d023f4b032a61e2409b7907296a9c506, type: 3}
   cooldown_time: 50
+  max_num_of_shots: 4
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

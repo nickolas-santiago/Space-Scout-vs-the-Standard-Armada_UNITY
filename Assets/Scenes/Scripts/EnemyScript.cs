@@ -22,6 +22,9 @@ public class EnemyScript : MonoBehaviour
     private string current_state; //---States: "moving"  ||  "aiming"
     private int time_alive;
     
+    public int max_num_of_shots;
+    private int num_of_shots_left;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -48,13 +51,21 @@ public class EnemyScript : MonoBehaviour
         direction = (player_object.transform.position - transform.position);
         transform.up = direction;
         
-        //---enemy can shoot
+        //---if the enemy is currently aiming, it can shoot if it has bullets left
         if(current_state == "aiming")
         {
-            if(current_cooldown_time <= 0)
+            if(num_of_shots_left > 0)
             {
-                enemy_bullet = Instantiate(enemy_bullet_object, transform.position, Quaternion.identity) as GameObject;
-                current_cooldown_time = cooldown_time;
+                if(current_cooldown_time <= 0)
+                {
+                    num_of_shots_left--;
+                    enemy_bullet = Instantiate(enemy_bullet_object, transform.position, Quaternion.identity) as GameObject;
+                    current_cooldown_time = cooldown_time;
+                }
+            }
+            else
+            {
+                current_state = "moving";
             }
         }
         else if(current_state == "moving")
@@ -64,7 +75,6 @@ public class EnemyScript : MonoBehaviour
             //---every second after spawning, the enemy decides if it will shoot or not
             if((time_alive % 60) == 0)
             {
-                //Debug.Log(time_alive);
                 float chance_to_shoot = Random.Range(0,50);
                 Debug.Log(chance_to_shoot);
                 if(chance_to_shoot <= 5)
@@ -72,6 +82,7 @@ public class EnemyScript : MonoBehaviour
                     Debug.Log("taking my shot, takingmy chance.");
                     current_state = "aiming";
                     enemy_rigidbody.velocity = new Vector2(0,0);
+                    num_of_shots_left = Random.Range(1,max_num_of_shots);
                 }
             }
         }
