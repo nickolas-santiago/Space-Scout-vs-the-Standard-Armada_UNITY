@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyScript : MonoBehaviour
+public class StandardEnemyScript : MonoBehaviour
 {
     //---set the variables used for movement and rotation
     private GameObject player_object;
