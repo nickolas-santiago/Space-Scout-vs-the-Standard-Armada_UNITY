@@ -81,7 +81,6 @@ public class EnemyScript : MonoBehaviour
                 }
             }
         }
-        
         //---cooldown any weapons
         if(current_cooldown_time > 0)
         {
@@ -97,7 +96,7 @@ public class EnemyScript : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D coll)
     {
         //---if an enemy collides with player bullet, destroy bullet and deplete enemy's health
-        if (coll.gameObject.tag == "PlayerBullet")
+        if(coll.gameObject.tag == "PlayerBullet")
         {
             Debug.Log("NPC hit by bullet");
             Object.Destroy(coll.gameObject);

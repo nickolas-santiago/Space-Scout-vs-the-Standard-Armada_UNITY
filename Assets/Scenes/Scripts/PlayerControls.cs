@@ -53,8 +53,8 @@ public class PlayerControls : MonoBehaviour
     {
         if (coll.gameObject.tag == "NPC")
         {
-            Debug.Log("hello");
-            Debug.Log(coll);
+            //Debug.Log("hello");
+            //Debug.Log(coll);
         }
         Vector3 collPosition = coll.transform.position;
        /* if(collPosition.y > transform.position.y)
