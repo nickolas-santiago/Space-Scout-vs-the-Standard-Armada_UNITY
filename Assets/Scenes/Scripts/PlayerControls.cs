@@ -10,7 +10,11 @@ public class PlayerControls : MonoBehaviour
     
     //---set some vars for shooting
     public GameObject projectile;
-    GameObject myPJ;    
+    GameObject myPJ;
+    //---set the variables used for controlling bullet direction and speed
+    public Camera main_camera; //---set the camera we want to mouse to be relative to
+    private Vector3 mouse_pos;
+    private Vector3 aim_direction;
     //---set a custom class for the player's weapons
     private int current_weapon;
     public class WeaponClass
@@ -36,7 +40,7 @@ public class PlayerControls : MonoBehaviour
     {
         weapons_list.Add(weapon_standard);
         weapons_list.Add(weapon_multishot);
-        current_weapon = 0;
+        current_weapon = 1;
     }
 
     // Update is called once per frame
@@ -53,6 +57,21 @@ public class PlayerControls : MonoBehaviour
         movement *= Time.deltaTime;
         transform.Translate(movement);
         
+        mouse_pos = main_camera.ScreenToWorldPoint(Input.mousePosition);
+        aim_direction = (mouse_pos - transform.position);
+        if(current_weapon == 0)
+        {
+            Debug.DrawLine(transform.position, mouse_pos, Color.red);
+        }
+        if(current_weapon == 1)
+        {
+            Debug.DrawLine(transform.position, mouse_pos, Color.red);
+            Vector3 leftdir = Quaternion.Euler(0f, 0f, -30f) * aim_direction;
+            Debug.DrawLine(transform.position, leftdir, Color.green);
+            Vector3 rihdir = Quaternion.Euler(0f, 0f, 30f) * aim_direction;
+            Debug.DrawLine(transform.position, rihdir, Color.green);
+        }
+        
         //---if the space key is being pressed, attempt to shoot
         if(Input.GetKey("space"))
         {
@@ -62,6 +81,17 @@ public class PlayerControls : MonoBehaviour
                 if(weapons_list[current_weapon].weapon_name == "standard")
                 {
                     myPJ = Instantiate(projectile, transform.position, Quaternion.identity) as GameObject;
+                    myPJ.GetComponent<BulletScript>().direction = aim_direction;
+                }
+                else if(weapons_list[current_weapon].weapon_name == "multishot")
+                {
+                    for(int shot = -1; shot <= 1; shot++)
+                    {
+                        float shot_float = ((float)shot * 30f);
+                        Vector3 shot_dir = (Quaternion.Euler(0f, 0f, shot_float) * aim_direction);
+                        myPJ = Instantiate(projectile, transform.position, Quaternion.identity) as GameObject;
+                        myPJ.GetComponent<BulletScript>().direction = (shot_dir + transform.position);
+                    }
                 }
                 weapons_list[current_weapon].current_cooldown_time = weapons_list[current_weapon].max_cooldown_time;
             }
