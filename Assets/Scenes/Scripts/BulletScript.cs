@@ -7,6 +7,7 @@ public class BulletScript : MonoBehaviour
     public float force; //---this allows us to easily adjust the speed in unity
     public Vector3 direction;
     private Rigidbody2D bullet_rigidbody; //---used to give the bullet a velocity
+    public int damage;
     
     // Start is called before the first frame update
     void Start()

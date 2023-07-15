@@ -22,6 +22,7 @@ public class StandardEnemyScript : MonoBehaviour
     private string current_state; //---States: "moving"  ||  "aiming"
     private int time_alive;
     
+    public int bullet_damage;
     public int max_num_of_shots;
     private int num_of_shots_left;
     
@@ -36,6 +37,7 @@ public class StandardEnemyScript : MonoBehaviour
         current_cooldown_time = cooldown_time;
         current_state = "moving";
         time_alive = 0;
+        bullet_damage = 1;
     }
 
     // Update is called once per frame
@@ -61,6 +63,7 @@ public class StandardEnemyScript : MonoBehaviour
                     //enemy_bullet.transform.up = transform.up;
                     //Debug.Log(enemy_bullet.GetComponent<BulletScript>().direction);
                     enemy_bullet.GetComponent<BulletScript>().direction = direction;
+                    enemy_bullet.GetComponent<BulletScript>().damage = bullet_damage;
                     current_cooldown_time = cooldown_time;
                 }
             }
@@ -104,8 +107,9 @@ public class StandardEnemyScript : MonoBehaviour
         if(coll.gameObject.tag == "PlayerBullet")
         {
             Debug.Log("NPC hit by bullet");
+            Debug.Log(coll.GetComponent<BulletScript>().damage);
             Object.Destroy(coll.gameObject);
-            enemy_current_health--;
+            enemy_current_health -= coll.GetComponent<BulletScript>().damage;
         }
     }
 }

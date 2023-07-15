@@ -394,7 +394,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1506431736}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.655, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children: []
   m_Father: {fileID: 0}
@@ -415,6 +415,7 @@ MonoBehaviour:
   speedx: 5
   speedy: 5
   projectile: {fileID: 7501979095678634194, guid: 8238eff422bbc534d9610a607553e5f0, type: 3}
+  main_camera: {fileID: 519420031}
 --- !u!61 &1506431740
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -492,7 +493,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy_object: {fileID: 5761241272598222003, guid: 3e3bb64341ffae848a7b3a289e871d92, type: 3}
-  max_num_of_enemies: 0
+  max_num_of_enemies: 3
   outer_border: 7
 --- !u!4 &2080108643
 Transform:

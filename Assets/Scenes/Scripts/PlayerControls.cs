@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PlayerControls : MonoBehaviour
 {
+    //---set the public variables for player health
+    public float max_health;
+    private float current_health;
+    
     //---set the public variables for player speed
     public float speedx = 25;
     public float speedy = 25;
@@ -82,6 +86,7 @@ public class PlayerControls : MonoBehaviour
                 {
                     myPJ = Instantiate(projectile, transform.position, Quaternion.identity) as GameObject;
                     myPJ.GetComponent<BulletScript>().direction = aim_direction;
+                    myPJ.GetComponent<BulletScript>().damage = weapons_list[current_weapon].weapon_damage;
                 }
                 else if(weapons_list[current_weapon].weapon_name == "multishot")
                 {
@@ -91,6 +96,7 @@ public class PlayerControls : MonoBehaviour
                         Vector3 shot_dir = (Quaternion.Euler(0f, 0f, shot_float) * aim_direction);
                         myPJ = Instantiate(projectile, transform.position, Quaternion.identity) as GameObject;
                         myPJ.GetComponent<BulletScript>().direction = (shot_dir + transform.position);
+                        myPJ.GetComponent<BulletScript>().damage = weapons_list[current_weapon].weapon_damage;
                     }
                 }
                 weapons_list[current_weapon].current_cooldown_time = weapons_list[current_weapon].max_cooldown_time;
@@ -162,6 +168,11 @@ public class PlayerControls : MonoBehaviour
         if (coll.gameObject.tag == "Trigger")
         {
             //Debug.Log("hello again buddy");
+        }
+        if (coll.gameObject.tag == "EnemyBullet")
+        {
+            current_health -= coll.GetComponent<BulletScript>().damage;
+            Debug.Log(current_health);
         }
     }
 }
