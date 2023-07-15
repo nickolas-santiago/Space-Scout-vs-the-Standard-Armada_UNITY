@@ -129,11 +129,14 @@ public class PlayerControls : MonoBehaviour
         //---use the Q key to use a powerup
         if(Input.GetKeyDown(KeyCode.Q))
         {
+            Debug.Log(current_powerup);
+            Debug.Log(current_health);
             if(current_powerup != "")
             {
                 if(current_powerup == "shield")
                 {
                     current_health = 6;
+                    Debug.Log(current_health);
                 }
                 current_powerup = "";
             }
@@ -191,8 +194,7 @@ public class PlayerControls : MonoBehaviour
         }
         if (coll.gameObject.tag == "Powerup")
         {
-            Debug.Log(coll.GetComponent<PowerupScript>().max_lifespan);
-            Debug.Log(coll.GetComponent<PowerupScript>().powerup_name);
+            current_powerup = coll.GetComponent<PowerupScript>().powerup_name;
         }
     }
 }
