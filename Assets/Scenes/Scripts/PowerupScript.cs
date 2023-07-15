@@ -10,6 +10,7 @@ public class PowerupScript : MonoBehaviour
     public int max_lifespan;
     private SpriteRenderer powerup_spriterenderer;
     public Sprite powerup_sprite_shield;
+    public Sprite powerup_sprite_supercooldown;
     public class PowerupClass
     {
         public string powerup_name_;
@@ -27,9 +28,11 @@ public class PowerupScript : MonoBehaviour
     {
         //---create and add possible powerups to the powerup list
         PowerupClass powerup_shield = new PowerupClass("shield", powerup_sprite_shield);
+        PowerupClass powerup_supercooldown = new PowerupClass("supercooldown", powerup_sprite_supercooldown);
         powerup_list.Add(powerup_shield);
+        powerup_list.Add(powerup_supercooldown);
         //---select a random powerup
-        powerup = Random.Range(0, (powerup_list.Count - 1));
+        powerup = Random.Range(1, (powerup_list.Count - 1));
         powerup_name = powerup_list[powerup].powerup_name_;
         //---render sprite for powerup
         powerup_spriterenderer = GetComponent<SpriteRenderer>();

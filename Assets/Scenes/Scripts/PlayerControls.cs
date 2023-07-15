@@ -40,6 +40,9 @@ public class PlayerControls : MonoBehaviour
     public WeaponClass weapon_multishot = new WeaponClass("multishot", 1, 100, 0);
     //---set variables for powerups
     private string current_powerup;
+    //private bool supercooldown_active;
+    private int current_supercooldown_time;
+    private int max_supercooldown_time;
     
     // Start is called before the first frame update
     void Start()
@@ -48,6 +51,7 @@ public class PlayerControls : MonoBehaviour
         weapons_list.Add(weapon_multishot);
         current_weapon = 1;
         current_powerup = "";
+        max_supercooldown_time = 7;
     }
 
     // Update is called once per frame
@@ -102,7 +106,14 @@ public class PlayerControls : MonoBehaviour
                         myPJ.GetComponent<BulletScript>().damage = weapons_list[current_weapon].weapon_damage_;
                     }
                 }
-                weapons_list[current_weapon].current_cooldown_time_ = weapons_list[current_weapon].max_cooldown_time_;
+                if(current_supercooldown_time > 0)
+                {
+                    weapons_list[current_weapon].current_cooldown_time_ = Mathf.FloorToInt((float)weapons_list[current_weapon].max_cooldown_time_ * ((float)1/(float)2));
+                }
+                else
+                {
+                    weapons_list[current_weapon].current_cooldown_time_ = weapons_list[current_weapon].max_cooldown_time_;
+                }
             }
         }
         //---HERE we switch weapons
@@ -130,7 +141,7 @@ public class PlayerControls : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Q))
         {
             Debug.Log(current_powerup);
-            Debug.Log(current_health);
+            //Debug.Log(current_health);
             if(current_powerup != "")
             {
                 if(current_powerup == "shield")
@@ -138,16 +149,31 @@ public class PlayerControls : MonoBehaviour
                     current_health = 6;
                     Debug.Log(current_health);
                 }
+                else if(current_powerup == "supercooldown")
+                {
+                    //supercooldown_active = true;
+                    current_supercooldown_time = (max_supercooldown_time * 60);
+                    Debug.Log(current_supercooldown_time);
+                }
                 current_powerup = "";
             }
         }
         
-        //---cooldown any weapons
+        //---cooldown any weapons and powerups
         for(int weapon = 0; weapon < weapons_list.Count; weapon++)
         {
             if(weapons_list[weapon].current_cooldown_time_ > 0)
             {
                 weapons_list[weapon].current_cooldown_time_--;
+            }
+            if(current_supercooldown_time > 0)
+            {
+                current_supercooldown_time--;
+                if(current_supercooldown_time <= 0)
+                {
+                    //supercooldown_active = false;
+                    Debug.Log(current_supercooldown_time);
+                }
             }
         }
     }
@@ -195,6 +221,7 @@ public class PlayerControls : MonoBehaviour
         if (coll.gameObject.tag == "Powerup")
         {
             current_powerup = coll.GetComponent<PowerupScript>().powerup_name;
+            Debug.Log(current_powerup);
         }
     }
 }
