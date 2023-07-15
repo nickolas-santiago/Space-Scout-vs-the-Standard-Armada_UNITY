@@ -38,6 +38,8 @@ public class PlayerControls : MonoBehaviour
     public List<WeaponClass> weapons_list = new List<WeaponClass>();
     public WeaponClass weapon_standard = new WeaponClass("standard", 2, 50, 0);
     public WeaponClass weapon_multishot = new WeaponClass("multishot", 1, 100, 0);
+    //---set variables for powerups
+    private string current_powerup;
     
     // Start is called before the first frame update
     void Start()
@@ -45,6 +47,7 @@ public class PlayerControls : MonoBehaviour
         weapons_list.Add(weapon_standard);
         weapons_list.Add(weapon_multishot);
         current_weapon = 1;
+        current_powerup = "";
     }
 
     // Update is called once per frame
@@ -122,6 +125,18 @@ public class PlayerControls : MonoBehaviour
                 current_weapon = 0;
             }
             Debug.Log(weapons_list[current_weapon].weapon_name);
+        }
+        //---use the Q key to use a powerup
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            if(current_powerup != "")
+            {
+                if(current_powerup == "shield")
+                {
+                    current_health = 6;
+                }
+                current_powerup = "";
+            }
         }
         
         //---cooldown any weapons
