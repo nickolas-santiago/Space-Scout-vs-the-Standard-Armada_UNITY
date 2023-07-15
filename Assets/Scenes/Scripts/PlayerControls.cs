@@ -10,11 +10,7 @@ public class PlayerControls : MonoBehaviour
     
     //---set some vars for shooting
     public GameObject projectile;
-    GameObject myPJ;
-    
-    public int cooldown_time = 20;
-    private int current_cooldown_time = 0;
-    
+    GameObject myPJ;    
     //---set a custom class for the player's weapons
     private int current_weapon;
     public class WeaponClass
@@ -61,35 +57,44 @@ public class PlayerControls : MonoBehaviour
         if(Input.GetKey("space"))
         {
             //---a successful shot happens when cooldown is at 0
-            if(current_cooldown_time == 0)
+            if(weapons_list[current_weapon].current_cooldown_time == 0)
             {
-                current_cooldown_time = cooldown_time;
-                myPJ = Instantiate(projectile, transform.position, Quaternion.identity) as GameObject;
+                if(weapons_list[current_weapon].weapon_name == "standard")
+                {
+                    myPJ = Instantiate(projectile, transform.position, Quaternion.identity) as GameObject;
+                }
+                weapons_list[current_weapon].current_cooldown_time = weapons_list[current_weapon].max_cooldown_time;
             }
-            Debug.Log(weapons_list[current_weapon].weapon_name);
         }
         //---HERE we switch weapons
         if(Input.GetKeyDown(KeyCode.E))
         {
+            //Debug.Log(current_weapon);
             current_weapon--;
             if(current_weapon < 0)
             {
                 current_weapon = (weapons_list.Count - 1);
             }
+            Debug.Log(weapons_list[current_weapon].weapon_name);
         }
         else if(Input.GetKeyDown(KeyCode.R))
         {
+            //Debug.Log(current_weapon);
             current_weapon++;
             if(current_weapon > (weapons_list.Count - 1))
             {
                 current_weapon = 0;
             }
+            Debug.Log(weapons_list[current_weapon].weapon_name);
         }
         
         //---cooldown any weapons
-        if(current_cooldown_time > 0)
+        for(int weapon = 0; weapon < weapons_list.Count; weapon++)
         {
-            current_cooldown_time--;
+            if(weapons_list[weapon].current_cooldown_time > 0)
+            {
+                weapons_list[weapon].current_cooldown_time--;
+            }
         }
     }
     

@@ -56,6 +56,11 @@ public class StandardEnemyScript : MonoBehaviour
                 {
                     num_of_shots_left--;
                     enemy_bullet = Instantiate(enemy_bullet_object, transform.position, Quaternion.identity) as GameObject;
+                    //Debug.Log(enemy_bullet.transform.up);
+                    enemy_bullet.transform.up = transform.up;
+                    //enemy_bullet.transform.up = transform.up;
+                    //Debug.Log(enemy_bullet.GetComponent<BulletScript>().direction);
+                    enemy_bullet.GetComponent<BulletScript>().direction = direction;
                     current_cooldown_time = cooldown_time;
                 }
             }
