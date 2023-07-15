@@ -23,16 +23,16 @@ public class PlayerControls : MonoBehaviour
     private int current_weapon;
     public class WeaponClass
     {
-        public string weapon_name;
-        public int weapon_damage;
-        public int max_cooldown_time;
-        public int current_cooldown_time;
-        public WeaponClass(string _weapon_name, int _weapon_damage, int _max_cooldown_time, int _current_cooldown_time)
+        public string weapon_name_;
+        public int weapon_damage_;
+        public int max_cooldown_time_;
+        public int current_cooldown_time_;
+        public WeaponClass(string _weapon_name_, int _weapon_damage_, int _max_cooldown_time_, int _current_cooldown_time_)
         {
-            weapon_name = _weapon_name;
-            weapon_damage = _weapon_damage;
-            max_cooldown_time = _max_cooldown_time;
-            current_cooldown_time = _current_cooldown_time;
+            weapon_name_ = _weapon_name_;
+            weapon_damage_ = _weapon_damage_;
+            max_cooldown_time_ = _max_cooldown_time_;
+            current_cooldown_time_ = _current_cooldown_time_;
         }
     }
     public List<WeaponClass> weapons_list = new List<WeaponClass>();
@@ -83,15 +83,15 @@ public class PlayerControls : MonoBehaviour
         if(Input.GetKey("space"))
         {
             //---a successful shot happens when cooldown is at 0
-            if(weapons_list[current_weapon].current_cooldown_time == 0)
+            if(weapons_list[current_weapon].current_cooldown_time_ == 0)
             {
-                if(weapons_list[current_weapon].weapon_name == "standard")
+                if(weapons_list[current_weapon].weapon_name_ == "standard")
                 {
                     myPJ = Instantiate(projectile, transform.position, Quaternion.identity) as GameObject;
                     myPJ.GetComponent<BulletScript>().direction = aim_direction;
-                    myPJ.GetComponent<BulletScript>().damage = weapons_list[current_weapon].weapon_damage;
+                    myPJ.GetComponent<BulletScript>().damage = weapons_list[current_weapon].weapon_damage_;
                 }
-                else if(weapons_list[current_weapon].weapon_name == "multishot")
+                else if(weapons_list[current_weapon].weapon_name_ == "multishot")
                 {
                     for(int shot = -1; shot <= 1; shot++)
                     {
@@ -99,10 +99,10 @@ public class PlayerControls : MonoBehaviour
                         Vector3 shot_dir = (Quaternion.Euler(0f, 0f, shot_float) * aim_direction);
                         myPJ = Instantiate(projectile, transform.position, Quaternion.identity) as GameObject;
                         myPJ.GetComponent<BulletScript>().direction = (shot_dir + transform.position);
-                        myPJ.GetComponent<BulletScript>().damage = weapons_list[current_weapon].weapon_damage;
+                        myPJ.GetComponent<BulletScript>().damage = weapons_list[current_weapon].weapon_damage_;
                     }
                 }
-                weapons_list[current_weapon].current_cooldown_time = weapons_list[current_weapon].max_cooldown_time;
+                weapons_list[current_weapon].current_cooldown_time_ = weapons_list[current_weapon].max_cooldown_time_;
             }
         }
         //---HERE we switch weapons
@@ -114,7 +114,7 @@ public class PlayerControls : MonoBehaviour
             {
                 current_weapon = (weapons_list.Count - 1);
             }
-            Debug.Log(weapons_list[current_weapon].weapon_name);
+            Debug.Log(weapons_list[current_weapon].weapon_name_);
         }
         else if(Input.GetKeyDown(KeyCode.R))
         {
@@ -124,7 +124,7 @@ public class PlayerControls : MonoBehaviour
             {
                 current_weapon = 0;
             }
-            Debug.Log(weapons_list[current_weapon].weapon_name);
+            Debug.Log(weapons_list[current_weapon].weapon_name_);
         }
         //---use the Q key to use a powerup
         if(Input.GetKeyDown(KeyCode.Q))
@@ -142,9 +142,9 @@ public class PlayerControls : MonoBehaviour
         //---cooldown any weapons
         for(int weapon = 0; weapon < weapons_list.Count; weapon++)
         {
-            if(weapons_list[weapon].current_cooldown_time > 0)
+            if(weapons_list[weapon].current_cooldown_time_ > 0)
             {
-                weapons_list[weapon].current_cooldown_time--;
+                weapons_list[weapon].current_cooldown_time_--;
             }
         }
     }
@@ -188,6 +188,11 @@ public class PlayerControls : MonoBehaviour
         {
             current_health -= coll.GetComponent<BulletScript>().damage;
             Debug.Log(current_health);
+        }
+        if (coll.gameObject.tag == "Powerup")
+        {
+            Debug.Log(coll.GetComponent<PowerupScript>().max_lifespan);
+            Debug.Log(coll.GetComponent<PowerupScript>().powerup_name);
         }
     }
 }
