@@ -11,6 +11,7 @@ public class PowerupScript : MonoBehaviour
     private SpriteRenderer powerup_spriterenderer;
     public Sprite powerup_sprite_shield;
     public Sprite powerup_sprite_supercooldown;
+    public Sprite powerup_sprite_scoremultiplier;
     public class PowerupClass
     {
         public string powerup_name_;
@@ -26,13 +27,16 @@ public class PowerupScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //---create and add possible powerups to the powerup list
+        //---initiate new powerups
         PowerupClass powerup_shield = new PowerupClass("shield", powerup_sprite_shield);
         PowerupClass powerup_supercooldown = new PowerupClass("supercooldown", powerup_sprite_supercooldown);
+        PowerupClass powerup_scoremultiplier = new PowerupClass("scoremultiplier", powerup_sprite_scoremultiplier);
+        //---add new powerups to the powerup list
         powerup_list.Add(powerup_shield);
         powerup_list.Add(powerup_supercooldown);
+        powerup_list.Add(powerup_scoremultiplier);
         //---select a random powerup
-        powerup = Random.Range(1, (powerup_list.Count - 1));
+        powerup = Random.Range(2, (powerup_list.Count - 1));
         powerup_name = powerup_list[powerup].powerup_name_;
         //---render sprite for powerup
         powerup_spriterenderer = GetComponent<SpriteRenderer>();

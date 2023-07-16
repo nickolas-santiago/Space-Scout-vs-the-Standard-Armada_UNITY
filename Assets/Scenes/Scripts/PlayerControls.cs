@@ -40,9 +40,13 @@ public class PlayerControls : MonoBehaviour
     public WeaponClass weapon_multishot = new WeaponClass("multishot", 1, 100, 0);
     //---set variables for powerups
     private string current_powerup;
-    //private bool supercooldown_active;
+    //   supercooldown
     private int current_supercooldown_time;
     private int max_supercooldown_time;
+    //   scoremultiplier
+    private int current_powerup_time_scoremultiplier;
+    private int max_powerup_time_scoremultiplier;
+    public int score_modifier;
     
     // Start is called before the first frame update
     void Start()
@@ -52,6 +56,8 @@ public class PlayerControls : MonoBehaviour
         current_weapon = 1;
         current_powerup = "";
         max_supercooldown_time = 7;
+        max_powerup_time_scoremultiplier = 7;
+        score_modifier = 1;
     }
 
     // Update is called once per frame
@@ -155,6 +161,10 @@ public class PlayerControls : MonoBehaviour
                     current_supercooldown_time = (max_supercooldown_time * 60);
                     Debug.Log(current_supercooldown_time);
                 }
+                else if(current_powerup == "scoremultiplier")
+                {
+                    current_powerup_time_scoremultiplier = (max_powerup_time_scoremultiplier * 60);
+                }
                 current_powerup = "";
             }
         }
@@ -175,6 +185,19 @@ public class PlayerControls : MonoBehaviour
                     Debug.Log(current_supercooldown_time);
                 }
             }
+            if(current_powerup_time_scoremultiplier > 0)
+            {
+                current_powerup_time_scoremultiplier--;
+            }
+        }
+        //---set score modifier
+        if(current_powerup_time_scoremultiplier > 0)
+        {
+            score_modifier = 2;
+        }
+        else
+        {
+            score_modifier = 1;
         }
     }
     
@@ -216,7 +239,7 @@ public class PlayerControls : MonoBehaviour
         if (coll.gameObject.tag == "EnemyBullet")
         {
             current_health -= coll.GetComponent<BulletScript>().damage;
-            Debug.Log(current_health);
+            //Debug.Log(current_health);
         }
         if (coll.gameObject.tag == "Powerup")
         {

@@ -14,6 +14,10 @@ public class StandardEnemyScript : MonoBehaviour
     public int enemy_max_health;
     private int enemy_current_health;
     
+    //---set variables for enemy points
+    private GameObject scene_object;
+    public int points_earned;
+    
     //---set variables for shooting and for enemy projectiles
     public GameObject enemy_bullet_object;
     private GameObject enemy_bullet;
@@ -34,6 +38,9 @@ public class StandardEnemyScript : MonoBehaviour
         enemy_rigidbody = GetComponent<Rigidbody2D>();
         //---initiate enemy properties
         enemy_current_health = enemy_max_health;
+        scene_object = GameObject.FindGameObjectWithTag("GameController");
+        points_earned = 50;
+        
         current_cooldown_time = cooldown_time;
         current_state = "moving";
         time_alive = 0;
@@ -98,6 +105,7 @@ public class StandardEnemyScript : MonoBehaviour
         if(enemy_current_health <= 0)
         {
             Object.Destroy(this.gameObject);
+            scene_object.GetComponent<SceneScript>().GenerateNewScore(points_earned);
         }
     }
     
@@ -106,8 +114,7 @@ public class StandardEnemyScript : MonoBehaviour
         //---if an enemy collides with player bullet, destroy bullet and deplete enemy's health
         if(coll.gameObject.tag == "PlayerBullet")
         {
-            Debug.Log("NPC hit by bullet");
-            Debug.Log(coll.GetComponent<BulletScript>().damage);
+            //Debug.Log("NPC hit by bullet");
             Object.Destroy(coll.gameObject);
             enemy_current_health -= coll.GetComponent<BulletScript>().damage;
         }
