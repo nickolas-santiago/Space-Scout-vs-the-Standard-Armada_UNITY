@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5761241272598221965}
+  - component: {fileID: -2883183865065774911}
   - component: {fileID: 6514754810010333794}
   - component: {fileID: 5761241272598221967}
   - component: {fileID: 5761241272598221964}
@@ -34,6 +35,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-2883183865065774911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5761241272598222003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b68d70bfa6af0fc479f9203890d0fc6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  force: 1
+  enemy_max_health: 0
 --- !u!114 &6514754810010333794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48,8 +63,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   force: 1
   enemy_max_health: 2
+  points_earned: 0
   enemy_bullet_object: {fileID: 2741618122835359047, guid: d023f4b032a61e2409b7907296a9c506, type: 3}
   cooldown_time: 55
+  bullet_damage: 0
   max_num_of_shots: 4
 --- !u!50 &5761241272598221967
 Rigidbody2D:
