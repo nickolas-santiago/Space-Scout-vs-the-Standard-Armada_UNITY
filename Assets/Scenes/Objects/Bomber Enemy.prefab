@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6850750529760789157}
+  - component: {fileID: 5690129559235169720}
   - component: {fileID: 2968022933057868419}
   - component: {fileID: 6850750529760789159}
   - component: {fileID: 6850750529760789156}
@@ -34,6 +35,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5690129559235169720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6850750529760789147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b68d70bfa6af0fc479f9203890d0fc6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player_object: {fileID: 0}
+  enemy_rigidbody: {fileID: 0}
+  enemy_current_health: 0
+  time_alive: 0
+  points_worth: 0
 --- !u!114 &2968022933057868419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47,7 +65,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   force: 1
+  reactive_force: 2
   enemy_max_health: 1
+  points_worth: 0
 --- !u!50 &6850750529760789159
 Rigidbody2D:
   serializedVersion: 4

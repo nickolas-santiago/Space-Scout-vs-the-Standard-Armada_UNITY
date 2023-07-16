@@ -6,8 +6,6 @@ public class EnemyScript : MonoBehaviour
 {
     //---set the variables used for movement and rotation
     public GameObject player_object;
-    public float force;
-    public Vector2 direction;
     public Rigidbody2D enemy_rigidbody;
     
     //---set variables for enemy health

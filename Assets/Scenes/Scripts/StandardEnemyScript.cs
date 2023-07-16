@@ -20,7 +20,6 @@ public class StandardEnemyScript : MonoBehaviour
     public int cooldown_time;
     private int current_cooldown_time;
     private string current_state; //---States: "moving"  ||  "aiming"
-    private int time_alive;
     
     public int bullet_damage;
     public int max_num_of_shots;

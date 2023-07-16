@@ -5,30 +5,29 @@ using UnityEngine;
 public class BomberEnemyScript : MonoBehaviour
 {
     //---set the variables used for movement and rotation
-    private GameObject player_object;
     public float force;
     public float reactive_force;
     private Vector2 direction;
-    private Rigidbody2D enemy_rigidbody;
     
-    //---set variables for enemy health
+    //---set variables for enemy
+    private EnemyScript enemy_script;
     public int enemy_max_health;
-    private int enemy_current_health;
+    //---set variables for enemy points
+    public int points_worth;
     
     //---set variables for making enemy reactive
-    private string current_state; //---States: "moving"  ||  "aiming"
-    private int time_alive;
     private bool is_reactive;
     
     // Start is called before the first frame update
     void Start()
     {
-        //---initiate properties for movement and rotation
-        player_object = GameObject.FindGameObjectWithTag("Player");
-        enemy_rigidbody = GetComponent<Rigidbody2D>();
+        //---instantiate vars for enemy script
+        enemy_script = GetComponent<EnemyScript>();
+        enemy_script.enemy_current_health = enemy_max_health;
+        points_worth = 25;
+        enemy_script.points_worth = points_worth;
+        
         //---initiate enemy properties
-        enemy_current_health = enemy_max_health;
-        time_alive = 0;
         is_reactive = false;
     }
 
@@ -36,14 +35,13 @@ public class BomberEnemyScript : MonoBehaviour
     void Update()
     {
         //---calculate and set the enemy's direction 
-        direction = (player_object.transform.position - transform.position);
+        direction = (enemy_script.player_object.transform.position - transform.position);
         transform.up = direction;
         
         if(is_reactive == false)
         {
-            time_alive++;
             //---every second after spawning, the enemy decide if it will become reactive and become faster
-            if((time_alive % 60) == 0)
+            if((enemy_script.time_alive % 60) == 0)
             {
                 float chance_to_turn = Random.Range(0,50);
                 if(chance_to_turn <= 5)
@@ -53,17 +51,12 @@ public class BomberEnemyScript : MonoBehaviour
                 }
             }
             //---update the rigidbody's velocity with the caluculated direction and the public regular force
-            enemy_rigidbody.velocity = new Vector2(direction.x, direction.y).normalized * force;
+            enemy_script.enemy_rigidbody.velocity = new Vector2(direction.x, direction.y).normalized * force;
         }
         else
         {
             //---update the rigidbody's velocity with the caluculated direction and the public reactive force
-            enemy_rigidbody.velocity = new Vector2(direction.x, direction.y).normalized * reactive_force;
-        }
-        //---if an enemy's health is 0, delete it
-        if(enemy_current_health <= 0)
-        {
-            Object.Destroy(this.gameObject);
+            enemy_script.enemy_rigidbody.velocity = new Vector2(direction.x, direction.y).normalized * reactive_force;
         }
     }
     
@@ -74,19 +67,8 @@ public class BomberEnemyScript : MonoBehaviour
         {
             if(coll.gameObject.tag == "Player")
             {
-                enemy_current_health--;
+                enemy_script.enemy_current_health--;
             }
-        }
-    }
-    
-    private void OnTriggerEnter2D(Collider2D coll)
-    {
-        //---if an enemy collides with player bullet, destroy bullet and deplete enemy's health
-        if(coll.gameObject.tag == "PlayerBullet")
-        {
-            Debug.Log("NPC hit by bullet");
-            Object.Destroy(coll.gameObject);
-            enemy_current_health--;
         }
     }
 }
