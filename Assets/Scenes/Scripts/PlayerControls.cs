@@ -6,7 +6,7 @@ public class PlayerControls : MonoBehaviour
 {
     //---set the public variables for player health
     public float max_health;
-    private float current_health;
+    public float current_health;
     
     //---set the public variables for player speed
     public float speedx = 25;
@@ -51,6 +51,7 @@ public class PlayerControls : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        current_health = max_health = 3;
         weapons_list.Add(weapon_standard);
         weapons_list.Add(weapon_multishot);
         current_weapon = 1;
