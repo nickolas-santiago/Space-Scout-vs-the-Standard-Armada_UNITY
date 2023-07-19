@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class PlayerControls : MonoBehaviour
 {
+    public GameObject scene_object;
+    
     //---set the public variables for player health
-    public float max_health;
-    public float current_health;
+    public int max_health;
+    public int current_health;
     
     //---set the public variables for player speed
     public float speedx = 25;
@@ -148,7 +150,6 @@ public class PlayerControls : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Q))
         {
             Debug.Log(current_powerup);
-            //Debug.Log(current_health);
             if(current_powerup != "")
             {
                 if(current_powerup == "shield")
@@ -166,7 +167,7 @@ public class PlayerControls : MonoBehaviour
                 {
                     current_powerup_time_scoremultiplier = (max_powerup_time_scoremultiplier * 60);
                 }
-                current_powerup = "";
+                scene_object.GetComponent<SceneScript>().UpdateUIPowerup(null);
             }
         }
         
@@ -183,7 +184,7 @@ public class PlayerControls : MonoBehaviour
                 if(current_supercooldown_time <= 0)
                 {
                     //supercooldown_active = false;
-                    Debug.Log(current_supercooldown_time);
+                    //Debug.Log(current_supercooldown_time);
                 }
             }
             if(current_powerup_time_scoremultiplier > 0)
@@ -239,13 +240,21 @@ public class PlayerControls : MonoBehaviour
         }
         if (coll.gameObject.tag == "EnemyBullet")
         {
-            current_health -= coll.GetComponent<BulletScript>().damage;
+            Object.Destroy(coll.gameObject);
+            if(current_health > 0)
+            {
+                current_health -= coll.GetComponent<BulletScript>().damage;
+                scene_object.GetComponent<SceneScript>().SetNewHealth(current_health);
+            }
             //Debug.Log(current_health);
         }
         if (coll.gameObject.tag == "Powerup")
         {
             current_powerup = coll.GetComponent<PowerupScript>().powerup_name;
+            scene_object.GetComponent<SceneScript>().UpdateUIPowerup(coll.GetComponent<SpriteRenderer>().sprite);
+            Object.Destroy(coll.gameObject);
             Debug.Log(current_powerup);
+            Debug.Log(coll.GetComponent<SpriteRenderer>().sprite);
         }
     }
 }

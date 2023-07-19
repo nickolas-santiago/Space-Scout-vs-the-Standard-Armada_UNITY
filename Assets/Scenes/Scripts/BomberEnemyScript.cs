@@ -47,7 +47,7 @@ public class BomberEnemyScript : MonoBehaviour
                 if(chance_to_turn <= 5)
                 {
                     is_reactive = true;
-                    Debug.Log("im reactive now");
+                    //Debug.Log("im reactive now");
                 }
             }
             //---update the rigidbody's velocity with the caluculated direction and the public regular force
