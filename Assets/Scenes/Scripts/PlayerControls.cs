@@ -22,7 +22,7 @@ public class PlayerControls : MonoBehaviour
     private Vector3 mouse_pos;
     private Vector3 aim_direction;
     //---set a custom class for the player's weapons
-    private int current_weapon;
+    public int current_weapon;
     public class WeaponClass
     {
         public string weapon_name_;
@@ -128,23 +128,24 @@ public class PlayerControls : MonoBehaviour
         //---HERE we switch weapons
         if(Input.GetKeyDown(KeyCode.E))
         {
-            //Debug.Log(current_weapon);
+            int previous_weapon = current_weapon;
+            Debug.Log(previous_weapon);
             current_weapon--;
             if(current_weapon < 0)
             {
                 current_weapon = (weapons_list.Count - 1);
             }
-            Debug.Log(weapons_list[current_weapon].weapon_name_);
+            scene_object.GetComponent<SceneScript>().UpdateUIWeaponchoice(current_weapon, previous_weapon);
         }
         else if(Input.GetKeyDown(KeyCode.R))
         {
-            //Debug.Log(current_weapon);
+            int previous_weapon = current_weapon;
             current_weapon++;
             if(current_weapon > (weapons_list.Count - 1))
             {
                 current_weapon = 0;
             }
-            Debug.Log(weapons_list[current_weapon].weapon_name_);
+            scene_object.GetComponent<SceneScript>().UpdateUIWeaponchoice(current_weapon, previous_weapon);
         }
         //---use the Q key to use a powerup
         if(Input.GetKeyDown(KeyCode.Q))
@@ -159,7 +160,6 @@ public class PlayerControls : MonoBehaviour
                 }
                 else if(current_powerup == "supercooldown")
                 {
-                    //supercooldown_active = true;
                     current_supercooldown_time = (max_supercooldown_time * 60);
                     Debug.Log(current_supercooldown_time);
                 }
@@ -181,11 +181,6 @@ public class PlayerControls : MonoBehaviour
             if(current_supercooldown_time > 0)
             {
                 current_supercooldown_time--;
-                if(current_supercooldown_time <= 0)
-                {
-                    //supercooldown_active = false;
-                    //Debug.Log(current_supercooldown_time);
-                }
             }
             if(current_powerup_time_scoremultiplier > 0)
             {
