@@ -39,7 +39,7 @@ public class PlayerControls : MonoBehaviour
     }
     public List<WeaponClass> weapons_list = new List<WeaponClass>();
     public WeaponClass weapon_standard = new WeaponClass("standard", 2, 50, 0);
-    public WeaponClass weapon_multishot = new WeaponClass("multishot", 1, 100, 0);
+    public WeaponClass weapon_multishot = new WeaponClass("multishot", 1, 40, 0);
     //---set variables for powerups
     private string current_powerup;
     //   supercooldown
@@ -86,10 +86,14 @@ public class PlayerControls : MonoBehaviour
         if(current_weapon == 1)
         {
             Debug.DrawLine(transform.position, mouse_pos, Color.red);
-            Vector3 leftdir = Quaternion.Euler(0f, 0f, -30f) * aim_direction;
-            Debug.DrawLine(transform.position, leftdir, Color.green);
-            Vector3 rihdir = Quaternion.Euler(0f, 0f, 30f) * aim_direction;
-            Debug.DrawLine(transform.position, rihdir, Color.green);
+            //---positive
+            Vector3 newdir_pos = Quaternion.Euler(0f, 0f, 30f) * aim_direction;
+            Vector3 newpoint_pos = transform.position + newdir_pos;
+            Debug.DrawLine(transform.position, newpoint_pos, Color.green);
+            //---negative
+            Vector3 newdir_neg = Quaternion.Euler(0f, 0f, -30f) * aim_direction;
+            Vector3 newpoint_neg = transform.position + newdir_neg;
+            Debug.DrawLine(transform.position, newpoint_neg, Color.yellow);
         }
         
         //---if the space key is being pressed, attempt to shoot
@@ -108,11 +112,11 @@ public class PlayerControls : MonoBehaviour
                 {
                     for(int shot = -1; shot <= 1; shot++)
                     {
+                        myPJ = Instantiate(projectile, transform.position, Quaternion.identity) as GameObject;
                         float shot_float = ((float)shot * 30f);
                         Vector3 shot_dir = (Quaternion.Euler(0f, 0f, shot_float) * aim_direction);
-                        myPJ = Instantiate(projectile, transform.position, Quaternion.identity) as GameObject;
-                        myPJ.GetComponent<BulletScript>().direction = (shot_dir + transform.position);
-                        myPJ.GetComponent<BulletScript>().damage = weapons_list[current_weapon].weapon_damage_;
+                        Vector3 newpoint_pos = (transform.position + shot_dir);
+                        myPJ.GetComponent<BulletScript>().direction = (newpoint_pos - transform.position);
                     }
                 }
                 if(current_supercooldown_time > 0)
