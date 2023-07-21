@@ -56,7 +56,7 @@ public class PlayerControls : MonoBehaviour
         current_health = max_health = 3;
         weapons_list.Add(weapon_standard);
         weapons_list.Add(weapon_multishot);
-        current_weapon = 1;
+        current_weapon = 0;
         current_powerup = "";
         max_supercooldown_time = 7;
         max_powerup_time_scoremultiplier = 7;

@@ -17,6 +17,11 @@ public class SceneScript : MonoBehaviour
     //---weapon choice declarations
     public List<GameObject> weaponchoice_image_object_list = new List<GameObject>();
     
+    
+    public GameObject nnn;
+    public float hhh_max;
+    
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -38,16 +43,52 @@ public class SceneScript : MonoBehaviour
         {
             weaponchoice_image_object_list.Add(GameObject.FindGameObjectsWithTag("UIImageWeaponchoice")[weaponchoice_image_object]);
         }
+        //Debug.Log(weaponchoice_image_object_list[1]);
+        //Debug.Log(weaponchoice_image_object_list[1].GetComponent<RectTransform>().localScale);
+        //weaponchoice_image_object_list[player_object.GetComponent<PlayerControls>().current_weapon].GetComponent<RectTransform>().localScale = new Vector3(2f,2f,1f);
         
         
-        Debug.Log(weaponchoice_image_object_list[1]);
-        Debug.Log(weaponchoice_image_object_list[1].GetComponent<RectTransform>().localScale);
-        weaponchoice_image_object_list[player_object.GetComponent<PlayerControls>().current_weapon].GetComponent<RectTransform>().localScale = new Vector3(2f,2f,1f);
         
+        /*
+        Debug.Log(nnn.GetComponent<RectTransform>().sizeDelta.y * 0.5);
+        float www = (nnn.GetComponent<RectTransform>().sizeDelta.x * 0.5f);
+        float hhh = (nnn.GetComponent<RectTransform>().sizeDelta.y * 0.5f);
+        nnn.GetComponent<RectTransform>().sizeDelta = new Vector2(www, hhh);
+        Debug.Log(nnn.GetComponent<RectTransform>().sizeDelta);
+        */
+        
+        float weaponchoice_cooldown_image_width = nnn.GetComponent<RectTransform>().sizeDelta.x;
+        float weaponchoice_cooldown_image_height = (nnn.GetComponent<RectTransform>().sizeDelta.y * player_object.GetComponent<PlayerControls>().weapons_list[0].current_cooldown_time_);
+        hhh_max = nnn.GetComponent<RectTransform>().sizeDelta.y;
+        nnn.GetComponent<RectTransform>().sizeDelta = new Vector2(nnn.GetComponent<RectTransform>().sizeDelta.x, weaponchoice_cooldown_image_height);
+        
+        
+        Debug.Log(hhh_max);
+        //Debug.Log(player_object.GetComponent<PlayerControls>().weapons_list[0].current_cooldown_time_);
+
+        //Debug.Break();
     }
 
-    /*/ Update is called once per frame
-    void Update(){}*/
+    // Update is called once per frame
+    void Update()
+    {
+        
+        //Debug.Log(hhh_max);
+        //Debug.Log(hhh_max );
+        //11Debug.Log((float)player_object.GetComponent<PlayerControls>().weapons_list[0].current_cooldown_time_/(float)player_object.GetComponent<PlayerControls>().weapons_list[0].max_cooldown_time_);
+        
+        //Debug.Log((float)player_object.GetComponent<PlayerControls>().weapons_list[0].current_cooldown_time_);
+        
+        float jjj = ((float)player_object.GetComponent<PlayerControls>().weapons_list[0].current_cooldown_time_/(float)player_object.GetComponent<PlayerControls>().weapons_list[0].max_cooldown_time_);
+        
+        
+        
+        
+        float weaponchoice_cooldown_image_height = (nnn.GetComponent<RectTransform>().sizeDelta.y * player_object.GetComponent<PlayerControls>().weapons_list[0].current_cooldown_time_);
+        //nnn.GetComponent<RectTransform>().sizeDelta = new Vector2(nnn.GetComponent<RectTransform>().sizeDelta.x, hhh_max);
+        nnn.GetComponent<RectTransform>().sizeDelta = new Vector2(nnn.GetComponent<RectTransform>().sizeDelta.x, (hhh_max * jjj));
+        //Debug.Log(hhh_max);
+    }
     
     //UI METHODS
     //---health methods
@@ -80,7 +121,9 @@ public class SceneScript : MonoBehaviour
     //---weapon choice methods
     public void UpdateUIWeaponchoice(int current_weapon_, int previous_weapon_)
     {
+        /*
         weaponchoice_image_object_list[current_weapon_].GetComponent<RectTransform>().localScale = new Vector3(2f,2f,1f);
         weaponchoice_image_object_list[previous_weapon_].GetComponent<RectTransform>().localScale = new Vector3(1f,1f,1f);
+        */
     }
 }
