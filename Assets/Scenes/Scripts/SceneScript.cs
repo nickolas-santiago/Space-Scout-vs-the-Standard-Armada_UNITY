@@ -14,12 +14,14 @@ public class SceneScript : MonoBehaviour
     public int current_score;
     //---powerup declarations
     public GameObject ui_image_powerup;
+    //---weapon declarations
     //---weapon choice declarations
     public List<GameObject> weaponchoice_image_object_list = new List<GameObject>();
-    
-    
-    public GameObject nnn;
-    public float hhh_max;
+    //---weapon cooldown declarations
+    public GameObject ui_image_mask_weapon_cooldown_bar_object;
+    public float ui_image_weapon_cooldown_bar_maxheight;
+    public float ui_image_weapon_cooldown_bar_width;
+    public List<GameObject> weapon_cooldown_image_object_list = new List<GameObject>();
     
     
     // Start is called before the first frame update
@@ -38,56 +40,34 @@ public class SceneScript : MonoBehaviour
         //---powerup assignments
         Debug.Log(ui_image_powerup.GetComponent<Image>().sprite);
         //---weapons assignments
+        //---weapon choices assignments
         Debug.Log(player_object.GetComponent<PlayerControls>().current_weapon);
         for(int weaponchoice_image_object = 0; weaponchoice_image_object < GameObject.FindGameObjectsWithTag("UIImageWeaponchoice").Length; weaponchoice_image_object++)
         {
             weaponchoice_image_object_list.Add(GameObject.FindGameObjectsWithTag("UIImageWeaponchoice")[weaponchoice_image_object]);
         }
-        //Debug.Log(weaponchoice_image_object_list[1]);
-        //Debug.Log(weaponchoice_image_object_list[1].GetComponent<RectTransform>().localScale);
-        //weaponchoice_image_object_list[player_object.GetComponent<PlayerControls>().current_weapon].GetComponent<RectTransform>().localScale = new Vector3(2f,2f,1f);
-        
-        
-        
-        /*
-        Debug.Log(nnn.GetComponent<RectTransform>().sizeDelta.y * 0.5);
-        float www = (nnn.GetComponent<RectTransform>().sizeDelta.x * 0.5f);
-        float hhh = (nnn.GetComponent<RectTransform>().sizeDelta.y * 0.5f);
-        nnn.GetComponent<RectTransform>().sizeDelta = new Vector2(www, hhh);
-        Debug.Log(nnn.GetComponent<RectTransform>().sizeDelta);
-        */
-        
-        float weaponchoice_cooldown_image_width = nnn.GetComponent<RectTransform>().sizeDelta.x;
-        float weaponchoice_cooldown_image_height = (nnn.GetComponent<RectTransform>().sizeDelta.y * player_object.GetComponent<PlayerControls>().weapons_list[0].current_cooldown_time_);
-        hhh_max = nnn.GetComponent<RectTransform>().sizeDelta.y;
-        nnn.GetComponent<RectTransform>().sizeDelta = new Vector2(nnn.GetComponent<RectTransform>().sizeDelta.x, weaponchoice_cooldown_image_height);
-        
-        
-        Debug.Log(hhh_max);
-        //Debug.Log(player_object.GetComponent<PlayerControls>().weapons_list[0].current_cooldown_time_);
-
+        //---weapon cooldowns assignments
+        ui_image_weapon_cooldown_bar_maxheight = ui_image_mask_weapon_cooldown_bar_object.GetComponent<RectTransform>().sizeDelta.y;
+        ui_image_weapon_cooldown_bar_width = ui_image_mask_weapon_cooldown_bar_object.GetComponent<RectTransform>().sizeDelta.x;
+        for(int weapon_cooldown_image_mask_object = 0; weapon_cooldown_image_mask_object < GameObject.FindGameObjectsWithTag("UIImageMaskWeaponCooldown").Length; weapon_cooldown_image_mask_object++)
+        {
+            weapon_cooldown_image_object_list.Add(GameObject.FindGameObjectsWithTag("UIImageMaskWeaponCooldown")[weapon_cooldown_image_mask_object]);
+            weapon_cooldown_image_object_list[weapon_cooldown_image_mask_object].GetComponent<RectTransform>().sizeDelta = new Vector2(ui_image_weapon_cooldown_bar_width, ui_image_weapon_cooldown_bar_maxheight);
+        }
+    
         //Debug.Break();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        //Debug.Log(hhh_max);
-        //Debug.Log(hhh_max );
-        //11Debug.Log((float)player_object.GetComponent<PlayerControls>().weapons_list[0].current_cooldown_time_/(float)player_object.GetComponent<PlayerControls>().weapons_list[0].max_cooldown_time_);
-        
-        //Debug.Log((float)player_object.GetComponent<PlayerControls>().weapons_list[0].current_cooldown_time_);
-        
-        float jjj = ((float)player_object.GetComponent<PlayerControls>().weapons_list[0].current_cooldown_time_/(float)player_object.GetComponent<PlayerControls>().weapons_list[0].max_cooldown_time_);
-        
-        
-        
-        
-        float weaponchoice_cooldown_image_height = (nnn.GetComponent<RectTransform>().sizeDelta.y * player_object.GetComponent<PlayerControls>().weapons_list[0].current_cooldown_time_);
-        //nnn.GetComponent<RectTransform>().sizeDelta = new Vector2(nnn.GetComponent<RectTransform>().sizeDelta.x, hhh_max);
-        nnn.GetComponent<RectTransform>().sizeDelta = new Vector2(nnn.GetComponent<RectTransform>().sizeDelta.x, (hhh_max * jjj));
-        //Debug.Log(hhh_max);
+        //---update the weapons' cooldown bars
+        for(int player_weapon = 0; player_weapon < player_object.GetComponent<PlayerControls>().weapons_list.Count; player_weapon++)
+        {
+            Debug.Log(player_weapon);
+            float cooldown_percentage = ((float)player_object.GetComponent<PlayerControls>().weapons_list[player_weapon].current_cooldown_time_/(float)player_object.GetComponent<PlayerControls>().weapons_list[player_weapon].max_cooldown_time_);
+            weapon_cooldown_image_object_list[player_weapon].GetComponent<RectTransform>().sizeDelta = new Vector2(ui_image_weapon_cooldown_bar_width, (ui_image_weapon_cooldown_bar_maxheight * cooldown_percentage));
+        }
     }
     
     //UI METHODS
@@ -121,9 +101,7 @@ public class SceneScript : MonoBehaviour
     //---weapon choice methods
     public void UpdateUIWeaponchoice(int current_weapon_, int previous_weapon_)
     {
-        /*
         weaponchoice_image_object_list[current_weapon_].GetComponent<RectTransform>().localScale = new Vector3(2f,2f,1f);
         weaponchoice_image_object_list[previous_weapon_].GetComponent<RectTransform>().localScale = new Vector3(1f,1f,1f);
-        */
     }
 }

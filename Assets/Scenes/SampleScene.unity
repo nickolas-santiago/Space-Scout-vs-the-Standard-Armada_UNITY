@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 110621209}
   - component: {fileID: 110621208}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: UI Container Weapon Standard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -148,12 +148,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1622590395}
-  m_Father: {fileID: 154538127}
-  m_RootOrder: 2
+  m_Father: {fileID: 1856126459}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.4, y: 0.25500003}
   m_AnchorMax: {x: 0.4, y: 0.25500003}
-  m_AnchoredPosition: {x: 0.00018692017, y: -0.000015258789}
+  m_AnchoredPosition: {x: 15.200149, y: -6.239997}
   m_SizeDelta: {x: -0.00051116943, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &110621208
@@ -224,7 +224,6 @@ RectTransform:
   m_Children:
   - {fileID: 1856126459}
   - {fileID: 86669014}
-  - {fileID: 110621207}
   m_Father: {fileID: 955050274}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -588,6 +587,169 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 701936950}
   m_CullTransparentMesh: 0
+--- !u!1 &765618861
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 765618862}
+  - component: {fileID: 765618865}
+  - component: {fileID: 765618864}
+  - component: {fileID: 765618863}
+  m_Layer: 5
+  m_Name: UI ImgMask Weapon Multishot
+  m_TagString: UIImageMaskWeaponCooldown
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &765618862
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 765618861}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1016762818}
+  m_Father: {fileID: 848756206}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.004934311, y: -0.0000019073486}
+  m_SizeDelta: {x: 12.25, y: 25}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &765618863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 765618861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -146154839, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &765618864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 765618861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+--- !u!222 &765618865
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 765618861}
+  m_CullTransparentMesh: 0
+--- !u!1 &848756205
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 848756206}
+  - component: {fileID: 848756208}
+  - component: {fileID: 848756207}
+  m_Layer: 5
+  m_Name: UI Container Weapon Multishot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &848756206
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848756205}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 765618862}
+  m_Father: {fileID: 86669014}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.56, y: 0.16000001}
+  m_AnchorMax: {x: 0.56, y: 0.16000001}
+  m_AnchoredPosition: {x: 11.000006, y: -3.999998}
+  m_SizeDelta: {x: -0.0005111694, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &848756207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848756205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+--- !u!222 &848756208
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848756205}
+  m_CullTransparentMesh: 0
 --- !u!1001 &891294052
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -722,12 +884,12 @@ PrefabInstance:
     - target: {fileID: 953529429055806013, guid: 1f87ff50ecec0984ca9f24ad7768adb6,
         type: 3}
       propertyPath: m_Name
-      value: Image (1)
+      value: UI Image Weapon Multishot
       objectReference: {fileID: 0}
     - target: {fileID: 953529429055806013, guid: 1f87ff50ecec0984ca9f24ad7768adb6,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 953529429055806013, guid: 1f87ff50ecec0984ca9f24ad7768adb6,
         type: 3}
@@ -857,7 +1019,7 @@ PrefabInstance:
     - target: {fileID: 953529429055806013, guid: 1f87ff50ecec0984ca9f24ad7768adb6,
         type: 3}
       propertyPath: m_Name
-      value: Image
+      value: UI Image Weapon Standard
       objectReference: {fileID: 0}
     - target: {fileID: 953529429055806013, guid: 1f87ff50ecec0984ca9f24ad7768adb6,
         type: 3}
@@ -1084,6 +1246,80 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1016762817
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1016762818}
+  - component: {fileID: 1016762820}
+  - component: {fileID: 1016762819}
+  m_Layer: 5
+  m_Name: UI Image Weapon Cooldown Multishot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1016762818
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1016762817}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 765618862}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 6, y: 12.5}
+  m_SizeDelta: {x: 12, y: 25}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1016762819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1016762817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 21300000, guid: f89285a992c421c448a919923ad39d0c, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+--- !u!222 &1016762820
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1016762817}
+  m_CullTransparentMesh: 0
 --- !u!1001 &1256935759
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1457,8 +1693,8 @@ GameObject:
   - component: {fileID: 1622590397}
   - component: {fileID: 1622590396}
   m_Layer: 5
-  m_Name: Image
-  m_TagString: Untagged
+  m_Name: UI ImgMask Weapon Standard
+  m_TagString: UIImageMaskWeaponCooldown
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1556,7 +1792,7 @@ GameObject:
   - component: {fileID: 1908877340}
   - component: {fileID: 1908877339}
   m_Layer: 5
-  m_Name: cooldownbarstandardweapon
+  m_Name: UI Image Weapon Cooldown Standard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1578,8 +1814,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 9.935, y: 10.18}
-  m_SizeDelta: {x: 19.87, y: 20.36}
+  m_AnchoredPosition: {x: 6.1025, y: 12.500002}
+  m_SizeDelta: {x: 12.2, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1908877339
 MonoBehaviour:
@@ -1758,8 +1994,9 @@ MonoBehaviour:
   current_score: 0
   ui_image_powerup: {fileID: 635128416}
   weaponchoice_image_object_list: []
-  nnn: {fileID: 1622590394}
-  hhh_max: 0
+  ui_image_mask_weapon_cooldown_bar_object: {fileID: 1622590394}
+  ui_image_weapon_cooldown_bar_maxheight: 0
+  weapon_cooldown_image_object_list: []
 --- !u!1001 &645802461418175963
 PrefabInstance:
   m_ObjectHideFlags: 0
