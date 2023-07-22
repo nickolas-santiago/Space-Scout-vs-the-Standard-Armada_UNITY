@@ -36,7 +36,8 @@ public class PowerupScript : MonoBehaviour
         powerup_list.Add(powerup_supercooldown);
         powerup_list.Add(powerup_scoremultiplier);
         //---select a random powerup
-        powerup = Random.Range(2, (powerup_list.Count - 1));
+        //powerup = Random.Range(2, (powerup_list.Count - 1));
+        powerup = 0;
         powerup_name = powerup_list[powerup].powerup_name_;
         //---render sprite for powerup
         powerup_spriterenderer = GetComponent<SpriteRenderer>();

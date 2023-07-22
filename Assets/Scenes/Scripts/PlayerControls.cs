@@ -161,6 +161,7 @@ public class PlayerControls : MonoBehaviour
                 {
                     current_health = 6;
                     Debug.Log(current_health);
+                    scene_object.GetComponent<SceneScript>().UpdateUISetShield();
                 }
                 else if(current_powerup == "supercooldown")
                 {
@@ -242,8 +243,7 @@ public class PlayerControls : MonoBehaviour
             Object.Destroy(coll.gameObject);
             if(current_health > 0)
             {
-                current_health -= coll.GetComponent<BulletScript>().damage;
-                scene_object.GetComponent<SceneScript>().SetNewHealth(current_health);
+                TakeDamage(coll.GetComponent<BulletScript>().damage);
             }
             //Debug.Log(current_health);
         }
@@ -255,5 +255,12 @@ public class PlayerControls : MonoBehaviour
             Debug.Log(current_powerup);
             Debug.Log(coll.GetComponent<SpriteRenderer>().sprite);
         }
+    }
+    
+    //---set new health and update the UI
+    private void TakeDamage(int damage_to_take_)
+    {
+        current_health -= damage_to_take_;
+        scene_object.GetComponent<SceneScript>().SetNewHealth(current_health);
     }
 }
