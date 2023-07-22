@@ -9,6 +9,8 @@ public class PlayerControls : MonoBehaviour
     //---set the public variables for player health
     public int max_health;
     public int current_health;
+    private int iframe_max;
+    private int iframe_current;
     
     //---set the public variables for player speed
     public float speedx = 25;
@@ -54,6 +56,8 @@ public class PlayerControls : MonoBehaviour
     void Start()
     {
         current_health = max_health = 3;
+        iframe_max = 50;
+        iframe_current = 0;
         weapons_list.Add(weapon_standard);
         weapons_list.Add(weapon_multishot);
         current_weapon = 0;
@@ -67,6 +71,11 @@ public class PlayerControls : MonoBehaviour
     void Update()
     {
         Vector2 speed = new Vector2(speedx, speedy);
+        
+        if(iframe_current > 0)
+        {
+            iframe_current--;
+        }
 
         //---these floats get set when Unity recognizes an input (keyboard, mouse, controller, etc.)
         float inputX = Input.GetAxis("Horizontal");
@@ -241,9 +250,12 @@ public class PlayerControls : MonoBehaviour
         if (coll.gameObject.tag == "EnemyBullet")
         {
             Object.Destroy(coll.gameObject);
-            if(current_health > 0)
+            if(iframe_current <= 0)
             {
-                TakeDamage(coll.GetComponent<BulletScript>().damage);
+                if(current_health > 0)
+                {
+                    TakeDamage(coll.GetComponent<BulletScript>().damage);
+                }
             }
             //Debug.Log(current_health);
         }
@@ -262,5 +274,6 @@ public class PlayerControls : MonoBehaviour
     {
         current_health -= damage_to_take_;
         scene_object.GetComponent<SceneScript>().SetNewHealth(current_health);
+        iframe_current = iframe_max;
     }
 }

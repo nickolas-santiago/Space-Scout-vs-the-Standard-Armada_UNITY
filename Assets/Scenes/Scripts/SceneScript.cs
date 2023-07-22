@@ -9,6 +9,10 @@ public class SceneScript : MonoBehaviour
     private int player_current_weapon;
     //UI VAR DECLARATIONS
     //---health declarations
+    public GameObject healthbar_panel;
+    private float healthbar_panel_xpos_shield_inactive;
+    private float healthbar_panel_xpos_shield_active;
+    private float healthbar_panel_ypos;
     public List<GameObject> healthbar_object_list = new List<GameObject>();
     //---health declarations -- shield
     public List<GameObject> shieldbar_object_list = new List<GameObject>();
@@ -41,6 +45,9 @@ public class SceneScript : MonoBehaviour
             healthbar_object_list.Add(GameObject.FindGameObjectsWithTag("UIImageHealthbar")[healthbar_object]);
         }
         //---health assignments -- shield
+        healthbar_panel_xpos_shield_inactive = -69f;
+        healthbar_panel_xpos_shield_active = 5f;
+        healthbar_panel_ypos = healthbar_panel.GetComponent<RectTransform>().anchoredPosition.y;
         for(int shieldbar_object = 0; shieldbar_object < GameObject.FindGameObjectsWithTag("UIImageShieldbar").Length; shieldbar_object++)
         {
             shieldbar_object_list.Add(GameObject.FindGameObjectsWithTag("UIImageShieldbar")[shieldbar_object]);
@@ -97,6 +104,11 @@ public class SceneScript : MonoBehaviour
         if(which_healthbar_ > 2)
         {
             shieldbar_object_list[(which_healthbar_ - 3)].gameObject.SetActive(false);
+            //---if shield is up, move the healthbar panel back
+            if(which_healthbar_ == 3)
+            {
+                healthbar_panel.GetComponent<RectTransform>().anchoredPosition = new Vector2(healthbar_panel_xpos_shield_inactive, healthbar_panel_ypos);
+            }
         }
         //...else just remove a healthbar
         else
@@ -111,6 +123,8 @@ public class SceneScript : MonoBehaviour
         {
             healthbar_object_list[healthbar_object].SetActive(true);
         }
+        //---move healthbar panel over
+        healthbar_panel.GetComponent<RectTransform>().anchoredPosition = new Vector2(healthbar_panel_xpos_shield_active, healthbar_panel_ypos);
         //---set all shieldbars to active
         for(int shieldbar_object = 0; shieldbar_object < shieldbar_object_list.Count; shieldbar_object++)
         {
