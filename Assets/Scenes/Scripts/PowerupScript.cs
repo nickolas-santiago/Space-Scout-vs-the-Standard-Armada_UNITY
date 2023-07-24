@@ -42,6 +42,9 @@ public class PowerupScript : MonoBehaviour
         //---render sprite for powerup
         powerup_spriterenderer = GetComponent<SpriteRenderer>();
         powerup_spriterenderer.sprite = powerup_list[powerup].powerup_sprite_;
+    
+        GameObject scene_object =  GameObject.FindGameObjectWithTag("GameController");
+        scene_object.GetComponent<SceneScript>().game_objects_list.Add(this.gameObject);
     }
 
     // Update is called once per frame
@@ -52,5 +55,11 @@ public class PowerupScript : MonoBehaviour
         {
             Object.Destroy(this.gameObject);
         }
+    }
+    
+    private void OnDestroy()
+    {
+        GameObject scene_object =  GameObject.FindGameObjectWithTag("GameController");
+        scene_object.GetComponent<SceneScript>().game_objects_list.Remove(this.gameObject);
     }
 }

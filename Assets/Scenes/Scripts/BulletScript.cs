@@ -17,6 +17,9 @@ public class BulletScript : MonoBehaviour
         //---update the rigidbody's velocity with the caluculated direction and the public force
         //---normalized allows the bullets to travel at the same speed
         bullet_rigidbody.velocity = new Vector2(direction.x, direction.y).normalized * force;
+    
+        GameObject scene_object =  GameObject.FindGameObjectWithTag("GameController");
+        scene_object.GetComponent<SceneScript>().game_objects_list.Add(this.gameObject);
     }
     
     // Update is called once per frame
@@ -27,5 +30,11 @@ public class BulletScript : MonoBehaviour
         {
             Object.Destroy(this.gameObject);
         }
+    }
+    
+    private void OnDestroy()
+    {
+        GameObject scene_object =  GameObject.FindGameObjectWithTag("GameController");
+        scene_object.GetComponent<SceneScript>().game_objects_list.Remove(this.gameObject);
     }
 }

@@ -5,6 +5,12 @@ using UnityEngine.UI;
 
 public class SceneScript : MonoBehaviour
 {
+    public List<GameObject> game_objects_list = new List<GameObject>();
+    
+    public GameObject game_hud;
+    public GameObject ui_screen_game_over; 
+    
+    
     public GameObject player_object;
     private int player_current_weapon;
     //UI VAR DECLARATIONS
@@ -35,6 +41,8 @@ public class SceneScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        game_objects_list.Add(player_object);
+        
         player_current_weapon = player_object.GetComponent<PlayerControls>().current_weapon;
         Debug.Log(player_current_weapon);
         
@@ -157,5 +165,16 @@ public class SceneScript : MonoBehaviour
     {
         weaponchoice_image_object_list[current_weapon_].GetComponent<RectTransform>().localScale = new Vector3(ui_scale_for_current_weapon, ui_scale_for_current_weapon, 1f);
         weaponchoice_image_object_list[previous_weapon_].GetComponent<RectTransform>().localScale = new Vector3(1f,1f,1f);
+    }
+    
+    public void EndGame()
+    {
+        Debug.Log("END GAME HERE");
+        game_hud.SetActive(false);
+        for(int game_objects = 0; game_objects < game_objects_list.Count; game_objects++)
+        {
+            game_objects_list[game_objects].gameObject.SetActive(false);
+        }
+        ui_screen_game_over.SetActive(true);
     }
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyScript : MonoBehaviour
 {
+    private GameObject scene_object;
+    
     //---set the variables used for movement and rotation
     public GameObject player_object;
     public Rigidbody2D enemy_rigidbody;
@@ -12,7 +14,6 @@ public class EnemyScript : MonoBehaviour
     public int enemy_current_health;
     public int time_alive;
     //---set variables for enemy points
-    private GameObject scene_object;
     public int points_worth;
     
     // Start is called before the first frame update
@@ -24,6 +25,9 @@ public class EnemyScript : MonoBehaviour
         
         time_alive = 0;
         scene_object = GameObject.FindGameObjectWithTag("GameController");
+        
+        //scene_object.AddObjectToGameobjectsList(this.gameObject);
+        scene_object.GetComponent<SceneScript>().game_objects_list.Add(this.gameObject);
     }
 
     // Update is called once per frame
@@ -35,6 +39,7 @@ public class EnemyScript : MonoBehaviour
         {
             Object.Destroy(this.gameObject);
             scene_object.GetComponent<SceneScript>().GenerateNewScore(points_worth);
+            //scene_object.GetComponent<SceneScript>().game_objects_list.Add(this.gameObject);
         }
     }
     
@@ -47,5 +52,10 @@ public class EnemyScript : MonoBehaviour
             Object.Destroy(coll.gameObject);
             enemy_current_health -= coll.GetComponent<BulletScript>().damage;
         }
+    }
+    
+    private void OnDestroy()
+    {
+        scene_object.GetComponent<SceneScript>().game_objects_list.Remove(this.gameObject);
     }
 }

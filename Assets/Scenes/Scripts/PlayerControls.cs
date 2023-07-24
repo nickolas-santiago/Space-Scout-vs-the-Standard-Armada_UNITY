@@ -252,10 +252,7 @@ public class PlayerControls : MonoBehaviour
             Object.Destroy(coll.gameObject);
             if(iframe_current <= 0)
             {
-                if(current_health > 0)
-                {
-                    TakeDamage(coll.GetComponent<BulletScript>().damage);
-                }
+                TakeDamage(coll.GetComponent<BulletScript>().damage);
             }
             //Debug.Log(current_health);
         }
@@ -265,15 +262,21 @@ public class PlayerControls : MonoBehaviour
             scene_object.GetComponent<SceneScript>().UpdateUIPowerup(coll.GetComponent<SpriteRenderer>().sprite);
             Object.Destroy(coll.gameObject);
             Debug.Log(current_powerup);
-            Debug.Log(coll.GetComponent<SpriteRenderer>().sprite);
         }
     }
     
     //---set new health and update the UI
     private void TakeDamage(int damage_to_take_)
     {
-        current_health -= damage_to_take_;
-        scene_object.GetComponent<SceneScript>().SetNewHealth(current_health);
-        iframe_current = iframe_max;
+        if(current_health > 0)
+        {
+            current_health -= damage_to_take_;
+            scene_object.GetComponent<SceneScript>().SetNewHealth(current_health);
+            iframe_current = iframe_max;
+        }
+        else
+        {
+            scene_object.GetComponent<SceneScript>().EndGame();
+        }
     }
 }
