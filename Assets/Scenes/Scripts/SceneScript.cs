@@ -5,10 +5,12 @@ using UnityEngine.UI;
 
 public class SceneScript : MonoBehaviour
 {
+    public string current_game_state; //---states: game_state_playing  ||  game_state_menu
+    
     public List<GameObject> game_objects_list = new List<GameObject>();
     
     public GameObject game_hud;
-    public GameObject ui_screen_game_over; 
+    public GameObject ui_screen_game_over;
     
     
     public GameObject player_object;
@@ -41,10 +43,11 @@ public class SceneScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        current_game_state = "game_state_playing";
         game_objects_list.Add(player_object);
         
         player_current_weapon = player_object.GetComponent<PlayerControls>().current_weapon;
-        Debug.Log(player_current_weapon);
+        //Debug.Log(player_current_weapon);
         
         //UI ASSIGNMENTS
         //---health assignments
@@ -65,7 +68,6 @@ public class SceneScript : MonoBehaviour
         {
             shieldbar_object_list[shieldbar_object].SetActive(false);
         }
-        Debug.Log(shieldbar_object_list.Count);
         //---score assignments
         current_score = 0;
         ui_text_score = GameObject.FindGameObjectWithTag("UITextScore");
@@ -74,7 +76,6 @@ public class SceneScript : MonoBehaviour
         //Debug.Log(ui_image_powerup.GetComponent<Image>().sprite);
         //---weapons assignments
         //---weapon choices assignments
-        Debug.Log(player_current_weapon);
         ui_scale_for_current_weapon = 2f;
         for(int weaponchoice_image_object = 0; weaponchoice_image_object < GameObject.FindGameObjectsWithTag("UIImageWeaponchoice").Length; weaponchoice_image_object++)
         {
@@ -96,11 +97,14 @@ public class SceneScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //---update the weapons' cooldown bars
-        for(int player_weapon = 0; player_weapon < player_object.GetComponent<PlayerControls>().weapons_list.Count; player_weapon++)
+        if(current_game_state == "game_state_playing")
         {
-            float cooldown_percentage = ((float)player_object.GetComponent<PlayerControls>().weapons_list[player_weapon].current_cooldown_time_/(float)player_object.GetComponent<PlayerControls>().weapons_list[player_weapon].max_cooldown_time_);
-            weapon_cooldown_image_object_list[player_weapon].GetComponent<RectTransform>().sizeDelta = new Vector2(ui_image_weapon_cooldown_bar_width, (ui_image_weapon_cooldown_bar_maxheight * cooldown_percentage));
+            //---update the weapons' cooldown bars
+            for(int player_weapon = 0; player_weapon < player_object.GetComponent<PlayerControls>().weapons_list.Count; player_weapon++)
+            {
+                float cooldown_percentage = ((float)player_object.GetComponent<PlayerControls>().weapons_list[player_weapon].current_cooldown_time_/(float)player_object.GetComponent<PlayerControls>().weapons_list[player_weapon].max_cooldown_time_);
+                weapon_cooldown_image_object_list[player_weapon].GetComponent<RectTransform>().sizeDelta = new Vector2(ui_image_weapon_cooldown_bar_width, (ui_image_weapon_cooldown_bar_maxheight * cooldown_percentage));
+            }
         }
     }
     
@@ -149,7 +153,6 @@ public class SceneScript : MonoBehaviour
     //---powerup methods
     public void UpdateUIPowerup(Sprite powerup_sprite)
     {
-        Debug.Log(powerup_sprite);
         ui_image_powerup.GetComponent<Image>().sprite = powerup_sprite;
         if(powerup_sprite == null)
         {
@@ -170,11 +173,14 @@ public class SceneScript : MonoBehaviour
     public void EndGame()
     {
         Debug.Log("END GAME HERE");
+        current_game_state = "game_state_menu";
         game_hud.SetActive(false);
-        for(int game_objects = 0; game_objects < game_objects_list.Count; game_objects++)
+        for(int game_object_ = (game_objects_list.Count - 1); game_object_ >= 0; game_object_--)
         {
-            game_objects_list[game_objects].gameObject.SetActive(false);
+            GameObject obj = game_objects_list[game_object_];
+            Destroy(obj);
         }
+        game_objects_list.Clear();
         ui_screen_game_over.SetActive(true);
     }
 }

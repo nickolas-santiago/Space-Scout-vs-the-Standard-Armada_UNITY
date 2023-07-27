@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SpawnScript : MonoBehaviour
 {
+    public GameObject scene_script;
     public GameObject enemy_object;
     GameObject an_enemy;
     private int delta_time;
@@ -14,22 +15,26 @@ public class SpawnScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //scene_script = GetComponent<SceneScript>();
         current_num_of_enemies = GameObject.FindGameObjectsWithTag("NPC").Length;
     }
 
     // Update is called once per frame
     void Update()
     {
-        delta_time++;
-        current_num_of_enemies = GameObject.FindGameObjectsWithTag("NPC").Length;
-        if((delta_time % 60 == 0) && (current_num_of_enemies < max_num_of_enemies))
+        if(GetComponent<SceneScript>().current_game_state == "game_state_playing")
         {
-            //---take a chance to spawn an enemy_object
-            int chane_to_spawn = Random.Range(0,100);
+            delta_time++;
+            current_num_of_enemies = GameObject.FindGameObjectsWithTag("NPC").Length;
+            if((delta_time % 60 == 0) && (current_num_of_enemies < max_num_of_enemies))
             {
-                if(chane_to_spawn <= 35)
+                //---take a chance to spawn an enemy_object
+                int chane_to_spawn = Random.Range(0,100);
                 {
-                    an_enemy = Instantiate(enemy_object, GenerateRandomPosition(), Quaternion.identity) as GameObject;
+                    if(chane_to_spawn <= 35)
+                    {
+                        an_enemy = Instantiate(enemy_object, GenerateRandomPosition(), Quaternion.identity) as GameObject;
+                    }
                 }
             }
         }
