@@ -15,6 +15,10 @@ public class SceneScript : MonoBehaviour
     public GameObject ui_screen_game_over;
     
     
+    private bool current_ui_screen_is_mainmenu;
+    private bool is_moving_ui_screen;
+    
+    
     public GameObject player_object;
     private int player_current_weapon;
     //UI VAR DECLARATIONS
@@ -47,6 +51,9 @@ public class SceneScript : MonoBehaviour
     void Start()
     {
         current_game_state = "game_state_menu";
+        current_ui_screen_is_mainmenu = true;
+        is_moving_ui_screen = false;
+        
         game_objects_list.Add(player_object);
         
         player_current_weapon = player_object.GetComponent<PlayerControls>().current_weapon;
@@ -111,20 +118,47 @@ public class SceneScript : MonoBehaviour
                 weapon_cooldown_image_object_list[player_weapon].GetComponent<RectTransform>().sizeDelta = new Vector2(ui_image_weapon_cooldown_bar_width, (ui_image_weapon_cooldown_bar_maxheight * cooldown_percentage));
             }
         }
+        if(is_moving_ui_screen == true)
+        {
+            if(current_ui_screen_is_mainmenu == false)
+            {
+                if(ui_screen_mainmenu.GetComponent<RectTransform>().anchoredPosition.x > -730f)
+                {
+                    ui_screen_mainmenu.GetComponent<RectTransform>().anchoredPosition += new Vector2(-20f,0f);
+                    ui_screen_controls.GetComponent<RectTransform>().anchoredPosition += new Vector2(-20f,0f);
+                }
+                else
+                {
+                    is_moving_ui_screen = false;
+                }
+            }
+            else
+            {
+                if(ui_screen_mainmenu.GetComponent<RectTransform>().anchoredPosition.x < 0)
+                {
+                    ui_screen_mainmenu.GetComponent<RectTransform>().anchoredPosition += new Vector2(20f,0f);
+                    ui_screen_controls.GetComponent<RectTransform>().anchoredPosition += new Vector2(20f,0f);
+                }
+                else
+                {
+                    is_moving_ui_screen = false;
+                    ui_screen_controls.SetActive(false);
+                }
+            }
+        }
     }
     
     //UI METHODS
     public void UpdateUIScreenControls()
     {
         ui_screen_controls.SetActive(true);
-       // ui_screen_mainmenu.SetActive(false);
-       //ui_screen_controls
-       ui_screen_mainmenu.GetComponent<RectTransform>().anchoredPosition = new Vector2(-730f, 0f);
+        current_ui_screen_is_mainmenu = false;
+        is_moving_ui_screen = true;
     }
     public void UpdateUIScreenMainMenu()
     {
-        ui_screen_controls.SetActive(false);
-        ui_screen_mainmenu.SetActive(true);
+        current_ui_screen_is_mainmenu = true;
+        is_moving_ui_screen = true;
     }
     
     //GAME HUD METHODS
