@@ -9,6 +9,8 @@ public class SceneScript : MonoBehaviour
     
     public List<GameObject> game_objects_list = new List<GameObject>();
     
+    public GameObject ui_screen_mainmenu;
+    public GameObject ui_screen_controls;
     public GameObject game_hud;
     public GameObject ui_screen_game_over;
     
@@ -39,15 +41,17 @@ public class SceneScript : MonoBehaviour
     public float ui_image_weapon_cooldown_bar_width;
     public List<GameObject> weapon_cooldown_image_object_list = new List<GameObject>();
     
+    private GameObject enemy_spawner_object;
     
     // Start is called before the first frame update
     void Start()
     {
-        current_game_state = "game_state_playing";
+        current_game_state = "game_state_menu";
         game_objects_list.Add(player_object);
         
         player_current_weapon = player_object.GetComponent<PlayerControls>().current_weapon;
-        //Debug.Log(player_current_weapon);
+        enemy_spawner_object = GameObject.FindGameObjectWithTag("EnemySpawner");
+        Debug.Log(enemy_spawner_object);
         
         //UI ASSIGNMENTS
         //---health assignments
@@ -92,6 +96,7 @@ public class SceneScript : MonoBehaviour
         }
     
         //Debug.Break();
+        
     }
 
     // Update is called once per frame
@@ -109,6 +114,20 @@ public class SceneScript : MonoBehaviour
     }
     
     //UI METHODS
+    public void UpdateUIScreenControls()
+    {
+        ui_screen_controls.SetActive(true);
+       // ui_screen_mainmenu.SetActive(false);
+       //ui_screen_controls
+       ui_screen_mainmenu.GetComponent<RectTransform>().anchoredPosition = new Vector2(-730f, 0f);
+    }
+    public void UpdateUIScreenMainMenu()
+    {
+        ui_screen_controls.SetActive(false);
+        ui_screen_mainmenu.SetActive(true);
+    }
+    
+    //GAME HUD METHODS
     //---health methods
     public void SetNewHealth(int which_healthbar_)
     {
@@ -175,6 +194,7 @@ public class SceneScript : MonoBehaviour
         Debug.Log("END GAME HERE");
         current_game_state = "game_state_menu";
         game_hud.SetActive(false);
+        Destroy(enemy_spawner_object);
         for(int game_object_ = (game_objects_list.Count - 1); game_object_ >= 0; game_object_--)
         {
             GameObject obj = game_objects_list[game_object_];
