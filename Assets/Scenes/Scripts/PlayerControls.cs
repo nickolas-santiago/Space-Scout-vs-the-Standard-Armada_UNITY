@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerControls : MonoBehaviour
 {
     public GameObject scene_object;
+    public GameObject game_hud_object;
     
     //---set the public variables for player health
     public int max_health;
@@ -148,7 +149,7 @@ public class PlayerControls : MonoBehaviour
             {
                 current_weapon = (weapons_list.Count - 1);
             }
-            scene_object.GetComponent<SceneScript>().UpdateUIWeaponchoice(current_weapon, previous_weapon);
+            game_hud_object.GetComponent<GameHUDScript>().UpdateUIWeaponchoice(current_weapon, previous_weapon);
         }
         else if(Input.GetKeyDown(KeyCode.R))
         {
@@ -158,7 +159,7 @@ public class PlayerControls : MonoBehaviour
             {
                 current_weapon = 0;
             }
-            scene_object.GetComponent<SceneScript>().UpdateUIWeaponchoice(current_weapon, previous_weapon);
+            game_hud_object.GetComponent<GameHUDScript>().UpdateUIWeaponchoice(current_weapon, previous_weapon);
         }
         //---use the Q key to use a powerup
         if(Input.GetKeyDown(KeyCode.Q))
@@ -170,7 +171,7 @@ public class PlayerControls : MonoBehaviour
                 {
                     current_health = 6;
                     Debug.Log(current_health);
-                    scene_object.GetComponent<SceneScript>().UpdateUISetShield();
+                    game_hud_object.GetComponent<GameHUDScript>().UpdateUISetShield();
                 }
                 else if(current_powerup == "supercooldown")
                 {
@@ -181,7 +182,7 @@ public class PlayerControls : MonoBehaviour
                 {
                     current_powerup_time_scoremultiplier = (max_powerup_time_scoremultiplier * 60);
                 }
-                scene_object.GetComponent<SceneScript>().UpdateUIPowerup(null);
+                game_hud_object.GetComponent<GameHUDScript>().UpdateUIPowerup(null);
             }
         }
         
@@ -259,7 +260,7 @@ public class PlayerControls : MonoBehaviour
         if (coll.gameObject.tag == "Powerup")
         {
             current_powerup = coll.GetComponent<PowerupScript>().powerup_name;
-            scene_object.GetComponent<SceneScript>().UpdateUIPowerup(coll.GetComponent<SpriteRenderer>().sprite);
+            game_hud_object.GetComponent<GameHUDScript>().UpdateUIPowerup(coll.GetComponent<SpriteRenderer>().sprite);
             Object.Destroy(coll.gameObject);
             Debug.Log(current_powerup);
         }
@@ -271,7 +272,7 @@ public class PlayerControls : MonoBehaviour
         if(current_health > 0)
         {
             current_health -= damage_to_take_;
-            scene_object.GetComponent<SceneScript>().SetNewHealth(current_health);
+            game_hud_object.GetComponent<GameHUDScript>().SetNewHealth(current_health);
             iframe_current = iframe_max;
         }
         else

@@ -3,26 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SceneScript : MonoBehaviour
+public class GameHUDScript : MonoBehaviour
 {
-    public string current_game_state; //---states: game_state_playing  ||  game_state_menu
-    
-    public List<GameObject> game_objects_list = new List<GameObject>();
-    
-    public GameObject ui_screen_mainmenu;
-    public GameObject ui_screen_controls;
-    public GameObject ui_screen_credits;
-    public GameObject game_hud;
-    public GameObject ui_screen_game_over;
-    
-    
-    private bool current_ui_screen_is_mainmenu;
-    private GameObject current_active_ui_screen; //----options: "" || "controls"
-    private bool is_moving_ui_screen;
-    
-    
-    public GameObject player_object;
-    /*
     public GameObject player_object;
     private int player_current_weapon;
     //UI VAR DECLARATIONS
@@ -48,25 +30,13 @@ public class SceneScript : MonoBehaviour
     public float ui_image_weapon_cooldown_bar_maxheight;
     public float ui_image_weapon_cooldown_bar_width;
     public List<GameObject> weapon_cooldown_image_object_list = new List<GameObject>();
-    */
     
-    private GameObject enemy_spawner_object;
     
     // Start is called before the first frame update
     void Start()
     {
-        current_game_state = "game_state_playing";
-        current_ui_screen_is_mainmenu = true;
-        current_active_ui_screen = null;
-        is_moving_ui_screen = false;
-        
-        game_objects_list.Add(player_object);
-        enemy_spawner_object = GameObject.FindGameObjectWithTag("EnemySpawner");
-        
-        /*
-        
+        player_object = GameObject.FindGameObjectWithTag("Player");
         player_current_weapon = player_object.GetComponent<PlayerControls>().current_weapon;
-        Debug.Log(enemy_spawner_object);
         
         //UI ASSIGNMENTS
         //---health assignments
@@ -109,77 +79,23 @@ public class SceneScript : MonoBehaviour
             weapon_cooldown_image_object_list.Add(GameObject.FindGameObjectsWithTag("UIImageMaskWeaponCooldown")[weapon_cooldown_image_mask_object]);
             weapon_cooldown_image_object_list[weapon_cooldown_image_mask_object].GetComponent<RectTransform>().sizeDelta = new Vector2(ui_image_weapon_cooldown_bar_width, ui_image_weapon_cooldown_bar_maxheight);
         }
-    
-        //Debug.Break();
-        */
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        /*if(current_game_state == "game_state_playing")
-        {
+        //if(current_game_state == "game_state_playing")
+        //{
             //---update the weapons' cooldown bars
             for(int player_weapon = 0; player_weapon < player_object.GetComponent<PlayerControls>().weapons_list.Count; player_weapon++)
             {
                 float cooldown_percentage = ((float)player_object.GetComponent<PlayerControls>().weapons_list[player_weapon].current_cooldown_time_/(float)player_object.GetComponent<PlayerControls>().weapons_list[player_weapon].max_cooldown_time_);
                 weapon_cooldown_image_object_list[player_weapon].GetComponent<RectTransform>().sizeDelta = new Vector2(ui_image_weapon_cooldown_bar_width, (ui_image_weapon_cooldown_bar_maxheight * cooldown_percentage));
             }
-        }*/
-        if(is_moving_ui_screen == true)
-        {
-            if(current_ui_screen_is_mainmenu == false)
-            {
-                if(ui_screen_mainmenu.GetComponent<RectTransform>().anchoredPosition.x > -730f)
-                {
-                    ui_screen_mainmenu.GetComponent<RectTransform>().anchoredPosition += new Vector2(-20f,0f);
-                    current_active_ui_screen.GetComponent<RectTransform>().anchoredPosition += new Vector2(-20f,0f);
-                }
-                else
-                {
-                    is_moving_ui_screen = false;
-                }
-            }
-            else
-            {
-                if(ui_screen_mainmenu.GetComponent<RectTransform>().anchoredPosition.x < 0)
-                {
-                    ui_screen_mainmenu.GetComponent<RectTransform>().anchoredPosition += new Vector2(20f,0f);
-                    current_active_ui_screen.GetComponent<RectTransform>().anchoredPosition += new Vector2(20f,0f);
-                }
-                else
-                {
-                    is_moving_ui_screen = false;
-                    current_active_ui_screen.SetActive(false);
-                    current_active_ui_screen = null;
-                }
-            }
-        }
+        //}
     }
     
-    //UI METHODS
-    public void UpdateUIScreenControls()
-    {
-        ui_screen_controls.SetActive(true);
-        current_active_ui_screen = ui_screen_controls;
-        current_ui_screen_is_mainmenu = false;
-        is_moving_ui_screen = true;
-    }
-    public void UpdateUIScreenCredits()
-    {
-        ui_screen_credits.SetActive(true);
-        current_active_ui_screen = ui_screen_credits;
-        current_ui_screen_is_mainmenu = false;
-        is_moving_ui_screen = true;
-    }
-    public void UpdateUIScreenMainMenu()
-    {
-        current_ui_screen_is_mainmenu = true;
-        is_moving_ui_screen = true;
-    }
-    
-    /*/GAME HUD METHODS
+    //GAME HUD METHODS
     //---health methods
     public void SetNewHealth(int which_healthbar_)
     {
@@ -239,21 +155,5 @@ public class SceneScript : MonoBehaviour
     {
         weaponchoice_image_object_list[current_weapon_].GetComponent<RectTransform>().localScale = new Vector3(ui_scale_for_current_weapon, ui_scale_for_current_weapon, 1f);
         weaponchoice_image_object_list[previous_weapon_].GetComponent<RectTransform>().localScale = new Vector3(1f,1f,1f);
-    }
-    */
-    
-    public void EndGame()
-    {
-        Debug.Log("END GAME HERE");
-        current_game_state = "game_state_menu";
-        game_hud.SetActive(false);
-        Destroy(enemy_spawner_object);
-        for(int game_object_ = (game_objects_list.Count - 1); game_object_ >= 0; game_object_--)
-        {
-            GameObject obj = game_objects_list[game_object_];
-            Destroy(obj);
-        }
-        game_objects_list.Clear();
-        ui_screen_game_over.SetActive(true);
     }
 }
