@@ -23,6 +23,7 @@ public class GameHUDScript : MonoBehaviour
     public GameObject ui_image_powerup;
     //---weapon declarations
     //---weapon choice declarations
+    private float ui_scale_for_current_weapon222;
     public float ui_scale_for_current_weapon;
     public List<GameObject> weaponchoice_image_object_list = new List<GameObject>();
     //---weapon cooldown declarations
@@ -43,7 +44,10 @@ public class GameHUDScript : MonoBehaviour
         for(int healthbar_object = 0; healthbar_object < GameObject.FindGameObjectsWithTag("UIImageHealthbar").Length; healthbar_object++)
         {
             healthbar_object_list.Add(GameObject.FindGameObjectsWithTag("UIImageHealthbar")[healthbar_object]);
+            
         }
+        Debug.Log(healthbar_object_list.Count);
+        Debug.Log(healthbar_object_list[2]);
         //---health assignments -- shield
         healthbar_panel_xpos_shield_inactive = -69f;
         healthbar_panel_xpos_shield_active = 5f;
@@ -79,11 +83,16 @@ public class GameHUDScript : MonoBehaviour
             weapon_cooldown_image_object_list.Add(GameObject.FindGameObjectsWithTag("UIImageMaskWeaponCooldown")[weapon_cooldown_image_mask_object]);
             weapon_cooldown_image_object_list[weapon_cooldown_image_mask_object].GetComponent<RectTransform>().sizeDelta = new Vector2(ui_image_weapon_cooldown_bar_width, ui_image_weapon_cooldown_bar_maxheight);
         }
+        ui_scale_for_current_weapon222 = 222f;
+        Debug.Log("HEALTH BAR COUNNNTTT  " + healthbar_object_list.Count);
+        Debug.Log("HEALTH  COUNNNTTT  " + ui_scale_for_current_weapon);
     }
 
     // Update is called once per frame
     void Update()
     {
+        
+        //Debug.Log("HEALTH BAR COUNNNTTT  " + healthbar_object_list.Count);
         //if(current_game_state == "game_state_playing")
         //{
             //---update the weapons' cooldown bars
@@ -93,12 +102,24 @@ public class GameHUDScript : MonoBehaviour
                 weapon_cooldown_image_object_list[player_weapon].GetComponent<RectTransform>().sizeDelta = new Vector2(ui_image_weapon_cooldown_bar_width, (ui_image_weapon_cooldown_bar_maxheight * cooldown_percentage));
             }
         //}
+        
+        
+        //SetNewHealth(4);
     }
     
     //GAME HUD METHODS
     //---health methods
+    
+    
+    
+    
+    
     public void SetNewHealth(int which_healthbar_)
     {
+        
+        Debug.Log("THIS SJOULD BE HEALTH BAR COUNT   " + healthbar_object_list.Count);
+        //Debug.Log(healthbar_object_list[2]);
+       // Debug.Log(which_healthbar_);
         //---if shield is active, remove a shield bar...
         if(which_healthbar_ > 2)
         {
@@ -133,6 +154,7 @@ public class GameHUDScript : MonoBehaviour
     //---score methods
     public void GenerateNewScore(int _new_points_)
     {
+        Debug.Log("HEALTH BAR COUNNNTTT  " + healthbar_object_list.Count);
         int new_current_score = (current_score + (_new_points_ * player_object.GetComponent<PlayerControls>().score_modifier));
         current_score = new_current_score;
         ui_text_score.GetComponent<Text>().text = current_score.ToString();
@@ -153,6 +175,7 @@ public class GameHUDScript : MonoBehaviour
     //---weapon choice methods
     public void UpdateUIWeaponchoice(int current_weapon_, int previous_weapon_)
     {
+        Debug.Log(weaponchoice_image_object_list.Count);
         weaponchoice_image_object_list[current_weapon_].GetComponent<RectTransform>().localScale = new Vector3(ui_scale_for_current_weapon, ui_scale_for_current_weapon, 1f);
         weaponchoice_image_object_list[previous_weapon_].GetComponent<RectTransform>().localScale = new Vector3(1f,1f,1f);
     }

@@ -29,7 +29,7 @@ public class EnemyScript : MonoBehaviour
         game_hud_object = GameObject.FindGameObjectWithTag("GameHUD");
         
         //scene_object.AddObjectToGameobjectsList(this.gameObject);
-        scene_object.GetComponent<SceneScript>().game_objects_list.Add(this.gameObject);
+        //scene_object.GetComponent<SceneScript>().game_objects_list.Add(this.gameObject);
     }
 
     // Update is called once per frame
@@ -42,6 +42,7 @@ public class EnemyScript : MonoBehaviour
             Object.Destroy(this.gameObject);
             game_hud_object.GetComponent<GameHUDScript>().GenerateNewScore(points_worth);
             //scene_object.GetComponent<SceneScript>().game_objects_list.Add(this.gameObject);
+            scene_object.GetComponent<SceneScript>().game_objects_list.Remove(this.gameObject);
         }
     }
     
@@ -58,6 +59,6 @@ public class EnemyScript : MonoBehaviour
     
     private void OnDestroy()
     {
-        scene_object.GetComponent<SceneScript>().game_objects_list.Remove(this.gameObject);
+        //scene_object.GetComponent<SceneScript>().game_objects_list.Remove(this.gameObject);
     }
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SpawnScript : MonoBehaviour
 {
+    private GameObject scene_object;
+    
     public GameObject scene_script;
     public GameObject enemy_object;
     GameObject an_enemy;
@@ -16,6 +18,7 @@ public class SpawnScript : MonoBehaviour
     void Start()
     {
         //scene_script = GetComponent<SceneScript>();
+        scene_object = GameObject.FindGameObjectWithTag("GameController");
         current_num_of_enemies = GameObject.FindGameObjectsWithTag("NPC").Length;
     }
 
@@ -32,6 +35,7 @@ public class SpawnScript : MonoBehaviour
                 if(chane_to_spawn <= 35)
                 {
                     an_enemy = Instantiate(enemy_object, GenerateRandomPosition(), Quaternion.identity) as GameObject;
+                    scene_object.GetComponent<SceneScript>().game_objects_list.Add(an_enemy);
                 }
             }
         }

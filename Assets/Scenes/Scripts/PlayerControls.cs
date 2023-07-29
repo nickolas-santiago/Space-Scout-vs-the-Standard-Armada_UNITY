@@ -56,16 +56,27 @@ public class PlayerControls : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        game_hud_object = GameObject.FindGameObjectWithTag("GameHUD");
+        scene_object = GameObject.FindGameObjectWithTag("GameController");
         current_health = max_health = 3;
         iframe_max = 50;
         iframe_current = 0;
         weapons_list.Add(weapon_standard);
         weapons_list.Add(weapon_multishot);
-        current_weapon = 0;
+        current_weapon = 1;
         current_powerup = "";
         max_supercooldown_time = 7;
         max_powerup_time_scoremultiplier = 7;
         score_modifier = 1;
+        
+        
+        
+        Debug.Log(current_powerup);
+        //Debug.Log("count of healthbars " + game_hud_object.GetComponent<GameHUDScript>().healthbar_object_list.Count);
+        //game_hud_object.GetComponent<GameHUDScript>().ui_scale_for_current_weapon = 100f;
+        //Debug.Log(game_hud_object.GetComponent<GameHUDScript>().ui_scale_for_current_weapon);
+        
+        
     }
 
     // Update is called once per frame
@@ -127,6 +138,7 @@ public class PlayerControls : MonoBehaviour
                         Vector3 shot_dir = (Quaternion.Euler(0f, 0f, shot_float) * aim_direction);
                         Vector3 newpoint_pos = (transform.position + shot_dir);
                         myPJ.GetComponent<BulletScript>().direction = (newpoint_pos - transform.position);
+                        myPJ.GetComponent<BulletScript>().damage = weapons_list[current_weapon].weapon_damage_;
                     }
                 }
                 if(current_supercooldown_time > 0)
@@ -149,6 +161,8 @@ public class PlayerControls : MonoBehaviour
             {
                 current_weapon = (weapons_list.Count - 1);
             }
+            Debug.Log(previous_weapon);
+            Debug.Log(current_weapon);
             game_hud_object.GetComponent<GameHUDScript>().UpdateUIWeaponchoice(current_weapon, previous_weapon);
         }
         else if(Input.GetKeyDown(KeyCode.R))
@@ -159,7 +173,10 @@ public class PlayerControls : MonoBehaviour
             {
                 current_weapon = 0;
             }
+            Debug.Log(previous_weapon);
+            Debug.Log(current_weapon);
             game_hud_object.GetComponent<GameHUDScript>().UpdateUIWeaponchoice(current_weapon, previous_weapon);
+            
         }
         //---use the Q key to use a powerup
         if(Input.GetKeyDown(KeyCode.Q))
@@ -269,9 +286,11 @@ public class PlayerControls : MonoBehaviour
     //---set new health and update the UI
     private void TakeDamage(int damage_to_take_)
     {
+        Debug.Log(current_health);
         if(current_health > 0)
         {
             current_health -= damage_to_take_;
+            Debug.Log("this is the count of healthbars " + game_hud_object.GetComponent<GameHUDScript>().healthbar_object_list.Count);
             game_hud_object.GetComponent<GameHUDScript>().SetNewHealth(current_health);
             iframe_current = iframe_max;
         }
