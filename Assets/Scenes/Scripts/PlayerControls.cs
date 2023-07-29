@@ -17,6 +17,14 @@ public class PlayerControls : MonoBehaviour
     public float speedx = 25;
     public float speedy = 25;
     
+    //   scoremultiplier
+    public int current_score;
+    private int current_powerup_time_scoremultiplier;
+    private int max_powerup_time_scoremultiplier;
+    public int score_modifier;
+    //---set variables for powerups
+    private string current_powerup;
+    
     //---set some vars for shooting
     public GameObject projectile;
     GameObject myPJ;
@@ -43,31 +51,30 @@ public class PlayerControls : MonoBehaviour
     public List<WeaponClass> weapons_list = new List<WeaponClass>();
     public WeaponClass weapon_standard = new WeaponClass("standard", 2, 50, 0);
     public WeaponClass weapon_multishot = new WeaponClass("multishot", 1, 40, 0);
-    //---set variables for powerups
-    private string current_powerup;
     //   supercooldown
     private int current_supercooldown_time;
     private int max_supercooldown_time;
-    //   scoremultiplier
-    private int current_powerup_time_scoremultiplier;
-    private int max_powerup_time_scoremultiplier;
-    public int score_modifier;
     
     // Start is called before the first frame update
     void Start()
     {
         game_hud_object = GameObject.FindGameObjectWithTag("GameHUD");
         scene_object = GameObject.FindGameObjectWithTag("GameController");
+        //---health inits
         current_health = max_health = 3;
         iframe_max = 50;
         iframe_current = 0;
+        //---score inits
+        current_score = 0;
+        max_powerup_time_scoremultiplier = 7;
+        score_modifier = 1;
+        //---powerup inits
+        current_powerup = "";
+        //---weapon inits
         weapons_list.Add(weapon_standard);
         weapons_list.Add(weapon_multishot);
         current_weapon = 1;
-        current_powerup = "";
         max_supercooldown_time = 7;
-        max_powerup_time_scoremultiplier = 7;
-        score_modifier = 1;
     }
 
     // Update is called once per frame
@@ -214,6 +221,13 @@ public class PlayerControls : MonoBehaviour
         {
             score_modifier = 1;
         }
+    }
+    
+    public void GenerateNewScore(int new_points_)
+    {
+        int new_current_score = (current_score + (new_points_ * score_modifier));
+        current_score = new_current_score;
+        game_hud_object.GetComponent<GameHUDScript>().UpdateUIScore(current_score);
     }
     
     private void OnCollisionEnter2D(Collision2D coll)

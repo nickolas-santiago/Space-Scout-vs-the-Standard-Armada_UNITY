@@ -121,7 +121,7 @@ public class SceneScript : MonoBehaviour
     {
         Debug.Log("END GAME HERE");
         current_game_state = "game_state_menu";
-        int score_from_round = game_hud.GetComponent<GameHUDScript>().current_score;
+        int score_from_round = player_obj.GetComponent<PlayerControls>().current_score;
         game_hud.SetActive(false);
         Destroy(enemy_spawner_obj);
         Destroy(player_obj);

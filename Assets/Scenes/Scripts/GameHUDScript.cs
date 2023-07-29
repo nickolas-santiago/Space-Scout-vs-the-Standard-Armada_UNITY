@@ -18,7 +18,6 @@ public class GameHUDScript : MonoBehaviour
     public List<GameObject> shieldbar_object_list = new List<GameObject>();
     //---score declarations
     private GameObject ui_text_score;
-    public int current_score;
     //---powerup declarations
     public GameObject ui_image_powerup;
     //---weapon declarations
@@ -59,9 +58,7 @@ public class GameHUDScript : MonoBehaviour
             shieldbar_object_list[shieldbar_object].SetActive(false);
         }
         //---score assignments
-        current_score = 0;
         ui_text_score = GameObject.FindGameObjectWithTag("UITextScore");
-        ui_text_score.GetComponent<Text>().text = current_score.ToString();
         //---powerup assignments
         //Debug.Log(ui_image_powerup.GetComponent<Image>().sprite);
         //---weapons assignments
@@ -126,11 +123,9 @@ public class GameHUDScript : MonoBehaviour
         }
     }
     //---score methods
-    public void GenerateNewScore(int _new_points_)
+    public void UpdateUIScore(int new_score_)
     {
-        int new_current_score = (current_score + (_new_points_ * player_object.GetComponent<PlayerControls>().score_modifier));
-        current_score = new_current_score;
-        ui_text_score.GetComponent<Text>().text = current_score.ToString();
+        ui_text_score.GetComponent<Text>().text = new_score_.ToString();
     }
     //---powerup methods
     public void UpdateUIPowerup(Sprite powerup_sprite)

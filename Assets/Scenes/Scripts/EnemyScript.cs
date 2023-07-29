@@ -37,7 +37,7 @@ public class EnemyScript : MonoBehaviour
         if(enemy_current_health <= 0)
         {
             Object.Destroy(this.gameObject);
-            game_hud_object.GetComponent<GameHUDScript>().GenerateNewScore(points_worth);
+            player_object.GetComponent<PlayerControls>().GenerateNewScore(points_worth);
             scene_object.GetComponent<SceneScript>().game_objects_list.Remove(this.gameObject);
         }
     }
