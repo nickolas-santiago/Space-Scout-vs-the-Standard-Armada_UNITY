@@ -23,7 +23,7 @@ public class PlayerControls : MonoBehaviour
     private int max_powerup_time_scoremultiplier;
     public int score_modifier;
     //---set variables for powerups
-    private string current_powerup;
+    public string current_powerup;
     
     //---set some vars for shooting
     public GameObject projectile;

@@ -28,7 +28,7 @@ public class SceneScript : MonoBehaviour
     void Start()
     {
         current_game_state = "game_state_menu";
-        current_ui_screen_is_mainmenu = false;
+        current_ui_screen_is_mainmenu = true;
         current_active_ui_screen = null;
         is_moving_ui_screen = false;
     }
@@ -116,6 +116,7 @@ public class SceneScript : MonoBehaviour
         
         game_hud.SetActive(true);
         game_hud.GetComponent<GameHUDScript>().player_object = player_obj;
+        game_hud.GetComponent<GameHUDScript>().UpdateUIResetGameHUD();
     }
     public void EndGame()
     {

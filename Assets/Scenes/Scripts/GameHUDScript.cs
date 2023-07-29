@@ -35,15 +35,16 @@ public class GameHUDScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //player_object = GameObject.FindGameObjectWithTag("Player");
         player_current_weapon = player_object.GetComponent<PlayerControls>().current_weapon;
-        Debug.Log(player_object);
+        //Debug.Log(player_object);
         
         //---health assignments
         for(int healthbar_object = 0; healthbar_object < GameObject.FindGameObjectsWithTag("UIImageHealthbar").Length; healthbar_object++)
         {
             healthbar_object_list.Add(GameObject.FindGameObjectsWithTag("UIImageHealthbar")[healthbar_object]);
         }
+        
+        Debug.Log(healthbar_object_list.Count);
         //---health assignments -- shield
         healthbar_panel_xpos_shield_inactive = -69f;
         healthbar_panel_xpos_shield_active = 5f;
@@ -77,6 +78,8 @@ public class GameHUDScript : MonoBehaviour
             weapon_cooldown_image_object_list.Add(GameObject.FindGameObjectsWithTag("UIImageMaskWeaponCooldown")[weapon_cooldown_image_mask_object]);
             weapon_cooldown_image_object_list[weapon_cooldown_image_mask_object].GetComponent<RectTransform>().sizeDelta = new Vector2(ui_image_weapon_cooldown_bar_width, ui_image_weapon_cooldown_bar_maxheight);
         }
+        
+        UpdateUIResetGameHUD();
     }
 
     // Update is called once per frame
@@ -86,6 +89,31 @@ public class GameHUDScript : MonoBehaviour
         {
             float cooldown_percentage = ((float)player_object.GetComponent<PlayerControls>().weapons_list[player_weapon].current_cooldown_time_/(float)player_object.GetComponent<PlayerControls>().weapons_list[player_weapon].max_cooldown_time_);
             weapon_cooldown_image_object_list[player_weapon].GetComponent<RectTransform>().sizeDelta = new Vector2(ui_image_weapon_cooldown_bar_width, (ui_image_weapon_cooldown_bar_maxheight * cooldown_percentage));
+        }
+    }
+    
+    public void UpdateUIResetGameHUD()
+    {
+        //---reset healthbars
+        for(int health_bar = 0; health_bar < healthbar_object_list.Count; health_bar++)
+        {
+            healthbar_object_list[health_bar].SetActive(true);
+        }
+        //---NEED TO RESET HEALTHBAR PANEL HERE!!! --- //
+        //---reset shieldbars
+        for(int shield_bar = 0; shield_bar < shieldbar_object_list.Count; shield_bar++)
+        {
+            shieldbar_object_list[shield_bar].SetActive(false);
+        }
+        //---reset UI score
+        if(ui_text_score != null)
+        {
+            UpdateUIScore(player_object.GetComponent<PlayerControls>().current_score);
+        }
+        //---reset powerup image
+        if(player_object.GetComponent<PlayerControls>().current_powerup == "")
+        {
+            UpdateUIPowerup(null);
         }
     }
     
