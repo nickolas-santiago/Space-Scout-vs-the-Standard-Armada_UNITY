@@ -28,10 +28,9 @@ public class SceneScript : MonoBehaviour
     void Start()
     {
         current_game_state = "game_state_menu";
-        current_ui_screen_is_mainmenu = true;
+        current_ui_screen_is_mainmenu = false;
         current_active_ui_screen = null;
         is_moving_ui_screen = false;
-        
     }
 
     // Update is called once per frame
@@ -83,6 +82,12 @@ public class SceneScript : MonoBehaviour
         current_ui_screen_is_mainmenu = false;
         is_moving_ui_screen = true;
     }
+    public void UpdateUIScreenBackToMainMenu()
+    {
+        ui_screen_game_over.SetActive(false);
+        current_ui_screen_is_mainmenu = true;
+        ui_screen_mainmenu_container.SetActive(true);
+    }
     public void UpdateUIScreenMainMenu()
     {
         current_ui_screen_is_mainmenu = true;
@@ -93,32 +98,41 @@ public class SceneScript : MonoBehaviour
     public void StartGame()
     {
         Debug.Log("start game here");
+        if(current_ui_screen_is_mainmenu == true)
+        {
+            ui_screen_mainmenu_container.SetActive(false);
+            current_ui_screen_is_mainmenu = false;
+        }
+        else
+        {
+            ui_screen_game_over.SetActive(false);
+        }
         //---manage UI and game state
-        ui_screen_mainmenu_container.SetActive(false);
         current_game_state = "game_state_playing";
-        game_hud.SetActive(true);
         //---instantiate game objects
-        //Vector3 spawn_pos = 
-        //GameObject player = Instantiate(player_object, Vector3.zero, Quaternion.identity) as GameObject;
         player_obj = Instantiate(player_object, Vector3.zero, Quaternion.identity) as GameObject;
         enemy_spawner_obj = Instantiate(enemy_spawner_object) as GameObject;
         //---add games objects to list
         
+        game_hud.SetActive(true);
+        game_hud.GetComponent<GameHUDScript>().player_object = player_obj;
     }
     public void EndGame()
     {
         Debug.Log("END GAME HERE");
         current_game_state = "game_state_menu";
+        int score_from_round = game_hud.GetComponent<GameHUDScript>().current_score;
         game_hud.SetActive(false);
         Destroy(enemy_spawner_obj);
         Destroy(player_obj);
         for(int game_object_ = (game_objects_list.Count - 1); game_object_ >= 0; game_object_--)
         {
             GameObject obj = game_objects_list[game_object_];
-            Debug.Log(obj);
             Destroy(obj);
         }
         game_objects_list.Clear();
         ui_screen_game_over.SetActive(true);
+        GameObject game_over_screen_score_text = GameObject.FindGameObjectWithTag("GameOverScreenTextScore");
+        game_over_screen_score_text.GetComponent<Text>().text = score_from_round.ToString();
     }
 }

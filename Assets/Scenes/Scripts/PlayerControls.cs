@@ -68,15 +68,6 @@ public class PlayerControls : MonoBehaviour
         max_supercooldown_time = 7;
         max_powerup_time_scoremultiplier = 7;
         score_modifier = 1;
-        
-        
-        
-        Debug.Log(current_powerup);
-        //Debug.Log("count of healthbars " + game_hud_object.GetComponent<GameHUDScript>().healthbar_object_list.Count);
-        //game_hud_object.GetComponent<GameHUDScript>().ui_scale_for_current_weapon = 100f;
-        //Debug.Log(game_hud_object.GetComponent<GameHUDScript>().ui_scale_for_current_weapon);
-        
-        
     }
 
     // Update is called once per frame
@@ -155,14 +146,11 @@ public class PlayerControls : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.E))
         {
             int previous_weapon = current_weapon;
-            Debug.Log(previous_weapon);
             current_weapon--;
             if(current_weapon < 0)
             {
                 current_weapon = (weapons_list.Count - 1);
             }
-            Debug.Log(previous_weapon);
-            Debug.Log(current_weapon);
             game_hud_object.GetComponent<GameHUDScript>().UpdateUIWeaponchoice(current_weapon, previous_weapon);
         }
         else if(Input.GetKeyDown(KeyCode.R))
@@ -173,8 +161,6 @@ public class PlayerControls : MonoBehaviour
             {
                 current_weapon = 0;
             }
-            Debug.Log(previous_weapon);
-            Debug.Log(current_weapon);
             game_hud_object.GetComponent<GameHUDScript>().UpdateUIWeaponchoice(current_weapon, previous_weapon);
             
         }
@@ -286,11 +272,9 @@ public class PlayerControls : MonoBehaviour
     //---set new health and update the UI
     private void TakeDamage(int damage_to_take_)
     {
-        Debug.Log(current_health);
         if(current_health > 0)
         {
             current_health -= damage_to_take_;
-            Debug.Log("this is the count of healthbars " + game_hud_object.GetComponent<GameHUDScript>().healthbar_object_list.Count);
             game_hud_object.GetComponent<GameHUDScript>().SetNewHealth(current_health);
             iframe_current = iframe_max;
         }
