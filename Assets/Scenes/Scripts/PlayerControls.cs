@@ -73,7 +73,7 @@ public class PlayerControls : MonoBehaviour
         //---weapon inits
         weapons_list.Add(weapon_standard);
         weapons_list.Add(weapon_multishot);
-        current_weapon = 1;
+        current_weapon = 0;
         max_supercooldown_time = 7;
     }
 

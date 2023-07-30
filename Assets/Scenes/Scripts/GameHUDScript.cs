@@ -43,8 +43,6 @@ public class GameHUDScript : MonoBehaviour
         {
             healthbar_object_list.Add(GameObject.FindGameObjectsWithTag("UIImageHealthbar")[healthbar_object]);
         }
-        
-        Debug.Log(healthbar_object_list.Count);
         //---health assignments -- shield
         healthbar_panel_xpos_shield_inactive = -69f;
         healthbar_panel_xpos_shield_active = 5f;
@@ -115,6 +113,20 @@ public class GameHUDScript : MonoBehaviour
         {
             UpdateUIPowerup(null);
         }
+        //---reset weapon choices
+        for(int player_weapon_ = 0; player_weapon_ < weaponchoice_image_object_list.Count; player_weapon_++)
+        {
+            if(player_weapon_ == player_current_weapon)
+            {
+                Debug.Log(weaponchoice_image_object_list[player_weapon_]);
+                weaponchoice_image_object_list[player_weapon_].GetComponent<RectTransform>().localScale = new Vector3(ui_scale_for_current_weapon, ui_scale_for_current_weapon, 1f);
+            }
+            else
+            {
+                weaponchoice_image_object_list[player_weapon_].GetComponent<RectTransform>().localScale = new Vector3(1f,1f,1f);
+            }
+        }
+        
     }
     
     public void SetNewHealth(int which_healthbar_)
