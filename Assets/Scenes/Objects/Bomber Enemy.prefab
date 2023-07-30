@@ -47,10 +47,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b68d70bfa6af0fc479f9203890d0fc6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  powerup_object_prefab: {fileID: 3579360478366662633, guid: 0d6f4d36a3b3a964c92e6153ad5af5d0,
+    type: 3}
+  game_state_playing: 0
   player_object: {fileID: 0}
   enemy_rigidbody: {fileID: 0}
-  enemy_current_health: 0
   time_alive: 0
+  enemy_health_current: 0
   points_worth: 0
 --- !u!114 &2968022933057868419
 MonoBehaviour:
@@ -129,8 +132,6 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -142,7 +143,6 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0

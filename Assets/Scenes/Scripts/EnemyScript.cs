@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class EnemyScript : MonoBehaviour
 {
+    public GameObject powerup_object_prefab;
     private GameObject scene_object;
-    private GameObject game_hud_object;
     public bool game_state_playing;
     
     //---set the variables used for movement and rotation
     public GameObject player_object;
     public Rigidbody2D enemy_rigidbody;
     
-    //---set variables for enemy health
-    public int enemy_current_health;
     public int time_alive;
+    //---set variables for enemy health
+    public int enemy_health_current;
+    private int iframe_max = 50;
+    private int iframe_current;
+    
     //---set variables for enemy points
     public int points_worth;
     
@@ -27,7 +30,6 @@ public class EnemyScript : MonoBehaviour
         
         time_alive = 0;
         scene_object = GameObject.FindGameObjectWithTag("GameController");
-        game_hud_object = GameObject.FindGameObjectWithTag("GameHUD");
     }
 
     // Update is called once per frame
@@ -35,19 +37,16 @@ public class EnemyScript : MonoBehaviour
     {
         if(scene_object.GetComponent<SceneScript>().current_game_state == "game_state_playing")
         {
+            game_state_playing = true;
             time_alive++;
-            game_state_playing = true; 
+            if(iframe_current > 0)
+            {
+                iframe_current--;
+            }
         }
         else
         {
             game_state_playing = false;
-        }
-        //---if an enemy's health is 0, delete it
-        if(enemy_current_health <= 0)
-        {
-            Object.Destroy(this.gameObject);
-            player_object.GetComponent<PlayerControls>().GenerateNewScore(points_worth);
-            scene_object.GetComponent<SceneScript>().game_objects_list.Remove(this.gameObject);
         }
     }
     
@@ -58,11 +57,36 @@ public class EnemyScript : MonoBehaviour
         {
             //Debug.Log("NPC hit by bullet");
             Object.Destroy(coll.gameObject);
-            enemy_current_health -= coll.GetComponent<BulletScript>().damage;
+            if(iframe_current <= 0)
+            {
+                TakeDamage(coll.GetComponent<BulletScript>().damage);
+            }
         }
     }
     
-    /* might use later 
-    private void OnDestroy() {}
-    */
+    private void TakeDamage(int damage_to_take_)
+    {
+        //---enemy either takes damage or destorys itself (and maybe srops loot)
+        if(enemy_health_current > 0)
+        {
+            enemy_health_current -=  damage_to_take_;
+            iframe_current = iframe_max;
+        }
+        else
+        {
+            //---if enemy is killed, remove it from game objects list...
+            player_object.GetComponent<PlayerControls>().GenerateNewScore(points_worth);
+            //---...decide if a powerup will be dropped...
+            float chane_to_drop_loot = Random.Range(0,5);
+            if(chane_to_drop_loot < 1)
+            {
+                Debug.Log("drop a powerup");
+                GameObject powerup_obj = Instantiate(powerup_object_prefab, transform.position, Quaternion.identity) as GameObject;
+                Debug.Log(powerup_obj);
+            }
+            //---...and destory the enemy
+            scene_object.GetComponent<SceneScript>().game_objects_list.Remove(this.gameObject);
+            Object.Destroy(this.gameObject);
+        }
+    }
 }

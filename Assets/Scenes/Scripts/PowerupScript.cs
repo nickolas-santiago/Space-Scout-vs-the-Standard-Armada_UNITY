@@ -29,6 +29,7 @@ public class PowerupScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        lifespan_max = 4;
         //---initiate new powerups
         PowerupClass powerup_shield = new PowerupClass("shield", powerup_sprite_shield);
         PowerupClass powerup_supercooldown = new PowerupClass("supercooldown", powerup_sprite_supercooldown);

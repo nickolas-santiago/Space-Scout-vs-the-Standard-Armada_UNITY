@@ -23,7 +23,7 @@ public class BomberEnemyScript : MonoBehaviour
     {
         //---instantiate vars for enemy script
         enemy_script = GetComponent<EnemyScript>();
-        enemy_script.enemy_current_health = enemy_max_health;
+        enemy_script.enemy_health_current = enemy_max_health;
         points_worth = 25;
         enemy_script.points_worth = points_worth;
         
@@ -70,7 +70,7 @@ public class BomberEnemyScript : MonoBehaviour
         {
             if(coll.gameObject.tag == "Player")
             {
-                enemy_script.enemy_current_health--;
+                enemy_script.enemy_health_current--;
             }
         }
     }

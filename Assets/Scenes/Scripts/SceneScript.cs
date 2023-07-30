@@ -68,7 +68,7 @@ public class SceneScript : MonoBehaviour
         }
     }
     
-    //UI METHODS
+    //UI BUTTON METHODS
     public void UpdateUIScreen(GameObject ui_screen_)
     {
         Debug.Log(ui_screen_);

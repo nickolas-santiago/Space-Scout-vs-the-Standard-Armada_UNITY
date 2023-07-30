@@ -93,8 +93,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e870eef723c9a042b64634e53eea0c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scene_object: {fileID: 0}
   powerup_name: 
-  max_lifespan: 180
+  lifespan_max: 0
   powerup_sprite_shield: {fileID: 21300000, guid: 865d3f6c13a17e14e98cc9eb2b1707db,
     type: 3}
   powerup_sprite_supercooldown: {fileID: 21300000, guid: f483bd1e9b30926458aff8ea8823a144,

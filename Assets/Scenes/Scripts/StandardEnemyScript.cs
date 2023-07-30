@@ -30,7 +30,7 @@ public class StandardEnemyScript : MonoBehaviour
     {
         //---instantiate vars for enemy script
         enemy_script = GetComponent<EnemyScript>();
-        enemy_script.enemy_current_health = enemy_max_health;
+        enemy_script.enemy_health_current = enemy_max_health;
         points_worth = 50;
         enemy_script.points_worth = points_worth;
         
