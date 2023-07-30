@@ -12,6 +12,7 @@ public class SceneScript : MonoBehaviour
     public GameObject ui_screen_controls;
     public GameObject ui_screen_credits;
     public GameObject game_hud;
+    public GameObject ui_screen_game_paused;
     public GameObject ui_screen_game_over;
     
     private bool current_ui_screen_is_mainmenu;
@@ -78,7 +79,23 @@ public class SceneScript : MonoBehaviour
     }
     public void UpdateUIScreenBackToMainMenu()
     {
-        ui_screen_game_over.SetActive(false);
+        if(current_game_state == "game_state_paused")
+        {
+            Time.timeScale = 1;
+            current_game_state = "game_state_menu";
+            ui_screen_game_paused.SetActive(false);
+            //---if game is paused, end the game
+            for(int game_object_ = (game_objects_list.Count - 1); game_object_ >= 0; game_object_--)
+            {
+                GameObject obj = game_objects_list[game_object_];
+                Destroy(obj);
+            }
+            game_objects_list.Clear();
+        }
+        else
+        {
+            ui_screen_game_over.SetActive(false);
+        }
         current_ui_screen_is_mainmenu = true;
         ui_screen_mainmenu_container.SetActive(true);
     }
@@ -91,6 +108,7 @@ public class SceneScript : MonoBehaviour
     //GAME METHODS
     public void StartGame()
     {
+        Time.timeScale = 1;
         if(current_ui_screen_is_mainmenu == true)
         {
             ui_screen_mainmenu_container.SetActive(false);
@@ -106,6 +124,8 @@ public class SceneScript : MonoBehaviour
         player_obj = Instantiate(player_object_prefab, Vector3.zero, Quaternion.identity) as GameObject;
         enemy_spawner_obj = Instantiate(enemy_spawner_object_prefab) as GameObject;
         //---add games objects to list
+        game_objects_list.Add(player_obj);
+        game_objects_list.Add(enemy_spawner_obj);
         
         game_hud.SetActive(true);
         game_hud.GetComponent<GameHUDScript>().player_object = player_obj;
@@ -115,11 +135,17 @@ public class SceneScript : MonoBehaviour
     {
         current_game_state = "game_state_paused";
         Time.timeScale = 0;
+        ui_screen_game_paused.SetActive(true);
+        game_hud.SetActive(false);
+        GameObject pause_screen_score_text = GameObject.FindGameObjectWithTag("UITextScore");
+        pause_screen_score_text.GetComponent<Text>().text = player_obj.GetComponent<PlayerControls>().current_score.ToString();
     }
     public void UnpauseGame()
     {
         current_game_state = "game_state_playing";
         Time.timeScale = 1;
+        ui_screen_game_paused.SetActive(false);
+        game_hud.SetActive(true);
     }
     public void EndGame()
     {
@@ -127,8 +153,6 @@ public class SceneScript : MonoBehaviour
         current_game_state = "game_state_menu";
         int score_from_round = player_obj.GetComponent<PlayerControls>().current_score;
         game_hud.SetActive(false);
-        Destroy(enemy_spawner_obj);
-        Destroy(player_obj);
         for(int game_object_ = (game_objects_list.Count - 1); game_object_ >= 0; game_object_--)
         {
             GameObject obj = game_objects_list[game_object_];
