@@ -155,11 +155,14 @@ public class SceneScript : MonoBehaviour
             int score_from_round = player_obj.GetComponent<PlayerControls>().current_score;
             GameObject game_over_screen_score_text = GameObject.FindGameObjectWithTag("GameOverScreenTextScore");
             game_over_screen_score_text.GetComponent<Text>().text = score_from_round.ToString();
-        
         }
         //---change the game state
         current_game_state = "game_state_menu";
-        //---destroy all game objects
+        //---destroy all game objects, enemies first
+        for(int enemy_object = 0; enemy_object < enemy_spawner_obj.GetComponent<SpawnScript>().enemy_object_list.Count; enemy_object++)
+        {
+            Destroy(enemy_spawner_obj.GetComponent<SpawnScript>().enemy_object_list[enemy_object]);
+        }
         for(int game_object_ = (game_objects_list.Count - 1); game_object_ >= 0; game_object_--)
         {
             GameObject obj = game_objects_list[game_object_];

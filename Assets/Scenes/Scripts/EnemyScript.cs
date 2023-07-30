@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyScript : MonoBehaviour
 {
+    public GameObject spawner_object;
     public GameObject powerup_object_prefab;
     private GameObject scene_object;
     public bool game_state_playing;
@@ -24,6 +25,7 @@ public class EnemyScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        spawner_object = GameObject.FindGameObjectWithTag("EnemySpawner");
         //---initiate properties for the target (player)
         player_object = GameObject.FindGameObjectWithTag("Player");
         enemy_rigidbody = GetComponent<Rigidbody2D>();
@@ -85,7 +87,8 @@ public class EnemyScript : MonoBehaviour
                 Debug.Log(powerup_obj);
             }
             //---...and destory the enemy
-            scene_object.GetComponent<SceneScript>().game_objects_list.Remove(this.gameObject);
+            //scene_object.GetComponent<SceneScript>().game_objects_list.Remove(this.gameObject);
+            spawner_object.GetComponent<SpawnScript>().enemy_object_list.Remove(this.gameObject);
             Object.Destroy(this.gameObject);
         }
     }

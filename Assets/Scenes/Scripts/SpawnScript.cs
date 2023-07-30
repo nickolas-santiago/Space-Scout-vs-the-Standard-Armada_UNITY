@@ -5,21 +5,19 @@ using UnityEngine;
 public class SpawnScript : MonoBehaviour
 {
     private GameObject scene_object;
+    public List<GameObject> enemy_object_list = new List<GameObject>();
     
     public GameObject scene_script;
-    public GameObject enemy_object;
-    GameObject an_enemy;
+    public GameObject standard_enemy_object_prefab;
+    public GameObject bomber_enemy_object_prefab;
     private int delta_time;
-    public int num_of_enimies_max;
-    private int num_of_enimies_current;   
+    public int num_of_enimies_max;  
     public float border_limit; //---represents a border beyond the game's screen
     
     // Start is called before the first frame update
     void Start()
     {
-        //scene_script = GetComponent<SceneScript>();
-        scene_object = GameObject.FindGameObjectWithTag("GameController");
-        num_of_enimies_current = GameObject.FindGameObjectsWithTag("NPC").Length;
+        scene_object = GameObject.FindGameObjectWithTag("GameController"); 
     }
 
     // Update is called once per frame
@@ -28,19 +26,31 @@ public class SpawnScript : MonoBehaviour
         if(scene_object.GetComponent<SceneScript>().current_game_state == "game_state_playing")
         {
             delta_time++;
-            num_of_enimies_current = GameObject.FindGameObjectsWithTag("NPC").Length;
-            if((delta_time % 60 == 0) && (num_of_enimies_current < num_of_enimies_max))
+            if((delta_time % 60 == 0) && (enemy_object_list.Count < num_of_enimies_max))
             {
                 //---take a chance to spawn an enemy_object
                 int chane_to_spawn = Random.Range(0,100);
                 {
                     if(chane_to_spawn <= 35)
                     {
-                        an_enemy = Instantiate(enemy_object, GenerateRandomPosition(), Quaternion.identity) as GameObject;
-                        scene_object.GetComponent<SceneScript>().game_objects_list.Add(an_enemy);
+                        GameObject an_enemy = Instantiate(GenerateRandomEnemy(), GenerateRandomPosition(), Quaternion.identity) as GameObject;
+                        enemy_object_list.Add(an_enemy);
                     }
                 }
             }
+        }
+    }
+    
+    GameObject GenerateRandomEnemy()
+    {
+        float random = Random.Range(0,50);
+        if(random <= 35)
+        {
+            return standard_enemy_object_prefab;
+        }
+        else
+        {
+            return bomber_enemy_object_prefab;
         }
     }
     
