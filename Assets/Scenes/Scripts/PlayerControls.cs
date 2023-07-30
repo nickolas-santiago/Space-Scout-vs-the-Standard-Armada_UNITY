@@ -95,121 +95,124 @@ public class PlayerControls : MonoBehaviour
         Vector3 movement = new Vector3((speed.x * inputX), (speed.y * inputY), 0);
         movement *= Time.deltaTime;
         transform.Translate(movement);
-        
-        mouse_pos = main_camera.ScreenToWorldPoint(Input.mousePosition);
-        aim_direction = (mouse_pos - transform.position);
-        if(current_weapon == 0)
-        {
-            Debug.DrawLine(transform.position, mouse_pos, Color.red);
-        }
-        if(current_weapon == 1)
-        {
-            Debug.DrawLine(transform.position, mouse_pos, Color.red);
-            //---positive
-            Vector3 newdir_pos = Quaternion.Euler(0f, 0f, 30f) * aim_direction;
-            Vector3 newpoint_pos = transform.position + newdir_pos;
-            Debug.DrawLine(transform.position, newpoint_pos, Color.green);
-            //---negative
-            Vector3 newdir_neg = Quaternion.Euler(0f, 0f, -30f) * aim_direction;
-            Vector3 newpoint_neg = transform.position + newdir_neg;
-            Debug.DrawLine(transform.position, newpoint_neg, Color.yellow);
-        }
-        
-        //---if the space key is being pressed, attempt to shoot
-        if(Input.GetKey("space"))
-        {
-            //---a successful shot happens when cooldown is at 0
-            if(weapons_list[current_weapon].current_cooldown_time_ == 0)
+       
+        if(scene_object.GetComponent<SceneScript>().current_game_state == "game_state_playing")
+        {       
+            mouse_pos = main_camera.ScreenToWorldPoint(Input.mousePosition);
+            aim_direction = (mouse_pos - transform.position);
+            if(current_weapon == 0)
             {
-                if(weapons_list[current_weapon].weapon_name_ == "standard")
+                Debug.DrawLine(transform.position, mouse_pos, Color.red);
+            }
+            if(current_weapon == 1)
+            {
+                Debug.DrawLine(transform.position, mouse_pos, Color.red);
+                //---positive
+                Vector3 newdir_pos = Quaternion.Euler(0f, 0f, 30f) * aim_direction;
+                Vector3 newpoint_pos = transform.position + newdir_pos;
+                Debug.DrawLine(transform.position, newpoint_pos, Color.green);
+                //---negative
+                Vector3 newdir_neg = Quaternion.Euler(0f, 0f, -30f) * aim_direction;
+                Vector3 newpoint_neg = transform.position + newdir_neg;
+                Debug.DrawLine(transform.position, newpoint_neg, Color.yellow);
+            }
+            
+            //---if the space key is being pressed, attempt to shoot
+            if(Input.GetKey("space"))
+            {
+                //---a successful shot happens when cooldown is at 0
+                if(weapons_list[current_weapon].current_cooldown_time_ == 0)
                 {
-                    myPJ = Instantiate(projectile, transform.position, Quaternion.identity) as GameObject;
-                    myPJ.GetComponent<BulletScript>().direction = aim_direction;
-                    myPJ.GetComponent<BulletScript>().damage = weapons_list[current_weapon].weapon_damage_;
-                }
-                else if(weapons_list[current_weapon].weapon_name_ == "multishot")
-                {
-                    for(int shot = -1; shot <= 1; shot++)
+                    if(weapons_list[current_weapon].weapon_name_ == "standard")
                     {
                         myPJ = Instantiate(projectile, transform.position, Quaternion.identity) as GameObject;
-                        float shot_float = ((float)shot * 30f);
-                        Vector3 shot_dir = (Quaternion.Euler(0f, 0f, shot_float) * aim_direction);
-                        Vector3 newpoint_pos = (transform.position + shot_dir);
-                        myPJ.GetComponent<BulletScript>().direction = (newpoint_pos - transform.position);
+                        myPJ.GetComponent<BulletScript>().direction = aim_direction;
                         myPJ.GetComponent<BulletScript>().damage = weapons_list[current_weapon].weapon_damage_;
                     }
+                    else if(weapons_list[current_weapon].weapon_name_ == "multishot")
+                    {
+                        for(int shot = -1; shot <= 1; shot++)
+                        {
+                            myPJ = Instantiate(projectile, transform.position, Quaternion.identity) as GameObject;
+                            float shot_float = ((float)shot * 30f);
+                            Vector3 shot_dir = (Quaternion.Euler(0f, 0f, shot_float) * aim_direction);
+                            Vector3 newpoint_pos = (transform.position + shot_dir);
+                            myPJ.GetComponent<BulletScript>().direction = (newpoint_pos - transform.position);
+                            myPJ.GetComponent<BulletScript>().damage = weapons_list[current_weapon].weapon_damage_;
+                        }
+                    }
+                    if(current_supercooldown_time > 0)
+                    {
+                        weapons_list[current_weapon].current_cooldown_time_ = Mathf.FloorToInt((float)weapons_list[current_weapon].max_cooldown_time_ * ((float)1/(float)2));
+                    }
+                    else
+                    {
+                        weapons_list[current_weapon].current_cooldown_time_ = weapons_list[current_weapon].max_cooldown_time_;
+                    }
+                }
+            }
+            //---HERE we switch weapons
+            if(Input.GetKeyDown(KeyCode.E))
+            {
+                int previous_weapon = current_weapon;
+                current_weapon--;
+                if(current_weapon < 0)
+                {
+                    current_weapon = (weapons_list.Count - 1);
+                }
+                game_hud_object.GetComponent<GameHUDScript>().UpdateUIWeaponchoice(current_weapon, previous_weapon);
+            }
+            else if(Input.GetKeyDown(KeyCode.R))
+            {
+                int previous_weapon = current_weapon;
+                current_weapon++;
+                if(current_weapon > (weapons_list.Count - 1))
+                {
+                    current_weapon = 0;
+                }
+                game_hud_object.GetComponent<GameHUDScript>().UpdateUIWeaponchoice(current_weapon, previous_weapon);
+                
+            }
+            //---use the Q key to use a powerup
+            if(Input.GetKeyDown(KeyCode.Q))
+            {
+                Debug.Log(current_powerup);
+                if(current_powerup != "")
+                {
+                    if(current_powerup == "shield")
+                    {
+                        current_health = 6;
+                        Debug.Log(current_health);
+                        game_hud_object.GetComponent<GameHUDScript>().UpdateUISetShield();
+                    }
+                    else if(current_powerup == "supercooldown")
+                    {
+                        current_supercooldown_time = (max_supercooldown_time * 60);
+                        Debug.Log(current_supercooldown_time);
+                    }
+                    else if(current_powerup == "scoremultiplier")
+                    {
+                        current_powerup_time_scoremultiplier = (max_powerup_time_scoremultiplier * 60);
+                    }
+                    game_hud_object.GetComponent<GameHUDScript>().UpdateUIPowerup(null);
+                }
+            }
+            
+            //---cooldown any weapons and powerups
+            for(int weapon = 0; weapon < weapons_list.Count; weapon++)
+            {
+                if(weapons_list[weapon].current_cooldown_time_ > 0)
+                {
+                    weapons_list[weapon].current_cooldown_time_--;
                 }
                 if(current_supercooldown_time > 0)
                 {
-                    weapons_list[current_weapon].current_cooldown_time_ = Mathf.FloorToInt((float)weapons_list[current_weapon].max_cooldown_time_ * ((float)1/(float)2));
+                    current_supercooldown_time--;
                 }
-                else
+                if(current_powerup_time_scoremultiplier > 0)
                 {
-                    weapons_list[current_weapon].current_cooldown_time_ = weapons_list[current_weapon].max_cooldown_time_;
+                    current_powerup_time_scoremultiplier--;
                 }
-            }
-        }
-        //---HERE we switch weapons
-        if(Input.GetKeyDown(KeyCode.E))
-        {
-            int previous_weapon = current_weapon;
-            current_weapon--;
-            if(current_weapon < 0)
-            {
-                current_weapon = (weapons_list.Count - 1);
-            }
-            game_hud_object.GetComponent<GameHUDScript>().UpdateUIWeaponchoice(current_weapon, previous_weapon);
-        }
-        else if(Input.GetKeyDown(KeyCode.R))
-        {
-            int previous_weapon = current_weapon;
-            current_weapon++;
-            if(current_weapon > (weapons_list.Count - 1))
-            {
-                current_weapon = 0;
-            }
-            game_hud_object.GetComponent<GameHUDScript>().UpdateUIWeaponchoice(current_weapon, previous_weapon);
-            
-        }
-        //---use the Q key to use a powerup
-        if(Input.GetKeyDown(KeyCode.Q))
-        {
-            Debug.Log(current_powerup);
-            if(current_powerup != "")
-            {
-                if(current_powerup == "shield")
-                {
-                    current_health = 6;
-                    Debug.Log(current_health);
-                    game_hud_object.GetComponent<GameHUDScript>().UpdateUISetShield();
-                }
-                else if(current_powerup == "supercooldown")
-                {
-                    current_supercooldown_time = (max_supercooldown_time * 60);
-                    Debug.Log(current_supercooldown_time);
-                }
-                else if(current_powerup == "scoremultiplier")
-                {
-                    current_powerup_time_scoremultiplier = (max_powerup_time_scoremultiplier * 60);
-                }
-                game_hud_object.GetComponent<GameHUDScript>().UpdateUIPowerup(null);
-            }
-        }
-        
-        //---cooldown any weapons and powerups
-        for(int weapon = 0; weapon < weapons_list.Count; weapon++)
-        {
-            if(weapons_list[weapon].current_cooldown_time_ > 0)
-            {
-                weapons_list[weapon].current_cooldown_time_--;
-            }
-            if(current_supercooldown_time > 0)
-            {
-                current_supercooldown_time--;
-            }
-            if(current_powerup_time_scoremultiplier > 0)
-            {
-                current_powerup_time_scoremultiplier--;
             }
         }
         //---set score modifier
@@ -220,6 +223,18 @@ public class PlayerControls : MonoBehaviour
         else
         {
             score_modifier = 1;
+        }
+        
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            if(scene_object.GetComponent<SceneScript>().current_game_state == "game_state_playing")
+            {
+                scene_object.GetComponent<SceneScript>().PauseGame();
+            }
+            else
+            {
+                scene_object.GetComponent<SceneScript>().UnpauseGame();
+            }
         }
     }
     

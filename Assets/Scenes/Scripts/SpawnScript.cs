@@ -25,17 +25,20 @@ public class SpawnScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        delta_time++;
-        current_num_of_enemies = GameObject.FindGameObjectsWithTag("NPC").Length;
-        if((delta_time % 60 == 0) && (current_num_of_enemies < max_num_of_enemies))
+        if(scene_object.GetComponent<SceneScript>().current_game_state == "game_state_playing")
         {
-            //---take a chance to spawn an enemy_object
-            int chane_to_spawn = Random.Range(0,100);
+            delta_time++;
+            current_num_of_enemies = GameObject.FindGameObjectsWithTag("NPC").Length;
+            if((delta_time % 60 == 0) && (current_num_of_enemies < max_num_of_enemies))
             {
-                if(chane_to_spawn <= 35)
+                //---take a chance to spawn an enemy_object
+                int chane_to_spawn = Random.Range(0,100);
                 {
-                    an_enemy = Instantiate(enemy_object, GenerateRandomPosition(), Quaternion.identity) as GameObject;
-                    scene_object.GetComponent<SceneScript>().game_objects_list.Add(an_enemy);
+                    if(chane_to_spawn <= 35)
+                    {
+                        an_enemy = Instantiate(enemy_object, GenerateRandomPosition(), Quaternion.identity) as GameObject;
+                        scene_object.GetComponent<SceneScript>().game_objects_list.Add(an_enemy);
+                    }
                 }
             }
         }

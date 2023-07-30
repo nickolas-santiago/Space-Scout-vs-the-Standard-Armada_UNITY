@@ -34,29 +34,32 @@ public class BomberEnemyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //---calculate and set the enemy's direction 
-        direction = (enemy_script.player_object.transform.position - transform.position);
-        transform.up = direction;
-        
-        if(is_reactive == false)
+        if(enemy_script.game_state_playing == true)
         {
-            //---every second after spawning, the enemy decide if it will become reactive and become faster
-            if((enemy_script.time_alive % 60) == 0)
+            //---calculate and set the enemy's direction 
+            direction = (enemy_script.player_object.transform.position - transform.position);
+            transform.up = direction;
+            
+            if(is_reactive == false)
             {
-                float chance_to_turn = Random.Range(0,50);
-                if(chance_to_turn <= 5)
+                //---every second after spawning, the enemy decide if it will become reactive and become faster
+                if((enemy_script.time_alive % 60) == 0)
                 {
-                    is_reactive = true;
-                    //Debug.Log("im reactive now");
+                    float chance_to_turn = Random.Range(0,50);
+                    if(chance_to_turn <= 5)
+                    {
+                        is_reactive = true;
+                        //Debug.Log("im reactive now");
+                    }
                 }
+                //---update the rigidbody's velocity with the caluculated direction and the public regular force
+                enemy_script.enemy_rigidbody.velocity = new Vector2(direction.x, direction.y).normalized * force;
             }
-            //---update the rigidbody's velocity with the caluculated direction and the public regular force
-            enemy_script.enemy_rigidbody.velocity = new Vector2(direction.x, direction.y).normalized * force;
-        }
-        else
-        {
-            //---update the rigidbody's velocity with the caluculated direction and the public reactive force
-            enemy_script.enemy_rigidbody.velocity = new Vector2(direction.x, direction.y).normalized * reactive_force;
+            else
+            {
+                //---update the rigidbody's velocity with the caluculated direction and the public reactive force
+                enemy_script.enemy_rigidbody.velocity = new Vector2(direction.x, direction.y).normalized * reactive_force;
+            }
         }
     }
     

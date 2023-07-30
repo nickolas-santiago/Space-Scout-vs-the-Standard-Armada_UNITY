@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class GameHUDScript : MonoBehaviour
 {
+    public GameObject scene_object;
     public GameObject player_object;
     private int player_current_weapon;
     //UI VAR DECLARATIONS

@@ -43,50 +43,53 @@ public class StandardEnemyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //---calculate and set the enemy's direction 
-        direction = (enemy_script.player_object.transform.position - transform.position);
-        transform.up = direction;
-        
-        //---if the enemy is currently aiming, it can shoot if it has bullets left
-        if(current_state == "aiming")
+        if(enemy_script.game_state_playing == true)
         {
-            if(num_of_shots_left > 0)
+            //---calculate and set the enemy's direction 
+            direction = (enemy_script.player_object.transform.position - transform.position);
+            transform.up = direction;
+            
+            //---if the enemy is currently aiming, it can shoot if it has bullets left
+            if(current_state == "aiming")
             {
-                if(current_cooldown_time <= 0)
+                if(num_of_shots_left > 0)
                 {
-                    num_of_shots_left--;
-                    enemy_bullet = Instantiate(enemy_bullet_object, transform.position, Quaternion.identity) as GameObject;
-                    enemy_bullet.transform.up = transform.up;
-                    enemy_bullet.GetComponent<BulletScript>().direction = direction;
-                    enemy_bullet.GetComponent<BulletScript>().damage = bullet_damage;
-                    current_cooldown_time = cooldown_time;
+                    if(current_cooldown_time <= 0)
+                    {
+                        num_of_shots_left--;
+                        enemy_bullet = Instantiate(enemy_bullet_object, transform.position, Quaternion.identity) as GameObject;
+                        enemy_bullet.transform.up = transform.up;
+                        enemy_bullet.GetComponent<BulletScript>().direction = direction;
+                        enemy_bullet.GetComponent<BulletScript>().damage = bullet_damage;
+                        current_cooldown_time = cooldown_time;
+                    }
+                }
+                else
+                {
+                    current_state = "moving";
                 }
             }
-            else
+            else if(current_state == "moving")
             {
-                current_state = "moving";
-            }
-        }
-        else if(current_state == "moving")
-        {
-            //---update the rigidbody's velocity with the caluculated direction and the public force
-            enemy_script.enemy_rigidbody.velocity = new Vector2(direction.x, direction.y).normalized * force;
-            //---every second after spawning, the enemy decides if it will shoot or not
-            if((enemy_script.time_alive % 60) == 0)
-            {
-                float chance_to_shoot = Random.Range(0,50);
-                if(chance_to_shoot <= 5)
+                //---update the rigidbody's velocity with the caluculated direction and the public force
+                enemy_script.enemy_rigidbody.velocity = new Vector2(direction.x, direction.y).normalized * force;
+                //---every second after spawning, the enemy decides if it will shoot or not
+                if((enemy_script.time_alive % 60) == 0)
                 {
-                    current_state = "aiming";
-                    enemy_script.enemy_rigidbody.velocity = new Vector2(0,0);
-                    num_of_shots_left = Random.Range(1,max_num_of_shots);
+                    float chance_to_shoot = Random.Range(0,50);
+                    if(chance_to_shoot <= 5)
+                    {
+                        current_state = "aiming";
+                        enemy_script.enemy_rigidbody.velocity = new Vector2(0,0);
+                        num_of_shots_left = Random.Range(1,max_num_of_shots);
+                    }
                 }
             }
-        }
-        //---cooldown any weapons
-        if(current_cooldown_time > 0)
-        {
-            current_cooldown_time--;
+            //---cooldown any weapons
+            if(current_cooldown_time > 0)
+            {
+                current_cooldown_time--;
+            }
         }
     }
 }

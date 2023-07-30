@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class SceneScript : MonoBehaviour
 {
-    public string current_game_state; //---states: game_state_playing  ||  game_state_menu
+    public string current_game_state; //---states: game_state_playing  ||  game_state_menu || game_state_paused
     
     public GameObject ui_screen_mainmenu_container;
     public GameObject ui_screen_mainmenu;
@@ -110,6 +110,16 @@ public class SceneScript : MonoBehaviour
         game_hud.SetActive(true);
         game_hud.GetComponent<GameHUDScript>().player_object = player_obj;
         game_hud.GetComponent<GameHUDScript>().UpdateUIResetGameHUD();
+    }
+    public void PauseGame()
+    {
+        current_game_state = "game_state_paused";
+        Time.timeScale = 0;
+    }
+    public void UnpauseGame()
+    {
+        current_game_state = "game_state_playing";
+        Time.timeScale = 1;
     }
     public void EndGame()
     {

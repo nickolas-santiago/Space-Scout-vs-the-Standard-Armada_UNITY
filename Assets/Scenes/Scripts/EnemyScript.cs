@@ -6,6 +6,7 @@ public class EnemyScript : MonoBehaviour
 {
     private GameObject scene_object;
     private GameObject game_hud_object;
+    public bool game_state_playing;
     
     //---set the variables used for movement and rotation
     public GameObject player_object;
@@ -32,7 +33,15 @@ public class EnemyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        time_alive++;
+        if(scene_object.GetComponent<SceneScript>().current_game_state == "game_state_playing")
+        {
+            time_alive++;
+            game_state_playing = true; 
+        }
+        else
+        {
+            game_state_playing = false;
+        }
         //---if an enemy's health is 0, delete it
         if(enemy_current_health <= 0)
         {

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PowerupScript : MonoBehaviour
 {
+    public GameObject scene_object;
+    
     private int powerup;
     public string powerup_name;
     private int current_lifespan;
@@ -43,17 +45,20 @@ public class PowerupScript : MonoBehaviour
         powerup_spriterenderer = GetComponent<SpriteRenderer>();
         powerup_spriterenderer.sprite = powerup_list[powerup].powerup_sprite_;
     
-        GameObject scene_object =  GameObject.FindGameObjectWithTag("GameController");
+        scene_object =  GameObject.FindGameObjectWithTag("GameController");
         scene_object.GetComponent<SceneScript>().game_objects_list.Add(this.gameObject);
     }
 
     // Update is called once per frame
     void Update()
     {
-        current_lifespan++;
-        if(current_lifespan >= (60 * max_lifespan))
+        if(scene_object.GetComponent<SceneScript>().current_game_state == "game_state_playing")
         {
-            Object.Destroy(this.gameObject);
+            current_lifespan++;
+            if(current_lifespan >= (60 * max_lifespan))
+            {
+                Object.Destroy(this.gameObject);
+            }
         }
     }
     
