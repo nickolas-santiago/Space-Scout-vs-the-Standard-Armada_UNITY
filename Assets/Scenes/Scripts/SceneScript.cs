@@ -82,15 +82,8 @@ public class SceneScript : MonoBehaviour
         if(current_game_state == "game_state_paused")
         {
             Time.timeScale = 1;
-            current_game_state = "game_state_menu";
             ui_screen_game_paused.SetActive(false);
-            //---if game is paused, end the game
-            for(int game_object_ = (game_objects_list.Count - 1); game_object_ >= 0; game_object_--)
-            {
-                GameObject obj = game_objects_list[game_object_];
-                Destroy(obj);
-            }
-            game_objects_list.Clear();
+            EndGame();
         }
         else
         {
@@ -150,17 +143,28 @@ public class SceneScript : MonoBehaviour
     public void EndGame()
     {
         Debug.Log("END GAME HERE");
+        
+        //---if the game ended from playing, get rid of the hud, show the game over screen, and set the score
+        if(current_game_state == "game_state_playing")
+        {
+            //---get rid of the HUD
+            game_hud.SetActive(false);
+            //---show the game over screen
+            ui_screen_game_over.SetActive(true);
+            //---set the score
+            int score_from_round = player_obj.GetComponent<PlayerControls>().current_score;
+            GameObject game_over_screen_score_text = GameObject.FindGameObjectWithTag("GameOverScreenTextScore");
+            game_over_screen_score_text.GetComponent<Text>().text = score_from_round.ToString();
+        
+        }
+        //---change the game state
         current_game_state = "game_state_menu";
-        int score_from_round = player_obj.GetComponent<PlayerControls>().current_score;
-        game_hud.SetActive(false);
+        //---destroy all game objects
         for(int game_object_ = (game_objects_list.Count - 1); game_object_ >= 0; game_object_--)
         {
             GameObject obj = game_objects_list[game_object_];
             Destroy(obj);
         }
         game_objects_list.Clear();
-        ui_screen_game_over.SetActive(true);
-        GameObject game_over_screen_score_text = GameObject.FindGameObjectWithTag("GameOverScreenTextScore");
-        game_over_screen_score_text.GetComponent<Text>().text = score_from_round.ToString();
     }
 }
