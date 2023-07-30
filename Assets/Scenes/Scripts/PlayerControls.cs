@@ -8,25 +8,25 @@ public class PlayerControls : MonoBehaviour
     public GameObject game_hud_object;
     
     //---set the public variables for player health
-    public int max_health;
-    public int current_health;
+    public int health_max;
+    public int health_current;
     private int iframe_max;
     private int iframe_current;
+    //   scoremultiplier
+    public int current_score;
+    private int powerup_time_current_scoremultiplier;
+    private int powerup_time_max_scoremultiplier;
+    public int score_modifier;
+    //---set variables for powerups
+    public string powerup_current;
     
     //---set the public variables for player speed
     public float speedx = 25;
     public float speedy = 25;
     
-    //   scoremultiplier
-    public int current_score;
-    private int current_powerup_time_scoremultiplier;
-    private int max_powerup_time_scoremultiplier;
-    public int score_modifier;
-    //---set variables for powerups
-    public string current_powerup;
     
     //---set some vars for shooting
-    public GameObject projectile;
+    public GameObject projectile_prefab;
     GameObject myPJ;
     //---set the variables used for controlling bullet direction and speed
     public Camera main_camera; //---set the camera we want to mouse to be relative to
@@ -52,8 +52,8 @@ public class PlayerControls : MonoBehaviour
     public WeaponClass weapon_standard = new WeaponClass("standard", 2, 50, 0);
     public WeaponClass weapon_multishot = new WeaponClass("multishot", 1, 40, 0);
     //   supercooldown
-    private int current_supercooldown_time;
-    private int max_supercooldown_time;
+    private int supercooldown_time_current;
+    private int supercooldown_time_max;
     
     // Start is called before the first frame update
     void Start()
@@ -61,50 +61,86 @@ public class PlayerControls : MonoBehaviour
         game_hud_object = GameObject.FindGameObjectWithTag("GameHUD");
         scene_object = GameObject.FindGameObjectWithTag("GameController");
         //---health inits
-        current_health = max_health = 3;
+        health_current = health_max = 3;
         iframe_max = 50;
         iframe_current = 0;
         //---score inits
         current_score = 0;
-        max_powerup_time_scoremultiplier = 7;
+        powerup_time_max_scoremultiplier = 7;
         score_modifier = 1;
         //---powerup inits
-        current_powerup = "";
+        powerup_current = "";
         //---weapon inits
         weapons_list.Add(weapon_standard);
         weapons_list.Add(weapon_multishot);
         current_weapon = 0;
-        max_supercooldown_time = 7;
+        //---weapon cooldown inits
+        supercooldown_time_max = 7;
     }
 
     // Update is called once per frame
     void Update()
     {
         Vector2 speed = new Vector2(speedx, speedy);
-        
-        if(iframe_current > 0)
-        {
-            iframe_current--;
-        }
-
         //---these floats get set when Unity recognizes an input (keyboard, mouse, controller, etc.)
         float inputX = Input.GetAxis("Horizontal");
         float inputY = Input.GetAxis("Vertical");
-        
         //---calculate and set the player's new position
         Vector3 movement = new Vector3((speed.x * inputX), (speed.y * inputY), 0);
         movement *= Time.deltaTime;
         transform.Translate(movement);
-       
+        
+        //---set score modifier
+        if(powerup_time_current_scoremultiplier > 0)
+        {
+            score_modifier = 2;
+        }
+        else
+        {
+            score_modifier = 1;
+        }
+        
         if(scene_object.GetComponent<SceneScript>().current_game_state == "game_state_playing")
-        {       
+        {
             mouse_pos = main_camera.ScreenToWorldPoint(Input.mousePosition);
             aim_direction = (mouse_pos - transform.position);
             if(current_weapon == 0)
             {
                 Debug.DrawLine(transform.position, mouse_pos, Color.red);
             }
-            if(current_weapon == 1)
+            //---update iframes/health
+            if(iframe_current > 0)
+            {
+                iframe_current--;
+            }
+            
+            //---use the Q key to use a powerup
+            if(Input.GetKeyDown(KeyCode.Q))
+            {
+                Debug.Log(powerup_current);
+                if(powerup_current != "")
+                {
+                    if(powerup_current == "shield")
+                    {
+                        health_current = 6;
+                        Debug.Log(health_current);
+                        game_hud_object.GetComponent<GameHUDScript>().UpdateUISetShield();
+                    }
+                    else if(powerup_current == "supercooldown")
+                    {
+                        supercooldown_time_current = (supercooldown_time_max * 60);
+                        Debug.Log(supercooldown_time_current);
+                    }
+                    else if(powerup_current == "scoremultiplier")
+                    {
+                        powerup_time_current_scoremultiplier = (powerup_time_max_scoremultiplier * 60);
+                    }
+                    game_hud_object.GetComponent<GameHUDScript>().UpdateUIPowerup(null);
+                }
+            }
+            
+            //---update weapons
+            if(current_weapon == 1) //---DEBUG 
             {
                 Debug.DrawLine(transform.position, mouse_pos, Color.red);
                 //---positive
@@ -116,7 +152,6 @@ public class PlayerControls : MonoBehaviour
                 Vector3 newpoint_neg = transform.position + newdir_neg;
                 Debug.DrawLine(transform.position, newpoint_neg, Color.yellow);
             }
-            
             //---if the space key is being pressed, attempt to shoot
             if(Input.GetKey("space"))
             {
@@ -125,7 +160,7 @@ public class PlayerControls : MonoBehaviour
                 {
                     if(weapons_list[current_weapon].weapon_name_ == "standard")
                     {
-                        myPJ = Instantiate(projectile, transform.position, Quaternion.identity) as GameObject;
+                        myPJ = Instantiate(projectile_prefab, transform.position, Quaternion.identity) as GameObject;
                         myPJ.GetComponent<BulletScript>().direction = aim_direction;
                         myPJ.GetComponent<BulletScript>().damage = weapons_list[current_weapon].weapon_damage_;
                     }
@@ -133,7 +168,7 @@ public class PlayerControls : MonoBehaviour
                     {
                         for(int shot = -1; shot <= 1; shot++)
                         {
-                            myPJ = Instantiate(projectile, transform.position, Quaternion.identity) as GameObject;
+                            myPJ = Instantiate(projectile_prefab, transform.position, Quaternion.identity) as GameObject;
                             float shot_float = ((float)shot * 30f);
                             Vector3 shot_dir = (Quaternion.Euler(0f, 0f, shot_float) * aim_direction);
                             Vector3 newpoint_pos = (transform.position + shot_dir);
@@ -141,7 +176,7 @@ public class PlayerControls : MonoBehaviour
                             myPJ.GetComponent<BulletScript>().damage = weapons_list[current_weapon].weapon_damage_;
                         }
                     }
-                    if(current_supercooldown_time > 0)
+                    if(supercooldown_time_current > 0)
                     {
                         weapons_list[current_weapon].current_cooldown_time_ = Mathf.FloorToInt((float)weapons_list[current_weapon].max_cooldown_time_ * ((float)1/(float)2));
                     }
@@ -151,7 +186,7 @@ public class PlayerControls : MonoBehaviour
                     }
                 }
             }
-            //---HERE we switch weapons
+            //---switch weapons
             if(Input.GetKeyDown(KeyCode.E))
             {
                 int previous_weapon = current_weapon;
@@ -173,56 +208,23 @@ public class PlayerControls : MonoBehaviour
                 game_hud_object.GetComponent<GameHUDScript>().UpdateUIWeaponchoice(current_weapon, previous_weapon);
                 
             }
-            //---use the Q key to use a powerup
-            if(Input.GetKeyDown(KeyCode.Q))
-            {
-                Debug.Log(current_powerup);
-                if(current_powerup != "")
-                {
-                    if(current_powerup == "shield")
-                    {
-                        current_health = 6;
-                        Debug.Log(current_health);
-                        game_hud_object.GetComponent<GameHUDScript>().UpdateUISetShield();
-                    }
-                    else if(current_powerup == "supercooldown")
-                    {
-                        current_supercooldown_time = (max_supercooldown_time * 60);
-                        Debug.Log(current_supercooldown_time);
-                    }
-                    else if(current_powerup == "scoremultiplier")
-                    {
-                        current_powerup_time_scoremultiplier = (max_powerup_time_scoremultiplier * 60);
-                    }
-                    game_hud_object.GetComponent<GameHUDScript>().UpdateUIPowerup(null);
-                }
-            }
             
             //---cooldown any weapons and powerups
             for(int weapon = 0; weapon < weapons_list.Count; weapon++)
             {
+                if(powerup_time_current_scoremultiplier > 0)
+                {
+                    powerup_time_current_scoremultiplier--;
+                }
                 if(weapons_list[weapon].current_cooldown_time_ > 0)
                 {
                     weapons_list[weapon].current_cooldown_time_--;
                 }
-                if(current_supercooldown_time > 0)
+                if(supercooldown_time_current > 0)
                 {
-                    current_supercooldown_time--;
-                }
-                if(current_powerup_time_scoremultiplier > 0)
-                {
-                    current_powerup_time_scoremultiplier--;
+                    supercooldown_time_current--;
                 }
             }
-        }
-        //---set score modifier
-        if(current_powerup_time_scoremultiplier > 0)
-        {
-            score_modifier = 2;
-        }
-        else
-        {
-            score_modifier = 1;
         }
         
         if(Input.GetKeyDown(KeyCode.P))
@@ -235,6 +237,21 @@ public class PlayerControls : MonoBehaviour
             {
                 scene_object.GetComponent<SceneScript>().UnpauseGame();
             }
+        }
+    }
+    
+    //---set new health and update the UI
+    private void TakeDamage(int damage_to_take_)
+    {
+        if(health_current > 0)
+        {
+            health_current -= damage_to_take_;
+            game_hud_object.GetComponent<GameHUDScript>().SetNewHealth(health_current);
+            iframe_current = iframe_max;
+        }
+        else
+        {
+            scene_object.GetComponent<SceneScript>().EndGame();
         }
     }
     
@@ -253,33 +270,9 @@ public class PlayerControls : MonoBehaviour
             //Debug.Log(coll);
         }
         Vector3 collPosition = coll.transform.position;
-       /* if(collPosition.y > transform.position.y)
-        {
-            Debug.Log("The object that hit me is above me!");
-        }
-        else
-        { 
-            Debug.Log("The object that hit me is below me!");
-        }
-
-        if (collPosition.x > transform.position.x)
-        {
-            Debug.Log ("The object that hit me is to my right!");
-        } 
-        else 
-        {
-            Debug.Log("The object that hit me is to my left!");
-        }
-        */
     }
-    
     private void OnTriggerEnter2D(Collider2D coll)
     {
-        //Debug.Log("hello");
-        if (coll.gameObject.tag == "Trigger")
-        {
-            //Debug.Log("hello again buddy");
-        }
         if (coll.gameObject.tag == "EnemyBullet")
         {
             Object.Destroy(coll.gameObject);
@@ -287,29 +280,14 @@ public class PlayerControls : MonoBehaviour
             {
                 TakeDamage(coll.GetComponent<BulletScript>().damage);
             }
-            //Debug.Log(current_health);
+            //Debug.Log(health_current);
         }
         if (coll.gameObject.tag == "Powerup")
         {
-            current_powerup = coll.GetComponent<PowerupScript>().powerup_name;
+            powerup_current = coll.GetComponent<PowerupScript>().powerup_name;
             game_hud_object.GetComponent<GameHUDScript>().UpdateUIPowerup(coll.GetComponent<SpriteRenderer>().sprite);
             Object.Destroy(coll.gameObject);
-            Debug.Log(current_powerup);
-        }
-    }
-    
-    //---set new health and update the UI
-    private void TakeDamage(int damage_to_take_)
-    {
-        if(current_health > 0)
-        {
-            current_health -= damage_to_take_;
-            game_hud_object.GetComponent<GameHUDScript>().SetNewHealth(current_health);
-            iframe_current = iframe_max;
-        }
-        else
-        {
-            scene_object.GetComponent<SceneScript>().EndGame();
+            Debug.Log(powerup_current);
         }
     }
 }

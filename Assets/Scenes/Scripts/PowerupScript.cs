@@ -8,8 +8,8 @@ public class PowerupScript : MonoBehaviour
     
     private int powerup;
     public string powerup_name;
-    private int current_lifespan;
-    public int max_lifespan;
+    private int lifespan_current;
+    public int lifespan_max;
     private SpriteRenderer powerup_spriterenderer;
     public Sprite powerup_sprite_shield;
     public Sprite powerup_sprite_supercooldown;
@@ -54,8 +54,8 @@ public class PowerupScript : MonoBehaviour
     {
         if(scene_object.GetComponent<SceneScript>().current_game_state == "game_state_playing")
         {
-            current_lifespan++;
-            if(current_lifespan >= (60 * max_lifespan))
+            lifespan_current++;
+            if(lifespan_current >= (60 * lifespan_max))
             {
                 Object.Destroy(this.gameObject);
             }

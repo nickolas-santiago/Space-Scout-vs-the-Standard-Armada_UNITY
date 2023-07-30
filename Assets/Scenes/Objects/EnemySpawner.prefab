@@ -46,5 +46,5 @@ MonoBehaviour:
   scene_script: {fileID: 0}
   enemy_object: {fileID: 5761241272598222003, guid: 3e3bb64341ffae848a7b3a289e871d92,
     type: 3}
-  max_num_of_enemies: 3
-  outer_border: 7
+  num_of_enimies_max: 4
+  border_limit: 7

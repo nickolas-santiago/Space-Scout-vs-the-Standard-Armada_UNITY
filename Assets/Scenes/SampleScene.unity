@@ -4803,7 +4803,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2080108643}
   - component: {fileID: 2080108644}
-  - component: {fileID: 2080108642}
   m_Layer: 0
   m_Name: SceneObject
   m_TagString: GameController
@@ -4811,24 +4810,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2080108642
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 2593657561412291794, guid: 0c9ae215d511c1d44823af6f483690b2,
-    type: 3}
-  m_PrefabInstance: {fileID: 2593657559701765296}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2080108641}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37e85ca80e3c1ed4b92f1ea3f2254696, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scene_script: {fileID: 0}
-  enemy_object: {fileID: 5761241272598222003, guid: 3e3bb64341ffae848a7b3a289e871d92,
-    type: 3}
-  max_num_of_enemies: 3
-  outer_border: 7
 --- !u!4 &2080108643
 Transform:
   m_ObjectHideFlags: 0
@@ -4865,9 +4846,9 @@ MonoBehaviour:
   game_hud: {fileID: 1879840791}
   ui_screen_game_over: {fileID: 1027482049}
   game_objects_list: []
-  player_object: {fileID: 2777985335706329907, guid: 9aa5dae1f87917c4485efd2e48d2df82,
+  player_object_prefab: {fileID: 2777985335706329907, guid: 9aa5dae1f87917c4485efd2e48d2df82,
     type: 3}
-  enemy_spawner_object: {fileID: 7699986322062203091, guid: 05b4e62639a91774cba915021bd0238b,
+  enemy_spawner_object_prefab: {fileID: 7699986322062203091, guid: 05b4e62639a91774cba915021bd0238b,
     type: 3}
 --- !u!1001 &2491566501772615846
 PrefabInstance:
@@ -5082,7 +5063,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5278945298283664947, guid: 9aa5dae1f87917c4485efd2e48d2df82,
         type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 0c9ae215d511c1d44823af6f483690b2, type: 3}
 --- !u!1001 &6964358006619303946
 PrefabInstance:

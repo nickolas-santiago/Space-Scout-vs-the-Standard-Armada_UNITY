@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class GameHUDScript : MonoBehaviour
 {
-    public GameObject scene_object;
     public GameObject player_object;
     private int player_current_weapon;
     //UI VAR DECLARATIONS
@@ -23,7 +22,6 @@ public class GameHUDScript : MonoBehaviour
     public GameObject ui_image_powerup;
     //---weapon declarations
     //---weapon choice declarations
-    private float ui_scale_for_current_weapon222;
     public float ui_scale_for_current_weapon;
     public List<GameObject> weaponchoice_image_object_list = new List<GameObject>();
     //---weapon cooldown declarations
@@ -110,7 +108,7 @@ public class GameHUDScript : MonoBehaviour
             UpdateUIScore(player_object.GetComponent<PlayerControls>().current_score);
         }
         //---reset powerup image
-        if(player_object.GetComponent<PlayerControls>().current_powerup == "")
+        if(player_object.GetComponent<PlayerControls>().powerup_current == "")
         {
             UpdateUIPowerup(null);
         }

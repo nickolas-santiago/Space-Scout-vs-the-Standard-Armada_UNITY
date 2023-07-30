@@ -96,16 +96,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scene_object: {fileID: 0}
   game_hud_object: {fileID: 0}
-  max_health: 3
-  current_health: 1
+  health_max: 0
+  health_current: 0
   speedx: 5
   speedy: 5
-  projectile: {fileID: 7501979095678634194, guid: 8238eff422bbc534d9610a607553e5f0,
+  current_score: 0
+  score_modifier: 1
+  powerup_current: 
+  projectile_prefab: {fileID: 7501979095678634194, guid: 8238eff422bbc534d9610a607553e5f0,
     type: 3}
   main_camera: {fileID: 8786888102126553418, guid: 22e96b3a1efe0eb47827926350688835,
     type: 3}
   current_weapon: 1
-  score_modifier: 1
 --- !u!50 &367986489867918334
 Rigidbody2D:
   serializedVersion: 4

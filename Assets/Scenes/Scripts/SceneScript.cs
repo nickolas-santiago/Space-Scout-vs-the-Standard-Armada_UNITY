@@ -16,12 +16,12 @@ public class SceneScript : MonoBehaviour
     
     private bool current_ui_screen_is_mainmenu;
     private GameObject current_active_ui_screen;
-    private bool is_moving_ui_screen;
+    private bool ui_screen_is_moving;
     
     public List<GameObject> game_objects_list = new List<GameObject>();
-    public GameObject player_object;
+    public GameObject player_object_prefab;
     GameObject player_obj;
-    public GameObject enemy_spawner_object;
+    public GameObject enemy_spawner_object_prefab;
     GameObject enemy_spawner_obj;
     
     // Start is called before the first frame update
@@ -30,13 +30,13 @@ public class SceneScript : MonoBehaviour
         current_game_state = "game_state_menu";
         current_ui_screen_is_mainmenu = true;
         current_active_ui_screen = null;
-        is_moving_ui_screen = false;
+        ui_screen_is_moving = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(is_moving_ui_screen == true)
+        if(ui_screen_is_moving == true)
         {
             if(current_ui_screen_is_mainmenu == false)
             {
@@ -47,7 +47,7 @@ public class SceneScript : MonoBehaviour
                 }
                 else
                 {
-                    is_moving_ui_screen = false;
+                    ui_screen_is_moving = false;
                 }
             }
             else
@@ -59,7 +59,7 @@ public class SceneScript : MonoBehaviour
                 }
                 else
                 {
-                    is_moving_ui_screen = false;
+                    ui_screen_is_moving = false;
                     current_active_ui_screen.SetActive(false);
                     current_active_ui_screen = null;
                 }
@@ -74,7 +74,7 @@ public class SceneScript : MonoBehaviour
         ui_screen_.SetActive(true);
         current_active_ui_screen = ui_screen_;
         current_ui_screen_is_mainmenu = false;
-        is_moving_ui_screen = true;
+        ui_screen_is_moving = true;
     }
     public void UpdateUIScreenBackToMainMenu()
     {
@@ -85,7 +85,7 @@ public class SceneScript : MonoBehaviour
     public void UpdateUIScreenMainMenu()
     {
         current_ui_screen_is_mainmenu = true;
-        is_moving_ui_screen = true;
+        ui_screen_is_moving = true;
     }
     
     //GAME METHODS
@@ -103,8 +103,8 @@ public class SceneScript : MonoBehaviour
         //---manage UI and game state
         current_game_state = "game_state_playing";
         //---instantiate game objects
-        player_obj = Instantiate(player_object, Vector3.zero, Quaternion.identity) as GameObject;
-        enemy_spawner_obj = Instantiate(enemy_spawner_object) as GameObject;
+        player_obj = Instantiate(player_object_prefab, Vector3.zero, Quaternion.identity) as GameObject;
+        enemy_spawner_obj = Instantiate(enemy_spawner_object_prefab) as GameObject;
         //---add games objects to list
         
         game_hud.SetActive(true);
