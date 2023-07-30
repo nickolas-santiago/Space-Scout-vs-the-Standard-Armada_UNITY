@@ -68,17 +68,11 @@ public class SceneScript : MonoBehaviour
     }
     
     //UI METHODS
-    public void UpdateUIScreenControls()
+    public void UpdateUIScreen(GameObject ui_screen_)
     {
-        ui_screen_controls.SetActive(true);
-        current_active_ui_screen = ui_screen_controls;
-        current_ui_screen_is_mainmenu = false;
-        is_moving_ui_screen = true;
-    }
-    public void UpdateUIScreenCredits()
-    {
-        ui_screen_credits.SetActive(true);
-        current_active_ui_screen = ui_screen_credits;
+        Debug.Log(ui_screen_);
+        ui_screen_.SetActive(true);
+        current_active_ui_screen = ui_screen_;
         current_ui_screen_is_mainmenu = false;
         is_moving_ui_screen = true;
     }
@@ -97,7 +91,6 @@ public class SceneScript : MonoBehaviour
     //GAME METHODS
     public void StartGame()
     {
-        Debug.Log("start game here");
         if(current_ui_screen_is_mainmenu == true)
         {
             ui_screen_mainmenu_container.SetActive(false);

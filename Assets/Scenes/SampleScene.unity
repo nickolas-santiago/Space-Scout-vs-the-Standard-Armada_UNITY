@@ -399,11 +399,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2080108644}
-        m_MethodName: UpdateUIScreenCredits
-        m_Mode: 1
+        m_MethodName: UpdateUIScreen
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 671651224}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -853,14 +853,14 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2080108644}
-        m_MethodName: UpdateUIScreenControls
-        m_Mode: 1
+        m_MethodName: UpdateUIScreen
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 298836568}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: controls
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
@@ -3656,10 +3656,10 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: You play as Space Scout - Earth's onlyh fully weaponized girl scout. She
+  m_Text: You play as Space Scout - Earth's only fully weaponized girl scout. She
     is on her way home with a ship full of treasure to get her Treasure Collecting
-    Badge. But the chaotic General Commander has located the Scout Ship and wants
-    that treasure for himself!
+    Badge. But the General Commander has located the Scout Ship and wants that treasure
+    for himself!
 --- !u!222 &1711493686
 CanvasRenderer:
   m_ObjectHideFlags: 0
