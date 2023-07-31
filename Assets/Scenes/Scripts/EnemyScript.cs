@@ -60,15 +60,19 @@ public class EnemyScript : MonoBehaviour
             //Debug.Log("NPC hit by bullet");
             if(coll.GetComponent<BulletScript>() == null)
             {
-                Object.Destroy(coll.gameObject);
-                if(iframe_current <= 0)
+                
+                if(coll.GetComponent<GrenadeScript>().state_current == "state_exploding")
                 {
-                    TakeDamage(coll.GetComponent<GrenadeScript>().damage);
+                    if(iframe_current <= 0)
+                    {
+                        TakeDamage(coll.GetComponent<GrenadeScript>().damage);
+                    }
                 }
             }
             else
             {
                 TakeDamage(coll.GetComponent<BulletScript>().damage);
+                Object.Destroy(coll.gameObject);
             }
         }
     }
