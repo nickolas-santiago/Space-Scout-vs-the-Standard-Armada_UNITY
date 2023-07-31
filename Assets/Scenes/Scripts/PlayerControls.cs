@@ -27,6 +27,7 @@ public class PlayerControls : MonoBehaviour
     
     //---set some vars for shooting
     public GameObject projectile_prefab;
+    public GameObject grenade_prefab;
     GameObject myPJ;
     //---set the variables used for controlling bullet direction and speed
     public Camera main_camera; //---set the camera we want to mouse to be relative to
@@ -51,6 +52,7 @@ public class PlayerControls : MonoBehaviour
     public List<WeaponClass> weapons_list = new List<WeaponClass>();
     public WeaponClass weapon_standard = new WeaponClass("standard", 2, 50, 0);
     public WeaponClass weapon_multishot = new WeaponClass("multishot", 1, 40, 0);
+    public WeaponClass weapon_grenade = new WeaponClass("grenade", 1, 40, 0);
     //   supercooldown
     private int supercooldown_time_current;
     private int supercooldown_time_max;
@@ -73,6 +75,7 @@ public class PlayerControls : MonoBehaviour
         //---weapon inits
         weapons_list.Add(weapon_standard);
         weapons_list.Add(weapon_multishot);
+        weapons_list.Add(weapon_grenade);
         current_weapon = 0;
         //---weapon cooldown inits
         supercooldown_time_max = 7;
@@ -104,7 +107,7 @@ public class PlayerControls : MonoBehaviour
         {
             mouse_pos = main_camera.ScreenToWorldPoint(Input.mousePosition);
             aim_direction = (mouse_pos - transform.position);
-            if(current_weapon == 0)
+            if(current_weapon == 0 || current_weapon == 2)
             {
                 Debug.DrawLine(transform.position, mouse_pos, Color.red);
             }
@@ -175,6 +178,12 @@ public class PlayerControls : MonoBehaviour
                             myPJ.GetComponent<BulletScript>().direction = (newpoint_pos - transform.position);
                             myPJ.GetComponent<BulletScript>().damage = weapons_list[current_weapon].weapon_damage_;
                         }
+                    }
+                    else if(weapons_list[current_weapon].weapon_name_ == "grenade")
+                    {
+                        myPJ = Instantiate(grenade_prefab, transform.position, Quaternion.identity) as GameObject;
+                        myPJ.GetComponent<GrenadeScript>().direction = aim_direction;
+                        myPJ.GetComponent<GrenadeScript>().damage = weapons_list[current_weapon].weapon_damage_;
                     }
                     if(supercooldown_time_current > 0)
                     {

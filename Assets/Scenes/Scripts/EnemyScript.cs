@@ -61,7 +61,14 @@ public class EnemyScript : MonoBehaviour
             Object.Destroy(coll.gameObject);
             if(iframe_current <= 0)
             {
-                TakeDamage(coll.GetComponent<BulletScript>().damage);
+                if(coll.GetComponent<BulletScript>() == null)
+                {
+                    TakeDamage(coll.GetComponent<GrenadeScript>().damage);
+                }
+                else
+                {
+                    TakeDamage(coll.GetComponent<BulletScript>().damage);
+                }
             }
         }
     }
@@ -87,7 +94,6 @@ public class EnemyScript : MonoBehaviour
                 Debug.Log(powerup_obj);
             }
             //---...and destory the enemy
-            //scene_object.GetComponent<SceneScript>().game_objects_list.Remove(this.gameObject);
             spawner_object.GetComponent<SpawnScript>().enemy_object_list.Remove(this.gameObject);
             Object.Destroy(this.gameObject);
         }

@@ -115,7 +115,7 @@ public class SceneScript : MonoBehaviour
         current_game_state = "game_state_playing";
         //---instantiate game objects
         player_obj = Instantiate(player_object_prefab, Vector3.zero, Quaternion.identity) as GameObject;
-        enemy_spawner_obj = Instantiate(enemy_spawner_object_prefab) as GameObject;
+        //enemy_spawner_obj = Instantiate(enemy_spawner_object_prefab) as GameObject;
         //---add games objects to list
         game_objects_list.Add(player_obj);
         game_objects_list.Add(enemy_spawner_obj);
