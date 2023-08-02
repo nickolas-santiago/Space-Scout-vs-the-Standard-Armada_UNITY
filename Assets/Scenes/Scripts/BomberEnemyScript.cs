@@ -7,7 +7,6 @@ public class BomberEnemyScript : MonoBehaviour
     //---set the variables used for movement and rotation
     public float force;
     public float reactive_force;
-    private Vector2 direction;
     
     //---set variables for enemy
     private EnemyScript enemy_script;
@@ -37,8 +36,8 @@ public class BomberEnemyScript : MonoBehaviour
         if(enemy_script.game_state_playing == true)
         {
             //---calculate and set the enemy's direction 
-            direction = (enemy_script.player_object.transform.position - transform.position);
-            transform.up = direction;
+            enemy_script.direction = (enemy_script.player_object.transform.position - transform.position);
+            transform.up = enemy_script.direction;
             
             if(is_reactive == false)
             {
@@ -53,12 +52,12 @@ public class BomberEnemyScript : MonoBehaviour
                     }
                 }
                 //---update the rigidbody's velocity with the caluculated direction and the public regular force
-                enemy_script.enemy_rigidbody.velocity = new Vector2(direction.x, direction.y).normalized * force;
+                enemy_script.enemy_rigidbody.velocity = new Vector2(enemy_script.direction.x, enemy_script.direction.y).normalized * force;
             }
             else
             {
                 //---update the rigidbody's velocity with the caluculated direction and the public reactive force
-                enemy_script.enemy_rigidbody.velocity = new Vector2(direction.x, direction.y).normalized * reactive_force;
+                enemy_script.enemy_rigidbody.velocity = new Vector2(enemy_script.direction.x, enemy_script.direction.y).normalized * reactive_force;
             }
         }
     }

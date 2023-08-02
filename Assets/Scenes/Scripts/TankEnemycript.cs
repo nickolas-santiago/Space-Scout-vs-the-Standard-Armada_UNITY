@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StandardEnemyScript : MonoBehaviour
+public class TankEnemycript : MonoBehaviour
 {
     //---set the variables used for movement
     public float force;
@@ -27,10 +27,11 @@ public class StandardEnemyScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        force = 0.45f;
         //---instantiate vars for enemy script
         enemy_script = GetComponent<EnemyScript>();
         enemy_script.enemy_health_current = enemy_max_health;
-        points_worth = 50;
+        points_worth = 75;
         enemy_script.points_worth = points_worth;
         
         //---instantiate vars for weapons

@@ -43,10 +43,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37e85ca80e3c1ed4b92f1ea3f2254696, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy_object_list: []
   scene_script: {fileID: 0}
   standard_enemy_object_prefab: {fileID: 5761241272598222003, guid: 3e3bb64341ffae848a7b3a289e871d92,
     type: 3}
   bomber_enemy_object_prefab: {fileID: 6850750529760789147, guid: 7d0fa2c0244a4d946a0ccfb3dac4433d,
+    type: 3}
+  tank_enemy_object_prefab: {fileID: 6938198911005967768, guid: 198444a3825817340aeac391de752cc8,
     type: 3}
   num_of_enimies_max: 4
   border_limit: 7

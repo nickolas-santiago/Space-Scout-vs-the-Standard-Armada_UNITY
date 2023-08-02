@@ -12,6 +12,10 @@ public class PlayerControls : MonoBehaviour
     public int health_current;
     private int iframe_max;
     private int iframe_current;
+    private int damage_movement_time_max;
+    private int damage_movement_time_current;
+    public Vector2 damage_movement_vector_per_frame;
+    
     //   scoremultiplier
     public int current_score;
     private int powerup_time_current_scoremultiplier;
@@ -66,6 +70,8 @@ public class PlayerControls : MonoBehaviour
         health_current = health_max = 3;
         iframe_max = 50;
         iframe_current = 0;
+        //---for damage
+        damage_movement_time_max = 15;
         //---score inits
         current_score = 0;
         powerup_time_max_scoremultiplier = 7;
@@ -115,6 +121,14 @@ public class PlayerControls : MonoBehaviour
             if(iframe_current > 0)
             {
                 iframe_current--;
+            }
+           
+
+           if(damage_movement_time_current > 0)
+            {
+                damage_movement_time_current--;
+                transform.position = new Vector2((transform.position.x + (damage_movement_vector_per_frame.x/damage_movement_time_max)), (transform.position.y + (damage_movement_vector_per_frame.y/damage_movement_time_max)));
+                Debug.Log("damaged");
             }
             
             //---use the Q key to use a powerup
@@ -250,13 +264,29 @@ public class PlayerControls : MonoBehaviour
     }
     
     //---set new health and update the UI
-    private void TakeDamage(int damage_to_take_)
+    private void TakeDamage(int damage_to_take_, Vector2 damage_direction_)
     {
         if(health_current > 0)
         {
             health_current -= damage_to_take_;
             game_hud_object.GetComponent<GameHUDScript>().SetNewHealth(health_current);
             iframe_current = iframe_max;
+            
+            
+            //transform.position = new Vector
+            Debug.Log(damage_direction_);
+            //Vector2 damage_direction_normalized = new Vector2(damage_direction_.x, damage_direction_.y).normalized * 0.35f;
+            //Vector2 damage_direction_normalized = new Vector2(damage_direction_.x, damage_direction_.y).normalized * 1;
+            damage_movement_vector_per_frame = new Vector2(damage_direction_.x, damage_direction_.y).normalized * 0.35f;
+            //transform.position = new Vector2(transform.position.x + damage_direction_normalized.x, transform.position.y + damage_direction_normalized.y);
+            //damage_movement_vector_per_frame = new Vector2(((transform.position.x + damage_direction_normalized.x)/damage_movement_time_max), ((transform.position.y + damage_direction_normalized.y)/damage_movement_time_max));
+            
+            //Debug.Log("(" + transform.position.x + " + " + damage_direction_normalized.x + ")/" + damage_movement_time_max + ", (" + transform.position.y + " + " + damage_direction_normalized.y + ")/" + damage_movement_time_max);
+            
+            //Debug.Log(damage_movement_vector_per_frame);
+            damage_movement_time_current = damage_movement_time_max;
+            //transform.position = new Vector2(damage_movement_vector_per_frame.x, damage_movement_vector_per_frame.y);
+            //Debug.Break();
         }
         else
         {
@@ -264,6 +294,7 @@ public class PlayerControls : MonoBehaviour
         }
     }
     
+    //---set new score and update the UI
     public void GenerateNewScore(int new_points_)
     {
         int new_current_score = (current_score + (new_points_ * score_modifier));
@@ -275,10 +306,13 @@ public class PlayerControls : MonoBehaviour
     {
         if (coll.gameObject.tag == "NPC")
         {
-            //Debug.Log("hello");
-            //Debug.Log(coll);
+            Debug.Log("hello");
+            Debug.Log(coll.gameObject.GetComponent<EnemyScript>().direction);
+            Vector2 nnn = new Vector2(coll.gameObject.GetComponent<EnemyScript>().direction.x, coll.gameObject.GetComponent<EnemyScript>().direction.y).normalized;
+            //Debug.Log(coll.GetComponent<EnemyScript>().direction);
+            //transform.position = new Vector2(transform.position.x + nnn.x, transform.position.y + nnn.y);
+            
         }
-        Vector3 collPosition = coll.transform.position;
     }
     private void OnTriggerEnter2D(Collider2D coll)
     {
@@ -287,7 +321,7 @@ public class PlayerControls : MonoBehaviour
             Object.Destroy(coll.gameObject);
             if(iframe_current <= 0)
             {
-                TakeDamage(coll.GetComponent<BulletScript>().damage);
+                TakeDamage(coll.GetComponent<BulletScript>().damage, coll.GetComponent<BulletScript>().direction);
             }
             //Debug.Log(health_current);
         }

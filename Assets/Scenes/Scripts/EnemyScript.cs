@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyScript : MonoBehaviour
 {
+    public Vector2 direction;
+    
     public GameObject spawner_object;
     public GameObject powerup_object_prefab;
     private GameObject scene_object;
