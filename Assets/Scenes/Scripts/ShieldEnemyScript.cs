@@ -50,38 +50,41 @@ public class ShieldEnemyScript : MonoBehaviour
             {
                 //---update the rigidbody's velocity with the caluculated direction and the public force
                 enemy_script.enemy_rigidbody.velocity = new Vector2(enemy_script.direction.x, enemy_script.direction.y).normalized * force;
-
-                float chance_to_start_aiming = Random.Range(0,50);
-                if(chance_to_start_aiming >= 20)
+                //---decide if its time to start aiming
+                if((enemy_script.time_alive % 60) == 0)
                 {
-                    current_state = "state_aiming";
-                    enemy_script.enemy_rigidbody.velocity = new Vector2(0,0);
+                    float chance_to_start_aiming = Random.Range(0,50);
+                    if(chance_to_start_aiming <= 25)
+                    {
+                        Debug.Log(chance_to_start_aiming);
+                        current_state = "state_aiming";
+                        enemy_script.enemy_rigidbody.velocity = new Vector2(0,0);
+                    }
                 }
             }
             if(current_state == "state_aiming")
             {
                 Debug.Log("aiming");
-                float chance_to_attack = Random.Range(0,75);
-                if(chance_to_attack <= 25)
+                if((enemy_script.time_alive % 60) == 0)
                 {
-                    current_state = "state_attacking";
-                    attack_time_current = attack_time_max;
-                    Vector2 attack_direction = new Vector2(enemy_script.direction.x, enemy_script.direction.y).normalized * 3;
-                    ddd = new Vector2(enemy_script.direction.x, enemy_script.direction.y).normalized * 6;
-                    //attack_direction_per_frame = new Vector2(((transform.position.x + attack_direction.x)/1),((transform.position.y + attack_direction.y)/1));
-                    Debug.Log(ddd);
-                    Debug.Break();
+                    float chance_to_attack = Random.Range(0,50);
+                    if(chance_to_attack <= 20)
+                    {
+                        current_state = "state_attacking";
+                        attack_time_current = attack_time_max;
+                        ddd = new Vector2(enemy_script.direction.x, enemy_script.direction.y).normalized * 6;
+                    }
+                    else if(chance_to_attack <= 45)
+                    {
+                        current_state = "state_moving";
+                        Debug.Log("moving");
+                    }
                 }
             }
             else if(current_state == "state_attacking")
             {
-                Debug.Log("attacking");
-                Debug.Log(attack_direction_per_frame);
-                //transform.position = new Vector2(attack_direction_per_frame.x, attack_direction_per_frame.y);
-                
-                Debug.Log(((transform.position.x + ddd.x)/attack_time_max));
                 transform.position = new Vector2(transform.position.x + (ddd.x/attack_time_max), transform.position.y + (ddd.y/attack_time_max));
-                
+                //---work towards next state
                 attack_time_current--;
                 if(attack_time_current <= 0)
                 {
