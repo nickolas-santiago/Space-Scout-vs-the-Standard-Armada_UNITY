@@ -11,6 +11,7 @@ public class SpawnScript : MonoBehaviour
     public GameObject standard_enemy_object_prefab;
     public GameObject bomber_enemy_object_prefab;
     public GameObject tank_enemy_object_prefab;
+    public GameObject shield_enemy_object_prefab;
     private int delta_time;
     public int num_of_enimies_max;  
     public float border_limit; //---represents a border beyond the game's screen
@@ -47,7 +48,7 @@ public class SpawnScript : MonoBehaviour
         float random = Random.Range(0,50);
         if(random <= 15)
         {
-            return tank_enemy_object_prefab;
+            return shield_enemy_object_prefab;
         }
         else if(random <= 49.9f)
         {

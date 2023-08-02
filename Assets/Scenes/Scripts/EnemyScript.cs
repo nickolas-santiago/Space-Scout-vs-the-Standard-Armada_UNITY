@@ -100,8 +100,13 @@ public class EnemyScript : MonoBehaviour
                 Debug.Log(powerup_obj);
             }
             //---...and destory the enemy
-            spawner_object.GetComponent<SpawnScript>().enemy_object_list.Remove(this.gameObject);
             Object.Destroy(this.gameObject);
         }
     }
+    
+    private void OnDestroy()
+    {
+        spawner_object.GetComponent<SpawnScript>().enemy_object_list.Remove(this.gameObject);
+    }
+    
 }

@@ -68,7 +68,7 @@ public class PlayerControls : MonoBehaviour
         scene_object = GameObject.FindGameObjectWithTag("GameController");
         //---health inits
         health_current = health_max = 3;
-        iframe_max = 50;
+        iframe_max = 100;
         iframe_current = 0;
         //---for damage
         damage_movement_time_max = 15;
@@ -122,13 +122,11 @@ public class PlayerControls : MonoBehaviour
             {
                 iframe_current--;
             }
-           
-
-           if(damage_movement_time_current > 0)
+            //---take pushback from damage
+            if(damage_movement_time_current > 0)
             {
                 damage_movement_time_current--;
                 transform.position = new Vector2((transform.position.x + (damage_movement_vector_per_frame.x/damage_movement_time_max)), (transform.position.y + (damage_movement_vector_per_frame.y/damage_movement_time_max)));
-                Debug.Log("damaged");
             }
             
             //---use the Q key to use a powerup
@@ -268,25 +266,14 @@ public class PlayerControls : MonoBehaviour
     {
         if(health_current > 0)
         {
+            //---take damage and update the UI
             health_current -= damage_to_take_;
             game_hud_object.GetComponent<GameHUDScript>().SetNewHealth(health_current);
+            //---set iframes
             iframe_current = iframe_max;
-            
-            
-            //transform.position = new Vector
-            Debug.Log(damage_direction_);
-            //Vector2 damage_direction_normalized = new Vector2(damage_direction_.x, damage_direction_.y).normalized * 0.35f;
-            //Vector2 damage_direction_normalized = new Vector2(damage_direction_.x, damage_direction_.y).normalized * 1;
+            //---set pushback from damage
             damage_movement_vector_per_frame = new Vector2(damage_direction_.x, damage_direction_.y).normalized * 0.35f;
-            //transform.position = new Vector2(transform.position.x + damage_direction_normalized.x, transform.position.y + damage_direction_normalized.y);
-            //damage_movement_vector_per_frame = new Vector2(((transform.position.x + damage_direction_normalized.x)/damage_movement_time_max), ((transform.position.y + damage_direction_normalized.y)/damage_movement_time_max));
-            
-            //Debug.Log("(" + transform.position.x + " + " + damage_direction_normalized.x + ")/" + damage_movement_time_max + ", (" + transform.position.y + " + " + damage_direction_normalized.y + ")/" + damage_movement_time_max);
-            
-            //Debug.Log(damage_movement_vector_per_frame);
             damage_movement_time_current = damage_movement_time_max;
-            //transform.position = new Vector2(damage_movement_vector_per_frame.x, damage_movement_vector_per_frame.y);
-            //Debug.Break();
         }
         else
         {
@@ -308,9 +295,10 @@ public class PlayerControls : MonoBehaviour
         {
             Debug.Log("hello");
             Debug.Log(coll.gameObject.GetComponent<EnemyScript>().direction);
-            Vector2 nnn = new Vector2(coll.gameObject.GetComponent<EnemyScript>().direction.x, coll.gameObject.GetComponent<EnemyScript>().direction.y).normalized;
-            //Debug.Log(coll.GetComponent<EnemyScript>().direction);
-            //transform.position = new Vector2(transform.position.x + nnn.x, transform.position.y + nnn.y);
+            if(iframe_current <= 0)
+            {
+                TakeDamage(1, coll.gameObject.GetComponent<EnemyScript>().direction);
+            }
             
         }
     }
@@ -323,7 +311,6 @@ public class PlayerControls : MonoBehaviour
             {
                 TakeDamage(coll.GetComponent<BulletScript>().damage, coll.GetComponent<BulletScript>().direction);
             }
-            //Debug.Log(health_current);
         }
         if (coll.gameObject.tag == "Powerup")
         {

@@ -51,5 +51,7 @@ MonoBehaviour:
     type: 3}
   tank_enemy_object_prefab: {fileID: 6938198911005967768, guid: 198444a3825817340aeac391de752cc8,
     type: 3}
-  num_of_enimies_max: 4
+  shield_enemy_object_prefab: {fileID: 6189499683831309118, guid: fb49c81151a4624459ff23cbf4160b34,
+    type: 3}
+  num_of_enimies_max: 0
   border_limit: 7
