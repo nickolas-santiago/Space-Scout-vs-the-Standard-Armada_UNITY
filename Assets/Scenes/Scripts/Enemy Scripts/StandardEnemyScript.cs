@@ -10,6 +10,7 @@ public class StandardEnemyScript : MonoBehaviour
     //---set variables for enemy
     private EnemyScript enemy_script;
     public int enemy_max_health;
+    public Sprite sprite_damaged;
     //---set variables for enemy points
     public int points_worth;
     

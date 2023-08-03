@@ -8,7 +8,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5761241272598221965}
+  - component: {fileID: 4583870215449565674}
   - component: {fileID: -2883183865065774911}
   - component: {fileID: 6514754810010333794}
   - component: {fileID: 5761241272598221967}
@@ -21,20 +21,25 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5761241272598221965
-Transform:
+--- !u!224 &4583870215449565674
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5761241272598222003}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.3, y: 1.83, z: -1.1605672}
+  m_LocalPosition: {x: 0, y: 0, z: -1.1605672}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 1.3, y: 1.83}
+  m_SizeDelta: {x: 0.18, y: 0.13}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &-2883183865065774911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47,6 +52,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b68d70bfa6af0fc479f9203890d0fc6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  direction: {x: 0, y: 0}
+  spawner_object: {fileID: 0}
   powerup_object_prefab: {fileID: 3579360478366662633, guid: 0d6f4d36a3b3a964c92e6153ad5af5d0,
     type: 3}
   game_state_playing: 0

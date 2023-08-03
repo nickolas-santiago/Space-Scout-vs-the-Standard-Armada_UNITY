@@ -168,7 +168,7 @@ public class PlayerControls : MonoBehaviour
                 Debug.DrawLine(transform.position, newpoint_neg, Color.yellow);
             }
             //---if the space key is being pressed, attempt to shoot
-            if(Input.GetKey("space"))
+            if(Input.GetKey("space") ||  Input. GetMouseButton(0))
             {
                 //---a successful shot happens when cooldown is at 0
                 if(weapons_list[current_weapon].current_cooldown_time_ == 0)

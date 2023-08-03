@@ -46,18 +46,26 @@ public class SpawnScript : MonoBehaviour
     
     GameObject GenerateRandomEnemy()
     {
-        float random = Random.Range(0,50);
-        if(random <= 15)
-        {
-            return shield_enemy_object_prefab;
-        }
-        else if(random <= 49.9f)
+        float random = Random.Range(0,100);
+        if(random <= 40)
         {
             return standard_enemy_object_prefab;
         }
-        else
+        else if(random <= 59.9f)
         {
             return bomber_enemy_object_prefab;
+        }
+        else if(random <= 75)
+        {
+            return tank_enemy_object_prefab;
+        }
+        else if(random <= 90)
+        {
+            return shield_enemy_object_prefab;
+        }
+        else
+        {
+            return prize_enemy_object_prefab;
         }
     }
     

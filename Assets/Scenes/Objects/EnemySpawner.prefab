@@ -55,5 +55,5 @@ MonoBehaviour:
     type: 3}
   prize_enemy_object_prefab: {fileID: 3755692119605813486, guid: 64b417415be7cae45b0e238e8569698f,
     type: 3}
-  num_of_enimies_max: 0
+  num_of_enimies_max: 5
   border_limit: 7

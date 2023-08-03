@@ -46,6 +46,11 @@ public class EnemyScript : MonoBehaviour
             if(iframe_current > 0)
             {
                 iframe_current--;
+                GetComponent<SpriteRenderer>().color = Color.red;
+            }
+            else
+            {
+                GetComponent<SpriteRenderer>().color = Color.white;
             }
         }
         else
@@ -62,7 +67,7 @@ public class EnemyScript : MonoBehaviour
             //Debug.Log("NPC hit by bullet");
             if(coll.GetComponent<BulletScript>() == null)
             {
-                
+                //---WILL COME BACK TO
                 if(coll.GetComponent<GrenadeScript>().state_current == "state_exploding")
                 {
                     if(iframe_current <= 0)
