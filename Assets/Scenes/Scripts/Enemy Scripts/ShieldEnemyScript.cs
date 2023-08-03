@@ -26,10 +26,10 @@ public class ShieldEnemyScript : MonoBehaviour
     {
         //---instantiate vars for enemy script
         enemy_script = GetComponent<EnemyScript>();
-        enemy_script.enemy_health_current = enemy_max_health;
         points_worth = 75;
         enemy_script.points_worth = points_worth;
         enemy_max_health = 6;
+        enemy_script.enemy_health_current = enemy_max_health;
         force = 1;
         current_state = "state_moving";
         attack_time_max = 120;
@@ -41,7 +41,6 @@ public class ShieldEnemyScript : MonoBehaviour
     {
         if(enemy_script.game_state_playing == true)
         {
-            //Debug.Log(enemy_script.direction);
             //---calculate and set the enemy's direction 
             enemy_script.direction = (enemy_script.player_object.transform.position - transform.position);
             transform.up = enemy_script.direction;

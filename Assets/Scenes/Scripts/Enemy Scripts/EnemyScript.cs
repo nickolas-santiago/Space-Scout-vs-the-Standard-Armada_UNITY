@@ -73,7 +73,20 @@ public class EnemyScript : MonoBehaviour
             }
             else
             {
-                TakeDamage(coll.GetComponent<BulletScript>().damage);
+                if(GetComponent<ShieldEnemyScript>() != null)
+                {
+                    if((GetComponent<ShieldEnemyScript>().current_state == "state_moving") && (iframe_current <= 0))
+                    {
+                        TakeDamage(coll.GetComponent<BulletScript>().damage);
+                    }
+                }
+                else
+                {
+                    if(iframe_current <= 0)
+                    {
+                        TakeDamage(coll.GetComponent<BulletScript>().damage);
+                    }
+                }
                 Object.Destroy(coll.gameObject);
             }
         }
@@ -92,15 +105,24 @@ public class EnemyScript : MonoBehaviour
             //---if enemy is killed, remove it from game objects list...
             player_object.GetComponent<PlayerControls>().GenerateNewScore(points_worth);
             //---...decide if a powerup will be dropped...
-            float chane_to_drop_loot = Random.Range(0,5);
-            if(chane_to_drop_loot < 1)
-            {
-                Debug.Log("drop a powerup");
-                GameObject powerup_obj = Instantiate(powerup_object_prefab, transform.position, Quaternion.identity) as GameObject;
-                Debug.Log(powerup_obj);
-            }
+            GenerateChanceToDropLoot();
             //---...and destory the enemy
             Object.Destroy(this.gameObject);
+        }
+    }
+    private void GenerateChanceToDropLoot()
+    {
+        float chane_to_drop_loot = Random.Range(0,5);
+        float check = 1;
+        if(GetComponent<PrizeEnemyScript>() != null)
+        {
+            check = 5;
+        }
+        if(chane_to_drop_loot < check)
+        {
+            Debug.Log("drop a powerup");
+            GameObject powerup_obj = Instantiate(powerup_object_prefab, transform.position, Quaternion.identity) as GameObject;
+            Debug.Log(powerup_obj);
         }
     }
     

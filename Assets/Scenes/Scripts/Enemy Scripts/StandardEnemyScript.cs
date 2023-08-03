@@ -72,7 +72,7 @@ public class StandardEnemyScript : MonoBehaviour
             {
                 //---update the rigidbody's velocity with the caluculated direction and the public force
                 enemy_script.enemy_rigidbody.velocity = new Vector2(enemy_script.direction.x, enemy_script.direction.y).normalized * force;
-                Debug.Log(enemy_script.direction);
+                
                 //---every second after spawning, the enemy decides if it will shoot or not
                 if((enemy_script.time_alive % 60) == 0)
                 {
