@@ -99,6 +99,8 @@ public class PlayerControls : MonoBehaviour
         movement *= Time.deltaTime;
         transform.Translate(movement);
         
+        
+        
         //---set score modifier
         if(powerup_time_current_scoremultiplier > 0)
         {
@@ -111,6 +113,18 @@ public class PlayerControls : MonoBehaviour
         
         if(scene_object.GetComponent<SceneScript>().current_game_state == "game_state_playing")
         {
+            if(transform.position.x >= 7)
+            {
+                transform.position = new Vector2(6.5f, transform.position.y);
+            }
+            //---take pushback from damage
+            else if(damage_movement_time_current > 0)
+            {
+                damage_movement_time_current--;
+                transform.position = new Vector2((transform.position.x + (damage_movement_vector_per_frame.x/damage_movement_time_max)), (transform.position.y + (damage_movement_vector_per_frame.y/damage_movement_time_max)));
+            }
+            
+            
             mouse_pos = main_camera.ScreenToWorldPoint(Input.mousePosition);
             aim_direction = (mouse_pos - transform.position);
             if(current_weapon == 0 || current_weapon == 2)
@@ -121,12 +135,6 @@ public class PlayerControls : MonoBehaviour
             if(iframe_current > 0)
             {
                 iframe_current--;
-            }
-            //---take pushback from damage
-            if(damage_movement_time_current > 0)
-            {
-                damage_movement_time_current--;
-                transform.position = new Vector2((transform.position.x + (damage_movement_vector_per_frame.x/damage_movement_time_max)), (transform.position.y + (damage_movement_vector_per_frame.y/damage_movement_time_max)));
             }
             
             //---use the Q key to use a powerup

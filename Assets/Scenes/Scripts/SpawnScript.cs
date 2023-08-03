@@ -5,22 +5,62 @@ using UnityEngine;
 public class SpawnScript : MonoBehaviour
 {
     private GameObject scene_object;
+    public GameObject scene_script;
     public List<GameObject> enemy_object_list = new List<GameObject>();
     
-    public GameObject scene_script;
+    
     public GameObject standard_enemy_object_prefab;
     public GameObject bomber_enemy_object_prefab;
     public GameObject tank_enemy_object_prefab;
     public GameObject shield_enemy_object_prefab;
     public GameObject prize_enemy_object_prefab;
+    private List<GameObject> enemy_objects_list_all_types = new List<GameObject>();
+    
     private int delta_time;
     public int num_of_enimies_max;  
     public float border_limit; //---represents a border beyond the game's screen
     
+    
+    private int[] wave0 = {0, 0, 0, 0};
+    public class WaveClass
+    {
+        public int pNTSNW = 75;
+    }
+    
+    private int[][] jagged_array = new int[2][];
+    
+    
+    
+    private int wave_current = 0;
+    private int wave_size_max;
+    private int percentage_needed_to_spawn_next_wave;
+    public List<GameObject> enemy_object_list_current_wave = new List<GameObject>();
+    
     // Start is called before the first frame update
     void Start()
     {
-        scene_object = GameObject.FindGameObjectWithTag("GameController"); 
+        scene_object = GameObject.FindGameObjectWithTag("GameController");
+        
+        enemy_objects_list_all_types.Add(standard_enemy_object_prefab);
+        enemy_objects_list_all_types.Add(bomber_enemy_object_prefab);
+        enemy_objects_list_all_types.Add(tank_enemy_object_prefab);
+        enemy_objects_list_all_types.Add(shield_enemy_object_prefab);
+        enemy_objects_list_all_types.Add(prize_enemy_object_prefab);
+        
+        jagged_array[0] = new int[]{1, 2, 0};
+        jagged_array[1] = new int[]{0, 1, 1, 0, 0};
+        Debug.Log(jagged_array[0][0]);
+        Debug.Log(jagged_array[0][1]);
+        for(int nnn = 0; nnn < jagged_array.Length; nnn++)
+        {
+            Debug.Log(jagged_array[nnn]);
+        }
+        for(int nnn = 0; nnn < jagged_array[0].Length; nnn++)
+        {
+            Debug.Log(jagged_array[0][nnn]);
+            Debug.Log(enemy_objects_list_all_types[jagged_array[0][nnn]]);
+        }
+        GenerateWave();
     }
 
     // Update is called once per frame
@@ -32,7 +72,7 @@ public class SpawnScript : MonoBehaviour
             if((delta_time % 60 == 0) && (enemy_object_list.Count < num_of_enimies_max))
             {
                 //---take a chance to spawn an enemy_object
-                int chane_to_spawn = Random.Range(0,100);
+                /*int chane_to_spawn = Random.Range(0,100);
                 {
                     if(chane_to_spawn <= 35)
                     {
@@ -40,7 +80,14 @@ public class SpawnScript : MonoBehaviour
                         enemy_object_list.Add(an_enemy);
                     }
                 }
+                */
             }
+            
+            //---WAVE TYPE A
+            /*if(enemy_object_list_current_wave.Count <= 1)
+            {
+                Debug.Log("spawn next wave");
+            }*/
         }
     }
     
@@ -68,6 +115,7 @@ public class SpawnScript : MonoBehaviour
             return prize_enemy_object_prefab;
         }
     }
+    
     
     //---this function will generate the enemy's position on the screen
     Vector2 GenerateRandomPosition()
@@ -102,4 +150,22 @@ public class SpawnScript : MonoBehaviour
         }
         return enemy_pos;
     }
+    
+    
+    private void GenerateWave()
+    {
+        /*for(int enemy_to_spawn = 0; enemy_to_spawn < enemies_to_spawn_references.Length; enemy_to_spawn++)
+        {
+           // GameObject an_enemy = Instantiate(enemy_objects_list_all_types[enemies_to_spawn_references[enemy_to_spawn]], GenerateRandomPosition(), Quaternion.identity) as GameObject;
+            //enemy_object_list_current_wave.Add(an_enemy);
+        }
+        wave_size_max = enemies_to_spawn_references.Length;
+        */
+        for(int nn = 0; nn < jagged_array[wave_current].Length; nn++)
+        {
+            GameObject an_enemy = Instantiate(enemy_objects_list_all_types[jagged_array[wave_current][nn]], GenerateRandomPosition(), Quaternion.identity) as GameObject;
+            enemy_object_list_current_wave.Add(an_enemy);
+        }
+    }
+    
 }

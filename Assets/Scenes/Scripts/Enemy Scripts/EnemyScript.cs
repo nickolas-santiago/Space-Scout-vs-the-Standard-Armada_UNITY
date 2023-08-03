@@ -133,7 +133,7 @@ public class EnemyScript : MonoBehaviour
     
     private void OnDestroy()
     {
-        spawner_object.GetComponent<SpawnScript>().enemy_object_list.Remove(this.gameObject);
+        spawner_object.GetComponent<SpawnScript>().enemy_object_list_current_wave.Remove(this.gameObject);
     }
     
 }
