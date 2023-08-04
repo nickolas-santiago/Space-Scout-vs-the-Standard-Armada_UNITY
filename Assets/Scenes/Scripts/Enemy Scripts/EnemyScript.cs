@@ -7,6 +7,7 @@ public class EnemyScript : MonoBehaviour
     public Vector2 direction;
     
     public GameObject spawner_object;
+    public bool part_of_current_wave;
     public GameObject powerup_object_prefab;
     private GameObject scene_object;
     public bool game_state_playing;
@@ -133,7 +134,14 @@ public class EnemyScript : MonoBehaviour
     
     private void OnDestroy()
     {
-        spawner_object.GetComponent<SpawnScript>().enemy_object_list_current_wave.Remove(this.gameObject);
+        if(part_of_current_wave == true)
+        {
+            spawner_object.GetComponent<SpawnScript>().enemy_object_list_current_wave.Remove(this.gameObject);
+        }
+        else
+        {
+            spawner_object.GetComponent<SpawnScript>().enemy_object_list.Remove(this.gameObject);
+        }
     }
     
 }
