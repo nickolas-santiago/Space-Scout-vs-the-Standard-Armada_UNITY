@@ -158,11 +158,7 @@ public class SceneScript : MonoBehaviour
         }
         //---change the game state
         current_game_state = "game_state_menu";
-        //---destroy all game objects, enemies first
-        for(int enemy_object = 0; enemy_object < enemy_spawner_obj.GetComponent<SpawnScript>().enemy_object_list.Count; enemy_object++)
-        {
-            Destroy(enemy_spawner_obj.GetComponent<SpawnScript>().enemy_object_list[enemy_object]);
-        }
+        //---destroy all game objects
         for(int game_object_ = (game_objects_list.Count - 1); game_object_ >= 0; game_object_--)
         {
             GameObject obj = game_objects_list[game_object_];

@@ -52,7 +52,6 @@ public class SpawnScript : MonoBehaviour
         if(scene_object.GetComponent<SceneScript>().current_game_state == "game_state_playing")
         {
             delta_time++;
-                Debug.Log((enemy_object_list_current_wave.Count));
             if((delta_time % 60 == 0) && (enemy_object_list.Count < num_of_enimies_max))
             {
                 //---take a chance to spawn an enemy_object
@@ -68,9 +67,10 @@ public class SpawnScript : MonoBehaviour
             }
             
             //---WAVE TYPE A
-            if(enemy_object_list_current_wave.Count <= (wave_size_max - (wave_size_max * (percentage_needed_to_spawn_next_wave * 0.01))))
+            if((wave_current < (waves_array.Length - 1)) &&  (enemy_object_list_current_wave.Count <= (wave_size_max - (wave_size_max * (percentage_needed_to_spawn_next_wave * 0.01)))))
             {
-                GenerateWave(0);
+                wave_current++;
+                GenerateWave(wave_current);
             }
         }
     }
@@ -99,7 +99,6 @@ public class SpawnScript : MonoBehaviour
             return prize_enemy_object_prefab;
         }
     }
-    
     
     //---this function will generate the enemy's position on the screen
     Vector2 GenerateRandomPosition()
@@ -135,13 +134,12 @@ public class SpawnScript : MonoBehaviour
         return enemy_pos;
     }
     
-    
     private void GenerateWave(int wave_to_generate_)
     {
-        for(int current_enemy = 0; current_enemy < enemy_object_list_current_wave.Count; current_enemy++)
+        foreach (GameObject enemy_to_move in enemy_object_list_current_wave)
         {
-            enemy_object_list_current_wave[current_enemy].GetComponent<EnemyScript>().part_of_current_wave = false;
-            enemy_object_list.Add(enemy_object_list_current_wave[current_enemy]);
+            enemy_to_move.GetComponent<EnemyScript>().part_of_current_wave = false;
+            enemy_object_list.Add(enemy_to_move);
         }
         enemy_object_list_current_wave.Clear();
         for(int current_enemy_new = 0; current_enemy_new < waves_array[wave_to_generate_].Length; current_enemy_new++)
@@ -152,5 +150,17 @@ public class SpawnScript : MonoBehaviour
         }
         wave_size_max = waves_array[wave_to_generate_].Length;
         percentage_needed_to_spawn_next_wave = percentage_needed_to_spawn_next_wave_array[wave_to_generate_];
+    }
+    
+    private void OnDestroy()
+    {
+        foreach (GameObject enemy_to_destroy in enemy_object_list_current_wave)
+        {
+            Destroy(enemy_to_destroy);
+        }
+        foreach (GameObject enemy_to_destroy in enemy_object_list)
+        {
+            Destroy(enemy_to_destroy);
+        }
     }
 }
