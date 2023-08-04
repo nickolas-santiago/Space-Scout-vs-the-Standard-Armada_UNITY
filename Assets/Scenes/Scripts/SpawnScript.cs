@@ -5,10 +5,8 @@ using UnityEngine;
 public class SpawnScript : MonoBehaviour
 {
     private GameObject scene_object;
-    public GameObject scene_script;
-    public List<GameObject> enemy_object_list = new List<GameObject>();
     
-    
+    //---declare all enemy tpypes that can spawn
     public GameObject standard_enemy_object_prefab;
     public GameObject bomber_enemy_object_prefab;
     public GameObject tank_enemy_object_prefab;
@@ -16,33 +14,75 @@ public class SpawnScript : MonoBehaviour
     public GameObject prize_enemy_object_prefab;
     private List<GameObject> enemy_objects_list_all_types = new List<GameObject>();
     
-    private int delta_time;
-    public int num_of_enimies_max;  
-    public float border_limit; //---represents a border beyond the game's screen
-    
     //---for setting up waves
-    private int[][] waves_array = new int[2][];
-    private int[] percentage_needed_to_spawn_next_wave_array = new int[2];
+    private int[][] waves_array = new int[21][];
+    private int[] percentage_needed_to_spawn_next_wave_array = new int[21];
     private int wave_current = 0;
     private int wave_size_max;
     private int percentage_needed_to_spawn_next_wave;
     public List<GameObject> enemy_object_list_current_wave = new List<GameObject>();
+    public List<GameObject> enemy_object_list = new List<GameObject>();
+    
+    private int delta_time;
+    public int num_of_enimies_max;  
+    public float border_limit; //---represents a border beyond the game's screen
     
     // Start is called before the first frame update
     void Start()
     {
         scene_object = GameObject.FindGameObjectWithTag("GameController");
         
+        //---add all enemy types to a list
         enemy_objects_list_all_types.Add(standard_enemy_object_prefab);
         enemy_objects_list_all_types.Add(bomber_enemy_object_prefab);
         enemy_objects_list_all_types.Add(tank_enemy_object_prefab);
         enemy_objects_list_all_types.Add(shield_enemy_object_prefab);
         enemy_objects_list_all_types.Add(prize_enemy_object_prefab);
         
+        //---initiate the waves
         waves_array[0] = new int[]{0, 0, 0, 0};
-        percentage_needed_to_spawn_next_wave_array[0] = 50;
-        waves_array[1] = new int[]{0, 1, 1, 0, 0};
-        percentage_needed_to_spawn_next_wave_array[1] = 50;
+        percentage_needed_to_spawn_next_wave_array[0] = 75;
+        waves_array[1] = new int[]{0, 1, 0};
+        percentage_needed_to_spawn_next_wave_array[1] = 60;
+        waves_array[2] = new int[]{0, 0, 0};
+        percentage_needed_to_spawn_next_wave_array[2] = 60;
+        waves_array[3] = new int[]{0, 0, 0};
+        percentage_needed_to_spawn_next_wave_array[3] = 30;
+        waves_array[4] = new int[]{1, 1};
+        percentage_needed_to_spawn_next_wave_array[4] = 100;
+        waves_array[5] = new int[]{1, 1};
+        percentage_needed_to_spawn_next_wave_array[5] = 100;
+        waves_array[6] = new int[]{0, 0, 0, 2};
+        percentage_needed_to_spawn_next_wave_array[6] = 100;
+        waves_array[7] = new int[]{2, 2};
+        percentage_needed_to_spawn_next_wave_array[7] = 50;
+        waves_array[8] = new int[]{0, 0, 0};
+        percentage_needed_to_spawn_next_wave_array[8] = 60;
+        waves_array[9] = new int[]{1, 1, 0, 0, 2};
+        percentage_needed_to_spawn_next_wave_array[9] = 40;
+        waves_array[10] = new int[]{1, 1};
+        percentage_needed_to_spawn_next_wave_array[10] = 100;
+        waves_array[11] = new int[]{2, 2};
+        percentage_needed_to_spawn_next_wave_array[11] = 50;
+        waves_array[12] = new int[]{0, 0};
+        percentage_needed_to_spawn_next_wave_array[12] = 50;
+        waves_array[13] = new int[]{0, 0};
+        percentage_needed_to_spawn_next_wave_array[13] = 100;
+        waves_array[14] = new int[]{0, 0};
+        percentage_needed_to_spawn_next_wave_array[14] = 100;
+        waves_array[15] = new int[]{1, 1, 3};
+        percentage_needed_to_spawn_next_wave_array[15] = 100;
+        waves_array[16] = new int[]{3, 3};
+        percentage_needed_to_spawn_next_wave_array[16] = 100;
+        waves_array[17] = new int[]{0, 0, 1, 3};
+        percentage_needed_to_spawn_next_wave_array[17] = 75;
+        waves_array[18] = new int[]{0, 0, 0, 0, 4};
+        percentage_needed_to_spawn_next_wave_array[18] = 40;
+        waves_array[19] = new int[]{2, 2};
+        percentage_needed_to_spawn_next_wave_array[19] = 50;
+        waves_array[20] = new int[]{0, 1, 0};
+        percentage_needed_to_spawn_next_wave_array[20] = 60;
+        
         GenerateWave(0);
     }
 
