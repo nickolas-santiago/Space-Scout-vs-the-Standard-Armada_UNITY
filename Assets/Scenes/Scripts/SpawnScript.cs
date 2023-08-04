@@ -92,10 +92,10 @@ public class SpawnScript : MonoBehaviour
         if(scene_object.GetComponent<SceneScript>().current_game_state == "game_state_playing")
         {
             delta_time++;
-            if((delta_time % 60 == 0) && (enemy_object_list.Count < num_of_enimies_max))
+            /*if((delta_time % 60 == 0) && (enemy_object_list.Count < num_of_enimies_max))
             {
                 //---take a chance to spawn an enemy_object
-                /*int chane_to_spawn = Random.Range(0,100);
+                int chane_to_spawn = Random.Range(0,100);
                 {
                     if(chane_to_spawn <= 35)
                     {
@@ -103,14 +103,21 @@ public class SpawnScript : MonoBehaviour
                         enemy_object_list.Add(an_enemy);
                     }
                 }
-                */
-            }
+                * /
+            }*/
             
             //---WAVE TYPE A
-            if((wave_current < (waves_array.Length - 1)) &&  (enemy_object_list_current_wave.Count <= (wave_size_max - (wave_size_max * (percentage_needed_to_spawn_next_wave * 0.01)))))
+            if(delta_time % 45 == 0)
             {
-                wave_current++;
-                GenerateWave(wave_current);
+                if((wave_current < (waves_array.Length - 1)) &&  (enemy_object_list_current_wave.Count <= (wave_size_max - (wave_size_max * (percentage_needed_to_spawn_next_wave * 0.01)))))
+                {
+                    int chane_to_spawn = Random.Range(0,100);
+                    if(chane_to_spawn <= 35)
+                    {
+                        wave_current++;
+                        GenerateWave(wave_current);
+                    }
+                }
             }
         }
     }
