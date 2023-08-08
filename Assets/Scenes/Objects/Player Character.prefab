@@ -184,7 +184,11 @@ MonoBehaviour:
   powerup_current: 
   speedx: 12.5
   speedy: 12.5
+  border_limit_x: 0
+  border_limit_y: 0
   projectile_prefab: {fileID: 7501979095678634194, guid: 8238eff422bbc534d9610a607553e5f0,
+    type: 3}
+  multishot_prefab: {fileID: 1353512158593897370, guid: d050577da0acd2040b3e900339f1095c,
     type: 3}
   grenade_prefab: {fileID: 8329459761569515438, guid: 0f66c765f2e2b3345b5856958c967fca,
     type: 3}

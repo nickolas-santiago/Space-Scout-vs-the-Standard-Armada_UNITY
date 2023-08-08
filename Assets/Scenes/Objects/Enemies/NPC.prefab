@@ -76,7 +76,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d8236aebd08e14a9e05e085dcda631, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  force: 1
+  force: 3
   enemy_max_health: 2
   sprite_damaged: {fileID: 0}
   points_worth: 0

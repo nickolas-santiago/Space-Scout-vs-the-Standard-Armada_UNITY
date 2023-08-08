@@ -5899,6 +5899,8 @@ MonoBehaviour:
     type: 3}
   enemy_spawner_object_prefab: {fileID: 7699986322062203091, guid: 05b4e62639a91774cba915021bd0238b,
     type: 3}
+  screen_limit_x: 25
+  screen_limit_y: 20
 --- !u!1001 &2491566501772615846
 PrefabInstance:
   m_ObjectHideFlags: 0

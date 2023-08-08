@@ -33,6 +33,7 @@ public class PlayerControls : MonoBehaviour
     
     //---set some vars for shooting
     public GameObject projectile_prefab;
+    public GameObject multishot_prefab;
     public GameObject grenade_prefab;
     GameObject myPJ;
     //---set the variables used for controlling bullet direction and speed
@@ -108,7 +109,6 @@ public class PlayerControls : MonoBehaviour
         transform.Translate(movement);
         
         
-        
         //---set score modifier
         if(powerup_time_current_scoremultiplier > 0)
         {
@@ -144,18 +144,15 @@ public class PlayerControls : MonoBehaviour
                 transform.position = new Vector2((transform.position.x + (damage_movement_vector_per_frame.x/damage_movement_time_max)), (transform.position.y + (damage_movement_vector_per_frame.y/damage_movement_time_max)));
             }
             
-            
+            //---rotate gun
             mouse_pos = main_camera.ScreenToWorldPoint(Input.mousePosition);
             aim_direction = (mouse_pos - transform.position);
             if(current_weapon == 0 || current_weapon == 2)
             {
                 Debug.DrawLine(transform.position, mouse_pos, Color.red);
             }
-            
             float angle = Mathf.Atan2(transform.position.y - mouse_pos.y, transform.position.x - mouse_pos.x) * Mathf.Rad2Deg;
             gameObject.transform.GetChild(0).gameObject.transform.rotation = Quaternion.Euler (new Vector3(0f,0f,angle));
-            
-            
             
             //---update iframes/health
             if(iframe_current > 0)
@@ -211,7 +208,7 @@ public class PlayerControls : MonoBehaviour
                     {
                         float anglenn = angle + 90f;
                         //myPJ = Instantiate(projectile_prefab, transform.position, anglenn) as GameObject;
-                        myPJ = Instantiate(projectile_prefab, transform.position, Quaternion.Euler (new Vector3(0f,0f,angle + 90))) as GameObject;
+                        myPJ = Instantiate(projectile_prefab, transform.position, Quaternion.Euler(new Vector3(0f, 0f, (angle + 90)))) as GameObject;
                         myPJ.GetComponent<BulletScript>().direction = aim_direction;
                         myPJ.GetComponent<BulletScript>().damage = weapons_list[current_weapon].weapon_damage_;
                     }
@@ -219,7 +216,7 @@ public class PlayerControls : MonoBehaviour
                     {
                         for(int shot = -1; shot <= 1; shot++)
                         {
-                            myPJ = Instantiate(projectile_prefab, transform.position, Quaternion.identity) as GameObject;
+                            myPJ = Instantiate(multishot_prefab, transform.position, Quaternion.Euler(new Vector3(0f, 0f, (angle + 90 + ((float)shot * 30f))))) as GameObject;
                             float shot_float = ((float)shot * 30f);
                             Vector3 shot_dir = (Quaternion.Euler(0f, 0f, shot_float) * aim_direction);
                             Vector3 newpoint_pos = (transform.position + shot_dir);
