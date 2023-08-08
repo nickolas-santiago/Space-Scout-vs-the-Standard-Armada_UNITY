@@ -27,6 +27,8 @@ public class PlayerControls : MonoBehaviour
     //---set the public variables for player speed
     public float speedx = 25;
     public float speedy = 25;
+    public float border_limit_x; //---represents a border beyond the game's screen
+    public float border_limit_y; //---represents a border beyond the game's screen
     
     
     //---set some vars for shooting
@@ -66,6 +68,9 @@ public class PlayerControls : MonoBehaviour
     {
         game_hud_object = GameObject.FindGameObjectWithTag("GameHUD");
         scene_object = GameObject.FindGameObjectWithTag("GameController");
+        border_limit_x = scene_object.GetComponent<SceneScript>().screen_limit_x;
+        border_limit_y = scene_object.GetComponent<SceneScript>().screen_limit_y;
+        main_camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>() as Camera;
         //---health inits
         health_current = health_max = 3;
         iframe_max = 100;
@@ -85,6 +90,9 @@ public class PlayerControls : MonoBehaviour
         current_weapon = 0;
         //---weapon cooldown inits
         supercooldown_time_max = 7;
+        
+        
+        Debug.Log(gameObject.transform.GetChild(0).gameObject);
     }
 
     // Update is called once per frame
@@ -113,12 +121,24 @@ public class PlayerControls : MonoBehaviour
         
         if(scene_object.GetComponent<SceneScript>().current_game_state == "game_state_playing")
         {
-            if(transform.position.x >= 7)
+            if(transform.position.x > border_limit_x)
             {
-                transform.position = new Vector2(6.5f, transform.position.y);
+                transform.position = new Vector2(border_limit_x, transform.position.y);
+            }
+            if(transform.position.x < (border_limit_x * -1))
+            {
+                transform.position = new Vector2((border_limit_x * -1), transform.position.y);
+            }
+            if(transform.position.y > border_limit_y)
+            {
+                transform.position = new Vector2(transform.position.x, border_limit_y);
+            }
+            if(transform.position.y < (border_limit_y * -1))
+            {
+                transform.position = new Vector2(transform.position.x, (border_limit_y * -1));
             }
             //---take pushback from damage
-            else if(damage_movement_time_current > 0)
+            if(damage_movement_time_current > 0)
             {
                 damage_movement_time_current--;
                 transform.position = new Vector2((transform.position.x + (damage_movement_vector_per_frame.x/damage_movement_time_max)), (transform.position.y + (damage_movement_vector_per_frame.y/damage_movement_time_max)));
@@ -131,6 +151,12 @@ public class PlayerControls : MonoBehaviour
             {
                 Debug.DrawLine(transform.position, mouse_pos, Color.red);
             }
+            
+            float angle = Mathf.Atan2(transform.position.y - mouse_pos.y, transform.position.x - mouse_pos.x) * Mathf.Rad2Deg;
+            gameObject.transform.GetChild(0).gameObject.transform.rotation = Quaternion.Euler (new Vector3(0f,0f,angle));
+            
+            
+            
             //---update iframes/health
             if(iframe_current > 0)
             {
@@ -183,7 +209,9 @@ public class PlayerControls : MonoBehaviour
                 {
                     if(weapons_list[current_weapon].weapon_name_ == "standard")
                     {
-                        myPJ = Instantiate(projectile_prefab, transform.position, Quaternion.identity) as GameObject;
+                        float anglenn = angle + 90f;
+                        //myPJ = Instantiate(projectile_prefab, transform.position, anglenn) as GameObject;
+                        myPJ = Instantiate(projectile_prefab, transform.position, Quaternion.Euler (new Vector3(0f,0f,angle + 90))) as GameObject;
                         myPJ.GetComponent<BulletScript>().direction = aim_direction;
                         myPJ.GetComponent<BulletScript>().damage = weapons_list[current_weapon].weapon_damage_;
                     }

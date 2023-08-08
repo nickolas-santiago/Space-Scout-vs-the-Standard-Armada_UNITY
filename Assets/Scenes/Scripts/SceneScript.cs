@@ -25,6 +25,9 @@ public class SceneScript : MonoBehaviour
     public GameObject enemy_spawner_object_prefab;
     GameObject enemy_spawner_obj;
     
+    public int screen_limit_x = 25;
+    public int screen_limit_y = 20;
+    
     // Start is called before the first frame update
     void Start()
     {

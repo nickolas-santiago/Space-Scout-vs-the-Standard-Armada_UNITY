@@ -5,6 +5,8 @@ using UnityEngine;
 public class SpawnScript : MonoBehaviour
 {
     private GameObject scene_object;
+    public float border_limit_x; //---represents a border beyond the game's screen
+    public float border_limit_y; //---represents a border beyond the game's screen
     
     //---declare all enemy tpypes that can spawn
     public GameObject standard_enemy_object_prefab;
@@ -24,13 +26,14 @@ public class SpawnScript : MonoBehaviour
     public List<GameObject> enemy_object_list = new List<GameObject>();
     
     private int delta_time;
-    public int num_of_enimies_max;  
-    public float border_limit; //---represents a border beyond the game's screen
+    public int num_of_enimies_max;
     
     // Start is called before the first frame update
     void Start()
     {
         scene_object = GameObject.FindGameObjectWithTag("GameController");
+        border_limit_x = (scene_object.GetComponent<SceneScript>().screen_limit_x + 1);
+        border_limit_y = (scene_object.GetComponent<SceneScript>().screen_limit_y + 1);
         
         //---add all enemy types to a list
         enemy_objects_list_all_types.Add(standard_enemy_object_prefab);
@@ -155,27 +158,27 @@ public class SpawnScript : MonoBehaviour
         //---options 0 and 2 represent the top and bottom respectively
         if((which_side_to_spawn == 0) || (which_side_to_spawn == 2))
         {
-            enemy_pos.x = Random.Range((border_limit * -1), border_limit);
+            enemy_pos.x = Random.Range((border_limit_x * -1), border_limit_y);
             if(which_side_to_spawn == 0)
             {
-                enemy_pos.y = border_limit;
+                enemy_pos.y = border_limit_y;
             }
             else
             {
-                enemy_pos.y = (border_limit * -1);
+                enemy_pos.y = (border_limit_y * -1);
             }
         }
         //---options 1 and 3 represent the right and left respectively
         else
         {
-            enemy_pos.y = Random.Range((border_limit * -1), border_limit);
+            enemy_pos.y = Random.Range((border_limit_x * -1), border_limit_y);
             if(which_side_to_spawn == 1)
             {
-                enemy_pos.x = border_limit;
+                enemy_pos.x = border_limit_x;
             }
             else
             {
-                enemy_pos.x = (border_limit * -1);
+                enemy_pos.x = (border_limit_x * -1);
             }
         }
         return enemy_pos;
