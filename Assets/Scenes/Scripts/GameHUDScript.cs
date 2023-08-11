@@ -23,14 +23,20 @@ public class GameHUDScript : MonoBehaviour
     public GameObject ui_image_powerup_case;
     public GameObject ui_image_powerup;
     public GameObject ui_image_powerup_glass;
-    private int powerup_diff_time_in_frames = 20; //---the time in frames it takes to get fromn one state to the other
+    private int powerup_diff_time_in_frames = 10; //---the time in frames it takes to get fromn one state to the other
     private string powerup_state_current;
-    private float powerup_scale_max = 1f;
-    private float powerup_scale_min = 0.6f;
-    private float powerup_scale_diff_per_frame;
-    private float powerup_alpha_max = 0.6f;
-    private float powerup_alpha_min = 0.3f;
-    private float powerup_alpha_diff_per_frame;
+    //---declarations for the powerup casing
+    private float powerup_casing_scale_max = 1f;
+    private float powerup_casing_scale_min = 0.6f;
+    private float powerup_casing_scale_diff_per_frame;
+    private float powerup_casing_alpha_max = 0.6f;
+    private float powerup_casing_alpha_min = 0.3f;
+    private float powerup_casing_alpha_diff_per_frame;
+    //---declarations for the powerup image
+    private float powerup_image_scale_max = 1f;
+    private float powerup_image_alpha_max = 1f;
+    private float powerup_image_scale_diff_per_frame;
+    private float powerup_image_alpha_diff_per_frame;
     
     //---weapon declarations
     //---weapon choice declarations
@@ -69,14 +75,17 @@ public class GameHUDScript : MonoBehaviour
         }
         //---score assignments
         ui_text_score = GameObject.FindGameObjectWithTag("UITextScore");
+        
         //---powerup assignments
-        //Debug.Log(ui_image_powerup.GetComponent<Image>().sprite);
-        powerup_scale_diff_per_frame = ((powerup_scale_max - powerup_scale_min)/powerup_diff_time_in_frames);
-        powerup_alpha_diff_per_frame = ((powerup_alpha_max - powerup_alpha_min)/powerup_diff_time_in_frames);
-        Debug.Log(powerup_alpha_diff_per_frame);
-        ui_image_powerup_case.GetComponent<Image>().GetComponent<RectTransform>().localScale = new Vector3(powerup_scale_min, powerup_scale_min, 1f);
-        ui_image_powerup_glass.GetComponent<Image>().GetComponent<RectTransform>().localScale = new Vector3(powerup_scale_min, powerup_scale_min, 1f);
-        Debug.Log(powerup_scale_diff_per_frame);
+        powerup_casing_scale_diff_per_frame = ((powerup_casing_scale_max - powerup_casing_scale_min)/powerup_diff_time_in_frames);
+        powerup_casing_alpha_diff_per_frame = ((powerup_casing_alpha_max - powerup_casing_alpha_min)/powerup_diff_time_in_frames);
+        powerup_image_scale_diff_per_frame = (powerup_image_scale_max/powerup_diff_time_in_frames);
+        powerup_image_alpha_diff_per_frame = (powerup_image_alpha_max/powerup_diff_time_in_frames);
+        ui_image_powerup_case.GetComponent<Image>().GetComponent<RectTransform>().localScale = new Vector3(powerup_casing_scale_min, powerup_casing_scale_min, 1f);
+        ui_image_powerup.GetComponent<Image>().GetComponent<RectTransform>().localScale = new Vector3(0f, 0f, 1f);
+        ui_image_powerup.GetComponent<Image>().GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
+        ui_image_powerup_glass.GetComponent<Image>().GetComponent<RectTransform>().localScale = new Vector3(powerup_casing_scale_min, powerup_casing_scale_min, 1f);
+        
         //---weapons assignments
         //---weapon choices assignments
         ui_scale_for_current_weapon = 2f;
@@ -102,38 +111,48 @@ public class GameHUDScript : MonoBehaviour
         //---updates for powerups
         if(powerup_state_current == "powerup_indicator_activating")
         {
+            //---increase the powerup casing layer's size and visibility when a powerup is picked up
+            ui_image_powerup_case.GetComponent<Image>().GetComponent<RectTransform>().localScale = new Vector3((ui_image_powerup_case.GetComponent<Image>().GetComponent<RectTransform>().localScale.x + powerup_casing_scale_diff_per_frame), (ui_image_powerup_case.GetComponent<Image>().GetComponent<RectTransform>().localScale.y + powerup_casing_scale_diff_per_frame), 1f);
+            ui_image_powerup_case.GetComponent<Image>().GetComponent<Image>().color = new Color(1f, 1f, 1f, (ui_image_powerup_case.GetComponent<Image>().color.a + powerup_casing_alpha_diff_per_frame));
             //---increase the powerup image's size when a powerup is picked up
-            ui_image_powerup_case.GetComponent<Image>().GetComponent<RectTransform>().localScale = new Vector3((ui_image_powerup_case.GetComponent<Image>().GetComponent<RectTransform>().localScale.x + powerup_scale_diff_per_frame), (ui_image_powerup_case.GetComponent<Image>().GetComponent<RectTransform>().localScale.y + powerup_scale_diff_per_frame), 1f);
-            ui_image_powerup_case.GetComponent<Image>().GetComponent<Image>().color = new Color(1f, 1f, 1f, (ui_image_powerup_case.GetComponent<Image>().color.a + powerup_alpha_diff_per_frame));
-            ui_image_powerup_glass.GetComponent<Image>().GetComponent<RectTransform>().localScale = new Vector3((ui_image_powerup_glass.GetComponent<Image>().GetComponent<RectTransform>().localScale.x + powerup_scale_diff_per_frame), (ui_image_powerup_glass.GetComponent<Image>().GetComponent<RectTransform>().localScale.y + powerup_scale_diff_per_frame), 1f);
-            ui_image_powerup_glass.GetComponent<Image>().GetComponent<Image>().color = new Color(1f, 1f, 1f, (ui_image_powerup_glass.GetComponent<Image>().color.a + powerup_alpha_diff_per_frame));
-            Debug.Log(ui_image_powerup_case.GetComponent<Image>().GetComponent<Image>().color.a);
-            if(ui_image_powerup_case.GetComponent<Image>().GetComponent<RectTransform>().localScale.x >= powerup_scale_max)
+            ui_image_powerup.GetComponent<Image>().GetComponent<RectTransform>().localScale = new Vector3((ui_image_powerup.GetComponent<Image>().GetComponent<RectTransform>().localScale.x + powerup_image_scale_diff_per_frame), (ui_image_powerup.GetComponent<Image>().GetComponent<RectTransform>().localScale.y + powerup_image_scale_diff_per_frame), 1f);
+            ui_image_powerup.GetComponent<Image>().GetComponent<Image>().color = new Color(1f, 1f, 1f, (ui_image_powerup.GetComponent<Image>().color.a + powerup_image_alpha_diff_per_frame));
+            //---increase the powerup glass layer's size and visibility when a powerup is picked up
+            ui_image_powerup_glass.GetComponent<Image>().GetComponent<RectTransform>().localScale = new Vector3((ui_image_powerup_glass.GetComponent<Image>().GetComponent<RectTransform>().localScale.x + powerup_casing_scale_diff_per_frame), (ui_image_powerup_glass.GetComponent<Image>().GetComponent<RectTransform>().localScale.y + powerup_casing_scale_diff_per_frame), 1f);
+            ui_image_powerup_glass.GetComponent<Image>().GetComponent<Image>().color = new Color(1f, 1f, 1f, (ui_image_powerup_glass.GetComponent<Image>().color.a + powerup_casing_alpha_diff_per_frame));
+            
+            if(ui_image_powerup_case.GetComponent<Image>().GetComponent<RectTransform>().localScale.x >= powerup_casing_scale_max)
             {
-                ui_image_powerup_case.GetComponent<Image>().GetComponent<RectTransform>().localScale = new Vector3(powerup_scale_max, powerup_scale_max, 1f);
-                ui_image_powerup_case.GetComponent<Image>().GetComponent<Image>().color = new Color(1f, 1f, 1f, powerup_alpha_max);
-                ui_image_powerup_glass.GetComponent<Image>().GetComponent<RectTransform>().localScale = new Vector3(powerup_scale_max, powerup_scale_max, 1f);
-                ui_image_powerup_glass.GetComponent<Image>().GetComponent<Image>().color = new Color(1f, 1f, 1f, powerup_alpha_max);
+                ui_image_powerup_case.GetComponent<Image>().GetComponent<RectTransform>().localScale = new Vector3(powerup_casing_scale_max, powerup_casing_scale_max, 1f);
+                ui_image_powerup_case.GetComponent<Image>().GetComponent<Image>().color = new Color(1f, 1f, 1f, powerup_casing_alpha_max);
+                ui_image_powerup_glass.GetComponent<Image>().GetComponent<RectTransform>().localScale = new Vector3(powerup_casing_scale_max, powerup_casing_scale_max, 1f);
+                ui_image_powerup_glass.GetComponent<Image>().GetComponent<Image>().color = new Color(1f, 1f, 1f, powerup_casing_alpha_max);
                 powerup_state_current = "";
             }
         }
         else if(powerup_state_current == "powerup_indicator_deactivating")
         {
-            //---decrease the powerup image's size when a powerup is used
-            ui_image_powerup_case.GetComponent<Image>().GetComponent<RectTransform>().localScale = new Vector3((ui_image_powerup_case.GetComponent<Image>().GetComponent<RectTransform>().localScale.x - powerup_scale_diff_per_frame), (ui_image_powerup_case.GetComponent<Image>().GetComponent<RectTransform>().localScale.y - powerup_scale_diff_per_frame), 1f);
-            ui_image_powerup_case.GetComponent<Image>().GetComponent<Image>().color = new Color(1f, 1f, 1f, (ui_image_powerup_case.GetComponent<Image>().color.a - powerup_alpha_diff_per_frame));
-            ui_image_powerup_glass.GetComponent<Image>().GetComponent<RectTransform>().localScale = new Vector3((ui_image_powerup_glass.GetComponent<Image>().GetComponent<RectTransform>().localScale.x - powerup_scale_diff_per_frame), (ui_image_powerup_glass.GetComponent<Image>().GetComponent<RectTransform>().localScale.y - powerup_scale_diff_per_frame), 1f);
-            ui_image_powerup_glass.GetComponent<Image>().GetComponent<Image>().color = new Color(1f, 1f, 1f, (ui_image_powerup_glass.GetComponent<Image>().color.a - powerup_alpha_diff_per_frame));
-            if(ui_image_powerup_case.GetComponent<Image>().GetComponent<RectTransform>().localScale.x <= powerup_scale_min)
+            //---decrease the powerup casing layer's size and visibility when a powerup is used
+            ui_image_powerup_case.GetComponent<Image>().GetComponent<RectTransform>().localScale = new Vector3((ui_image_powerup_case.GetComponent<Image>().GetComponent<RectTransform>().localScale.x - powerup_casing_scale_diff_per_frame), (ui_image_powerup_case.GetComponent<Image>().GetComponent<RectTransform>().localScale.y - powerup_casing_scale_diff_per_frame), 1f);
+            ui_image_powerup_case.GetComponent<Image>().GetComponent<Image>().color = new Color(1f, 1f, 1f, (ui_image_powerup_case.GetComponent<Image>().color.a - powerup_casing_alpha_diff_per_frame));
+            //---decrease the powerup image's size and visibility when a powerup is used
+            ui_image_powerup.GetComponent<Image>().GetComponent<RectTransform>().localScale = new Vector3((ui_image_powerup.GetComponent<Image>().GetComponent<RectTransform>().localScale.x - powerup_image_scale_diff_per_frame), (ui_image_powerup.GetComponent<Image>().GetComponent<RectTransform>().localScale.y - powerup_image_scale_diff_per_frame), 1f);
+            ui_image_powerup.GetComponent<Image>().GetComponent<Image>().color = new Color(1f, 1f, 1f, (ui_image_powerup.GetComponent<Image>().color.a - powerup_image_alpha_diff_per_frame));
+            //---decrease the powerup glass layer's size and visibility when a powerup is used
+            ui_image_powerup_glass.GetComponent<Image>().GetComponent<RectTransform>().localScale = new Vector3((ui_image_powerup_glass.GetComponent<Image>().GetComponent<RectTransform>().localScale.x - powerup_casing_scale_diff_per_frame), (ui_image_powerup_glass.GetComponent<Image>().GetComponent<RectTransform>().localScale.y - powerup_casing_scale_diff_per_frame), 1f);
+            ui_image_powerup_glass.GetComponent<Image>().GetComponent<Image>().color = new Color(1f, 1f, 1f, (ui_image_powerup_glass.GetComponent<Image>().color.a - powerup_casing_alpha_diff_per_frame));
+            
+            if(ui_image_powerup_case.GetComponent<Image>().GetComponent<RectTransform>().localScale.x <= powerup_casing_scale_min)
             {
-                ui_image_powerup_case.GetComponent<Image>().GetComponent<RectTransform>().localScale = new Vector3(powerup_scale_min, powerup_scale_min, 1f);
-                ui_image_powerup_case.GetComponent<Image>().GetComponent<Image>().color = new Color(1f, 1f, 1f, powerup_alpha_min);
-                ui_image_powerup_glass.GetComponent<Image>().GetComponent<RectTransform>().localScale = new Vector3(powerup_scale_min, powerup_scale_min, 1f);
-                ui_image_powerup_glass.GetComponent<Image>().GetComponent<Image>().color = new Color(1f, 1f, 1f, powerup_alpha_min);
+                ui_image_powerup_case.GetComponent<Image>().GetComponent<RectTransform>().localScale = new Vector3(powerup_casing_scale_min, powerup_casing_scale_min, 1f);
+                ui_image_powerup_case.GetComponent<Image>().GetComponent<Image>().color = new Color(1f, 1f, 1f, powerup_casing_alpha_min);
+                ui_image_powerup_glass.GetComponent<Image>().GetComponent<RectTransform>().localScale = new Vector3(powerup_casing_scale_min, powerup_casing_scale_min, 1f);
+                ui_image_powerup_glass.GetComponent<Image>().GetComponent<Image>().color = new Color(1f, 1f, 1f, powerup_casing_alpha_min);
                 powerup_state_current = "";
+                ui_image_powerup.GetComponent<Image>().sprite = null;
+                ui_image_powerup.SetActive(false);
             }
         }
-        
         
         for(int player_weapon = 0; player_weapon < player_object.GetComponent<PlayerControls>().weapons_list.Count; player_weapon++)
         {
@@ -224,16 +243,15 @@ public class GameHUDScript : MonoBehaviour
     //---powerup methods
     public void UpdateUIPowerup(Sprite powerup_sprite)
     {
-        ui_image_powerup.GetComponent<Image>().sprite = powerup_sprite;
         if(powerup_sprite == null)
         {
             powerup_state_current = "powerup_indicator_deactivating";
-            //ui_image_powerup.SetActive(false);
         }
         else
         {
             powerup_state_current = "powerup_indicator_activating";
-            //ui_image_powerup.SetActive(true);
+            ui_image_powerup.GetComponent<Image>().sprite = powerup_sprite;
+            ui_image_powerup.SetActive(true);
         }
     }
     //---weapon choice methods
