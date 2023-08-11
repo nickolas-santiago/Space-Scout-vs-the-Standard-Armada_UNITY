@@ -42,6 +42,16 @@ public class GameHUDScript : MonoBehaviour
     //---weapon choice declarations
     public float ui_scale_for_current_weapon;
     public List<GameObject> weaponchoice_image_object_list = new List<GameObject>();
+    
+    private int weapon_choice_diff_time_in_frames = 10; //---the time in frames it takes to get fromn one state to the other
+    private float weapon_choice_scale_max = 2f;
+    private float weapon_choice_scale_min = 1f;
+    private float weapon_choice_scale_diff_per_frame;
+    private float weapon_choice_alpha_max = 0.8f;
+    private float weapon_choice_alpha_min = 0.3f;
+    private float weapon_choice_alpha_diff_per_frame;
+    
+    
     //---weapon cooldown declarations
     public GameObject ui_image_mask_weapon_cooldown_bar_object;
     public float ui_image_weapon_cooldown_bar_maxheight;
@@ -89,11 +99,14 @@ public class GameHUDScript : MonoBehaviour
         //---weapons assignments
         //---weapon choices assignments
         ui_scale_for_current_weapon = 2f;
+        weapon_choice_scale_diff_per_frame = ((weapon_choice_scale_max - weapon_choice_scale_min)/weapon_choice_diff_time_in_frames);
+        weapon_choice_alpha_diff_per_frame = ((weapon_choice_alpha_max - weapon_choice_alpha_min)/weapon_choice_diff_time_in_frames);
         for(int weaponchoice_image_object = 0; weaponchoice_image_object < GameObject.FindGameObjectsWithTag("UIImageWeaponchoice").Length; weaponchoice_image_object++)
         {
             weaponchoice_image_object_list.Add(GameObject.FindGameObjectsWithTag("UIImageWeaponchoice")[weaponchoice_image_object]);
         }
-        weaponchoice_image_object_list[player_current_weapon].GetComponent<RectTransform>().localScale = new Vector3(ui_scale_for_current_weapon, ui_scale_for_current_weapon, 1f);
+        weaponchoice_image_object_list[player_current_weapon].GetComponent<RectTransform>().localScale = new Vector3(weapon_choice_scale_max, weapon_choice_scale_max, 1f);
+        weaponchoice_image_object_list[player_current_weapon].GetComponent<Image>().color = new Color(1f, 1f, 1f, weapon_choice_alpha_max);
         //---weapon cooldowns assignments
         ui_image_weapon_cooldown_bar_maxheight = ui_image_mask_weapon_cooldown_bar_object.GetComponent<RectTransform>().sizeDelta.y;
         ui_image_weapon_cooldown_bar_width = ui_image_mask_weapon_cooldown_bar_object.GetComponent<RectTransform>().sizeDelta.x;
@@ -108,7 +121,7 @@ public class GameHUDScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //---updates for powerups
+        //---updates for powerup section
         if(powerup_state_current == "powerup_indicator_activating")
         {
             //---increase the powerup casing layer's size and visibility when a powerup is picked up
@@ -154,6 +167,38 @@ public class GameHUDScript : MonoBehaviour
             }
         }
         
+        //---updates for weapon choice section
+        player_current_weapon = player_object.GetComponent<PlayerControls>().current_weapon;
+        for(int weapon_choice = 0; weapon_choice <= (weaponchoice_image_object_list.Count - 1); weapon_choice++)
+        {
+            if(weapon_choice == player_current_weapon)
+            {
+                if(weaponchoice_image_object_list[weapon_choice].GetComponent<RectTransform>().localScale.x < weapon_choice_scale_max)
+                {
+                    weaponchoice_image_object_list[weapon_choice].GetComponent<RectTransform>().localScale = new Vector3((weaponchoice_image_object_list[weapon_choice].GetComponent<RectTransform>().localScale.x + weapon_choice_scale_diff_per_frame), (weaponchoice_image_object_list[weapon_choice].GetComponent<RectTransform>().localScale.y + weapon_choice_scale_diff_per_frame), 1f);
+                    weaponchoice_image_object_list[weapon_choice].GetComponent<Image>().color = new Color(1f, 1f, 1f, (weaponchoice_image_object_list[weapon_choice].GetComponent<Image>().color.a + weapon_choice_alpha_diff_per_frame));
+                }
+                else
+                {
+                    weaponchoice_image_object_list[weapon_choice].GetComponent<RectTransform>().localScale = new Vector3(weapon_choice_scale_max, weapon_choice_scale_max, 1f);
+                    weaponchoice_image_object_list[weapon_choice].GetComponent<Image>().color = new Color(1f, 1f, 1f, weapon_choice_alpha_max);
+                }
+            }
+            else
+            {
+                if(weaponchoice_image_object_list[weapon_choice].GetComponent<RectTransform>().localScale.x > weapon_choice_scale_min)
+                {
+                    weaponchoice_image_object_list[weapon_choice].GetComponent<RectTransform>().localScale = new Vector3((weaponchoice_image_object_list[weapon_choice].GetComponent<RectTransform>().localScale.x - weapon_choice_scale_diff_per_frame), (weaponchoice_image_object_list[weapon_choice].GetComponent<RectTransform>().localScale.y - weapon_choice_scale_diff_per_frame), 1f);
+                    weaponchoice_image_object_list[weapon_choice].GetComponent<Image>().color = new Color(1f, 1f, 1f, (weaponchoice_image_object_list[weapon_choice].GetComponent<Image>().color.a - weapon_choice_alpha_diff_per_frame));
+                }
+                else
+                {
+                    weaponchoice_image_object_list[weapon_choice].GetComponent<RectTransform>().localScale = new Vector3(weapon_choice_scale_min, weapon_choice_scale_min, 1f);
+                    weaponchoice_image_object_list[weapon_choice].GetComponent<Image>().color = new Color(1f, 1f, 1f, weapon_choice_alpha_min);
+                }
+            }
+        }
+        //---updates for weapon choice section - for cooldowns
         for(int player_weapon = 0; player_weapon < player_object.GetComponent<PlayerControls>().weapons_list.Count; player_weapon++)
         {
             float cooldown_percentage = ((float)player_object.GetComponent<PlayerControls>().weapons_list[player_weapon].current_cooldown_time_/(float)player_object.GetComponent<PlayerControls>().weapons_list[player_weapon].max_cooldown_time_);
@@ -191,11 +236,11 @@ public class GameHUDScript : MonoBehaviour
             if(player_weapon_ == player_current_weapon)
             {
                 Debug.Log(weaponchoice_image_object_list[player_weapon_]);
-                weaponchoice_image_object_list[player_weapon_].GetComponent<RectTransform>().localScale = new Vector3(ui_scale_for_current_weapon, ui_scale_for_current_weapon, 1f);
+                weaponchoice_image_object_list[player_weapon_].GetComponent<RectTransform>().localScale = new Vector3(weapon_choice_scale_max, weapon_choice_scale_max, 1f);
             }
             else
             {
-                weaponchoice_image_object_list[player_weapon_].GetComponent<RectTransform>().localScale = new Vector3(1f,1f,1f);
+                weaponchoice_image_object_list[player_weapon_].GetComponent<RectTransform>().localScale = new Vector3(weapon_choice_scale_min, weapon_choice_scale_min, 1f);
             }
         }
         
@@ -257,7 +302,7 @@ public class GameHUDScript : MonoBehaviour
     //---weapon choice methods
     public void UpdateUIWeaponchoice(int current_weapon_, int previous_weapon_)
     {
-        weaponchoice_image_object_list[current_weapon_].GetComponent<RectTransform>().localScale = new Vector3(ui_scale_for_current_weapon, ui_scale_for_current_weapon, 1f);
-        weaponchoice_image_object_list[previous_weapon_].GetComponent<RectTransform>().localScale = new Vector3(1f,1f,1f);
+        //weaponchoice_image_object_list[current_weapon_].GetComponent<RectTransform>().localScale = new Vector3(ui_scale_for_current_weapon, ui_scale_for_current_weapon, 1f);
+        //weaponchoice_image_object_list[previous_weapon_].GetComponent<RectTransform>().localScale = new Vector3(weapon_choice_scale_min, weapon_choice_scale_min, 1f);
     }
 }
