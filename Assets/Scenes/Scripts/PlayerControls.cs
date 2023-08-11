@@ -59,7 +59,7 @@ public class PlayerControls : MonoBehaviour
     public List<WeaponClass> weapons_list = new List<WeaponClass>();
     public WeaponClass weapon_standard = new WeaponClass("standard", 2, 50, 0);
     public WeaponClass weapon_multishot = new WeaponClass("multishot", 1, 40, 0);
-    public WeaponClass weapon_grenade = new WeaponClass("grenade", 1, 40, 0);
+    public WeaponClass weapon_grenade = new WeaponClass("grenade", 1, 300, 0);
     //   supercooldown
     private int supercooldown_time_current;
     private int supercooldown_time_max;

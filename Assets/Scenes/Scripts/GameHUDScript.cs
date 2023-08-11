@@ -99,12 +99,6 @@ public class GameHUDScript : MonoBehaviour
         {
             weaponchoice_image_object_list.Add(GameObject.FindGameObjectsWithTag("UIImageWeaponchoice")[weaponchoice_image_object]);
         }
-        weaponchoice_image_object_list[player_current_weapon].transform.localScale = new Vector3(weapon_choice_scale_max, weapon_choice_scale_max, 1f);
-        //weaponchoice_image_object_list[player_current_weapon].GetComponent<Image>().color = new Color(1f, 1f, 1f, weapon_choice_alpha_max);
-        //Debug.Log(weaponchoice_image_object_list[player_current_weapon].GetComponent<RectTransform>().localScale);
-        //Debug.Log(weaponchoice_image_object_list[1]);
-        //Debug.Log(weaponchoice_image_object_list[2].GetComponent<RectTransform>().localScale);
-        //Debug.Log(weaponchoice_image_object_list[player_current_weapon].GetComponent<Image>().color);
         
         
         //---weapon cooldowns assignments
@@ -176,12 +170,14 @@ public class GameHUDScript : MonoBehaviour
                 if(weaponchoice_image_object_list[weapon_choice].transform.localScale.x < weapon_choice_scale_max)
                 {
                     weaponchoice_image_object_list[weapon_choice].transform.localScale = new Vector3((weaponchoice_image_object_list[weapon_choice].transform.localScale.x + weapon_choice_scale_diff_per_frame), (weaponchoice_image_object_list[weapon_choice].transform.localScale.y + weapon_choice_scale_diff_per_frame), 1f);
-                    //weaponchoice_image_object_list[weapon_choice].GetComponent<Image>().color = new Color(1f, 1f, 1f, (weaponchoice_image_object_list[weapon_choice].GetComponent<Image>().color.a + weapon_choice_alpha_diff_per_frame));
+                    weaponchoice_image_object_list[weapon_choice].transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().color = new Color(1f, 0f, 0f, (weaponchoice_image_object_list[weapon_choice].transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().color.a + weapon_choice_alpha_diff_per_frame));
+                    weaponchoice_image_object_list[weapon_choice].transform.GetChild(1).GetComponent<Image>().color = new Color(1f, 1f, 1f, (weaponchoice_image_object_list[weapon_choice].transform.GetChild(1).GetComponent<Image>().color.a + weapon_choice_alpha_diff_per_frame));
                 }
                 else
                 {
                     weaponchoice_image_object_list[weapon_choice].transform.localScale = new Vector3(weapon_choice_scale_max, weapon_choice_scale_max, 1f);
-                    //weaponchoice_image_object_list[weapon_choice].GetComponent<Image>().color = new Color(1f, 1f, 1f, weapon_choice_alpha_max);
+                    weaponchoice_image_object_list[weapon_choice].transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().color = new Color(1f, 1f, 1f, weapon_choice_alpha_max);
+                    weaponchoice_image_object_list[weapon_choice].transform.GetChild(1).GetComponent<Image>().color = new Color(1f, 1f, 1f, weapon_choice_alpha_max);
                 }
             }
             else
@@ -189,12 +185,14 @@ public class GameHUDScript : MonoBehaviour
                 if(weaponchoice_image_object_list[weapon_choice].transform.localScale.x > weapon_choice_scale_min)
                 {
                     weaponchoice_image_object_list[weapon_choice].transform.localScale = new Vector3((weaponchoice_image_object_list[weapon_choice].transform.localScale.x - weapon_choice_scale_diff_per_frame), (weaponchoice_image_object_list[weapon_choice].transform.localScale.y - weapon_choice_scale_diff_per_frame), 1f);
-                    //weaponchoice_image_object_list[weapon_choice].GetComponent<Image>().color = new Color(1f, 1f, 1f, (weaponchoice_image_object_list[weapon_choice].GetComponent<Image>().color.a - weapon_choice_alpha_diff_per_frame));
+                    weaponchoice_image_object_list[weapon_choice].transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().color = new Color(1f, 1f, 1f, (weaponchoice_image_object_list[weapon_choice].transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().color.a - weapon_choice_alpha_diff_per_frame));
+                    weaponchoice_image_object_list[weapon_choice].transform.GetChild(1).GetComponent<Image>().color = new Color(1f, 1f, 1f, (weaponchoice_image_object_list[weapon_choice].transform.GetChild(1).GetComponent<Image>().color.a - weapon_choice_alpha_diff_per_frame));
                 }
                 else
                 {
                     weaponchoice_image_object_list[weapon_choice].transform.localScale = new Vector3(weapon_choice_scale_min, weapon_choice_scale_min, 1f);
-                    //weaponchoice_image_object_list[weapon_choice].GetComponent<Image>().color = new Color(1f, 1f, 1f, weapon_choice_alpha_min);
+                    weaponchoice_image_object_list[weapon_choice].transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().color = new Color(1f, 1f, 1f, weapon_choice_alpha_min);
+                    weaponchoice_image_object_list[weapon_choice].transform.GetChild(1).GetComponent<Image>().color = new Color(1f, 1f, 1f, weapon_choice_alpha_min);
                 }
             }
         }
@@ -234,13 +232,15 @@ public class GameHUDScript : MonoBehaviour
         for(int player_weapon_ = 0; player_weapon_ < weaponchoice_image_object_list.Count; player_weapon_++)
         {
             if(player_weapon_ == player_current_weapon)
-            {
-                Debug.Log(weaponchoice_image_object_list[player_weapon_]);
-                weaponchoice_image_object_list[player_weapon_].transform.localScale = new Vector3(weapon_choice_scale_max, weapon_choice_scale_max, 1f);
+            {weaponchoice_image_object_list[player_weapon_].transform.localScale = new Vector3(weapon_choice_scale_max, weapon_choice_scale_max, 1f);
+                weaponchoice_image_object_list[player_weapon_].transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().color = new Color(1f, 1f, 1f, weapon_choice_alpha_max);
+                weaponchoice_image_object_list[player_weapon_].transform.GetChild(1).GetComponent<Image>().color = new Color(1f, 1f, 1f, weapon_choice_alpha_max);
             }
             else
             {
                 weaponchoice_image_object_list[player_weapon_].transform.localScale = new Vector3(weapon_choice_scale_min, weapon_choice_scale_min, 1f);
+                weaponchoice_image_object_list[player_weapon_].transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().color = new Color(1f, 1f, 1f, weapon_choice_alpha_min);
+                weaponchoice_image_object_list[player_weapon_].transform.GetChild(1).GetComponent<Image>().color = new Color(1f, 1f, 1f, weapon_choice_alpha_min);
             }
         }
         
