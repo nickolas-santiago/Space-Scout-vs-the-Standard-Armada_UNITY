@@ -42,8 +42,8 @@ public class GameHUDScript : MonoBehaviour
     //---weapon choice declarations
     public List<GameObject> weaponchoice_image_object_list = new List<GameObject>();
     private int weapon_choice_diff_time_in_frames = 10; //---the time in frames it takes to get fromn one state to the other
-    private float weapon_choice_scale_max = 2f;
-    private float weapon_choice_scale_min = 1f;
+    private float weapon_choice_scale_max = 2.5f;
+    private float weapon_choice_scale_min = 1.3f;
     private float weapon_choice_scale_diff_per_frame;
     private float weapon_choice_alpha_max = 0.8f;
     private float weapon_choice_alpha_min = 0.3f;
@@ -167,6 +167,7 @@ public class GameHUDScript : MonoBehaviour
         {
             if(weapon_choice == player_current_weapon)
             {
+                //---find the current weapon selection and make it big/opaque
                 if(weaponchoice_image_object_list[weapon_choice].transform.localScale.x < weapon_choice_scale_max)
                 {
                     weaponchoice_image_object_list[weapon_choice].transform.localScale = new Vector3((weaponchoice_image_object_list[weapon_choice].transform.localScale.x + weapon_choice_scale_diff_per_frame), (weaponchoice_image_object_list[weapon_choice].transform.localScale.y + weapon_choice_scale_diff_per_frame), 1f);
@@ -182,6 +183,7 @@ public class GameHUDScript : MonoBehaviour
             }
             else
             {
+                //---find the other weapon selections and make them small/invisible
                 if(weaponchoice_image_object_list[weapon_choice].transform.localScale.x > weapon_choice_scale_min)
                 {
                     weaponchoice_image_object_list[weapon_choice].transform.localScale = new Vector3((weaponchoice_image_object_list[weapon_choice].transform.localScale.x - weapon_choice_scale_diff_per_frame), (weaponchoice_image_object_list[weapon_choice].transform.localScale.y - weapon_choice_scale_diff_per_frame), 1f);
