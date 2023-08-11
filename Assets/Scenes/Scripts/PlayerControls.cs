@@ -243,24 +243,19 @@ public class PlayerControls : MonoBehaviour
             //---switch weapons
             if(Input.GetKeyDown(KeyCode.E))
             {
-                int previous_weapon = current_weapon;
                 current_weapon--;
                 if(current_weapon < 0)
                 {
                     current_weapon = (weapons_list.Count - 1);
                 }
-                game_hud_object.GetComponent<GameHUDScript>().UpdateUIWeaponchoice(current_weapon, previous_weapon);
             }
             else if(Input.GetKeyDown(KeyCode.R))
             {
-                int previous_weapon = current_weapon;
                 current_weapon++;
                 if(current_weapon > (weapons_list.Count - 1))
                 {
                     current_weapon = 0;
                 }
-                game_hud_object.GetComponent<GameHUDScript>().UpdateUIWeaponchoice(current_weapon, previous_weapon);
-                
             }
             
             //---cooldown any weapons and powerups
