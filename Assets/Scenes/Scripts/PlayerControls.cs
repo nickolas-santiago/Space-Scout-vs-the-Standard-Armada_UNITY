@@ -349,6 +349,7 @@ public class PlayerControls : MonoBehaviour
         {
             powerup_current = coll.GetComponent<PowerupScript>().powerup_name;
             game_hud_object.GetComponent<GameHUDScript>().UpdateUIPowerup(coll.GetComponent<SpriteRenderer>().sprite);
+            GenerateNewScore(30);
             Object.Destroy(coll.gameObject);
             Debug.Log(powerup_current);
         }

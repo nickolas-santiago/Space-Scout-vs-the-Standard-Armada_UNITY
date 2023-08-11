@@ -27,7 +27,7 @@ public class TankEnemycript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        force = 0.45f;
+        //force = 4;
         //---instantiate vars for enemy script
         enemy_script = GetComponent<EnemyScript>();
         enemy_script.enemy_health_current = enemy_max_health;

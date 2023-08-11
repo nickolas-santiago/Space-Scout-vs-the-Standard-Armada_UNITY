@@ -56,12 +56,16 @@ public class StandardEnemyScript : MonoBehaviour
                 {
                     if(current_cooldown_time <= 0)
                     {
-                        num_of_shots_left--;
-                        enemy_bullet = Instantiate(enemy_bullet_object, transform.position, Quaternion.identity) as GameObject;
-                        enemy_bullet.transform.up = transform.up;
-                        enemy_bullet.GetComponent<BulletScript>().direction = enemy_script.direction;
-                        enemy_bullet.GetComponent<BulletScript>().damage = bullet_damage;
-                        current_cooldown_time = cooldown_time;
+                        float chance_to_take_shot = Random.Range(0,100);
+                        if(chance_to_take_shot <= 5)
+                        {
+                            num_of_shots_left--;
+                            enemy_bullet = Instantiate(enemy_bullet_object, transform.position, Quaternion.identity) as GameObject;
+                            enemy_bullet.transform.up = transform.up;
+                            enemy_bullet.GetComponent<BulletScript>().direction = enemy_script.direction;
+                            enemy_bullet.GetComponent<BulletScript>().damage = bullet_damage;
+                            current_cooldown_time = cooldown_time;
+                        }
                     }
                 }
                 else

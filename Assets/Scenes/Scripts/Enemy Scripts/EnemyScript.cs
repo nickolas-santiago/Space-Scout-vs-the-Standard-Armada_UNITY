@@ -98,6 +98,14 @@ public class EnemyScript : MonoBehaviour
         }
     }
     
+    private void OnCollisionStay2D(Collision2D coll)
+    {
+        if(coll.gameObject.tag == "PlayerBullet")
+        {
+            Debug.Log("Helloo");
+        }
+    }
+    
     private void TakeDamage(int damage_to_take_)
     {
         //---enemy either takes damage or destorys itself (and maybe srops loot)

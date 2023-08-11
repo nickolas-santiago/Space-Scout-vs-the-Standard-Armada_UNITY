@@ -71,7 +71,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 315402d1f16581d4794001d5c964e790, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  force: 0
+  force: 3
   enemy_max_health: 4
   points_worth: 0
   enemy_bullet_object: {fileID: 2741618122835359047, guid: d023f4b032a61e2409b7907296a9c506,

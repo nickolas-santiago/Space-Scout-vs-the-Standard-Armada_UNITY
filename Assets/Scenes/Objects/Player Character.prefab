@@ -182,8 +182,8 @@ MonoBehaviour:
   current_score: 0
   score_modifier: 1
   powerup_current: 
-  speedx: 12.5
-  speedy: 12.5
+  speedx: 17
+  speedy: 17
   border_limit_x: 0
   border_limit_y: 0
   projectile_prefab: {fileID: 7501979095678634194, guid: 8238eff422bbc534d9610a607553e5f0,

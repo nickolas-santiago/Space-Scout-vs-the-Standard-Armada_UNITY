@@ -19,7 +19,10 @@ public class GameHUDScript : MonoBehaviour
     //---score declarations
     private GameObject ui_text_score;
     //---powerup declarations
+    //public GameObject ui_image_powerup_case;
+    public GameObject ui_image_powerup_case;
     public GameObject ui_image_powerup;
+    public GameObject ui_image_powerup_glass;
     //---weapon declarations
     //---weapon choice declarations
     public float ui_scale_for_current_weapon;
@@ -75,7 +78,6 @@ public class GameHUDScript : MonoBehaviour
             weapon_cooldown_image_object_list.Add(GameObject.FindGameObjectsWithTag("UIImageMaskWeaponCooldown")[weapon_cooldown_image_mask_object]);
             weapon_cooldown_image_object_list[weapon_cooldown_image_mask_object].GetComponent<RectTransform>().sizeDelta = new Vector2(ui_image_weapon_cooldown_bar_width, ui_image_weapon_cooldown_bar_maxheight);
         }
-        
         UpdateUIResetGameHUD();
     }
 
@@ -108,6 +110,7 @@ public class GameHUDScript : MonoBehaviour
             UpdateUIScore(player_object.GetComponent<PlayerControls>().current_score);
         }
         //---reset powerup image
+        ui_image_powerup_case.GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.3f);
         if(player_object.GetComponent<PlayerControls>().powerup_current == "")
         {
             UpdateUIPowerup(null);
@@ -137,7 +140,8 @@ public class GameHUDScript : MonoBehaviour
             //---if shield is up, move the healthbar panel back
             if(which_healthbar_ == 3)
             {
-                healthbar_panel.GetComponent<RectTransform>().anchoredPosition = new Vector2(healthbar_panel_xpos_shield_inactive, healthbar_panel_ypos);
+                //---move healthbar panel over
+                //healthbar_panel.GetComponent<RectTransform>().anchoredPosition = new Vector2(healthbar_panel_xpos_shield_inactive, healthbar_panel_ypos);
             }
         }
         //...else just remove a healthbar
@@ -154,7 +158,7 @@ public class GameHUDScript : MonoBehaviour
             healthbar_object_list[healthbar_object].SetActive(true);
         }
         //---move healthbar panel over
-        healthbar_panel.GetComponent<RectTransform>().anchoredPosition = new Vector2(healthbar_panel_xpos_shield_active, healthbar_panel_ypos);
+        //healthbar_panel.GetComponent<RectTransform>().anchoredPosition = new Vector2(healthbar_panel_xpos_shield_active, healthbar_panel_ypos);
         //---set all shieldbars to active
         for(int shieldbar_object = 0; shieldbar_object < shieldbar_object_list.Count; shieldbar_object++)
         {
@@ -172,11 +176,19 @@ public class GameHUDScript : MonoBehaviour
         ui_image_powerup.GetComponent<Image>().sprite = powerup_sprite;
         if(powerup_sprite == null)
         {
+            ui_image_powerup_case.GetComponent<Image>().GetComponent<RectTransform>().localScale = new Vector3(0.6f,0.6f,0.6f);
+            ui_image_powerup_case.GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.3f);
             ui_image_powerup.SetActive(false);
+            ui_image_powerup_glass.GetComponent<Image>().GetComponent<RectTransform>().localScale = new Vector3(0.6f,0.6f,0.6f);
+            ui_image_powerup_glass.GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.3f);
         }
         else
         {
+            ui_image_powerup_case.GetComponent<Image>().GetComponent<RectTransform>().localScale = new Vector3(1f,1f,1f);
+            ui_image_powerup_case.GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.6f);
             ui_image_powerup.SetActive(true);
+            ui_image_powerup_glass.GetComponent<Image>().GetComponent<RectTransform>().localScale = new Vector3(1f,1f,1f);
+            ui_image_powerup_glass.GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.6f);
         }
     }
     //---weapon choice methods
