@@ -1781,7 +1781,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -93, y: -43.2}
+  m_AnchoredPosition: {x: -93, y: -44}
   m_SizeDelta: {x: 190.74, y: 39.71}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &698025956
@@ -5348,7 +5348,7 @@ MonoBehaviour:
   player_object: {fileID: 1052302304989556310, guid: 9aa5dae1f87917c4485efd2e48d2df82,
     type: 3}
   healthbar_panel: {fileID: 698025954}
-  healthbar_panel_xpos_shield_active: 0
+  healthbar_panel_current_state: 
   healthbar_object_list: []
   shieldbar_object_list: []
   ui_image_powerup_case: {fileID: 1570234805}

@@ -8,16 +8,18 @@ public class GameHUDScript : MonoBehaviour
     public GameObject player_object;
     private int player_current_weapon;
     //UI VAR DECLARATIONS
-    //---health declarations
+    
+    //---health and shield declarations
     public GameObject healthbar_panel;
-    private float healthbar_panel_xpos_shield_inactive;
-    
-    public float healthbar_panel_xpos_shield_active;
-    
-    private float healthbar_panel_ypos;
+    private int healthbar_panel_diff_time_in_frames = 10; //---the time in frames it takes to get fromn one state to the other
+    public string healthbar_panel_current_state;
+    private float healthbar_panel_xpos_shield_inactive = -93f;
+    private float healthbar_panel_xpos_shield_active = -17.75f;
+    private float healthbar_panel_ypos = -44f;
+    private float healthbar_panel_xpos_diff_per_frame;
     public List<GameObject> healthbar_object_list = new List<GameObject>();
-    //---health declarations -- shield
     public List<GameObject> shieldbar_object_list = new List<GameObject>();
+    
     //---score declarations
     private GameObject ui_text_score;
     
@@ -60,17 +62,17 @@ public class GameHUDScript : MonoBehaviour
     void Start()
     {
         player_current_weapon = player_object.GetComponent<PlayerControls>().current_weapon;
-        //Debug.Log(player_object);
         
         //---health assignments
+        //healthbar_panel_ypos = healthbar_panel.GetComponent<RectTransform>().anchoredPosition.y;
+        healthbar_panel_xpos_diff_per_frame = ((healthbar_panel_xpos_shield_active - healthbar_panel_xpos_shield_inactive)/healthbar_panel_diff_time_in_frames);
         for(int healthbar_object = 0; healthbar_object < GameObject.FindGameObjectsWithTag("UIImageHealthbar").Length; healthbar_object++)
         {
             healthbar_object_list.Add(GameObject.FindGameObjectsWithTag("UIImageHealthbar")[healthbar_object]);
         }
+        
         //---health assignments -- shield
-        healthbar_panel_xpos_shield_inactive = -93f;
-        healthbar_panel_xpos_shield_active = -17.75f;
-        healthbar_panel_ypos = healthbar_panel.GetComponent<RectTransform>().anchoredPosition.y;
+        Debug.Log(healthbar_panel_ypos);
         for(int shieldbar_object = 0; shieldbar_object < GameObject.FindGameObjectsWithTag("UIImageShieldbar").Length; shieldbar_object++)
         {
             shieldbar_object_list.Add(GameObject.FindGameObjectsWithTag("UIImageShieldbar")[shieldbar_object]);
@@ -80,6 +82,7 @@ public class GameHUDScript : MonoBehaviour
         {
             shieldbar_object_list[shieldbar_object].SetActive(false);
         }
+        
         //---score assignments
         ui_text_score = GameObject.FindGameObjectWithTag("UITextScore");
         
@@ -101,8 +104,6 @@ public class GameHUDScript : MonoBehaviour
         {
             weaponchoice_image_object_list.Add(GameObject.FindGameObjectsWithTag("UIImageWeaponchoice")[weaponchoice_image_object]);
         }
-        
-        
         //---weapon cooldowns assignments
         ui_image_weapon_cooldown_bar_maxheight = ui_image_mask_weapon_cooldown_bar_object.GetComponent<RectTransform>().sizeDelta.y;
         ui_image_weapon_cooldown_bar_width = ui_image_mask_weapon_cooldown_bar_object.GetComponent<RectTransform>().sizeDelta.x;
@@ -117,6 +118,30 @@ public class GameHUDScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //---updates for healthbar panel
+        if(healthbar_panel_current_state == "healthbar_panel_state_shieldbars_activating")
+        {
+            if(healthbar_panel.GetComponent<RectTransform>().anchoredPosition.x < healthbar_panel_xpos_shield_active)
+            {
+                healthbar_panel.GetComponent<RectTransform>().anchoredPosition = new Vector2((healthbar_panel.GetComponent<RectTransform>().anchoredPosition.x + healthbar_panel_xpos_diff_per_frame), healthbar_panel_ypos);
+            }
+            else
+            {
+                healthbar_panel_current_state = "";
+            }
+        }
+        else if(healthbar_panel_current_state == "healthbar_panel_state_shieldbars_deactivating")
+        {
+            if(healthbar_panel.GetComponent<RectTransform>().anchoredPosition.x > healthbar_panel_xpos_shield_inactive)
+            {
+                healthbar_panel.GetComponent<RectTransform>().anchoredPosition = new Vector2((healthbar_panel.GetComponent<RectTransform>().anchoredPosition.x - healthbar_panel_xpos_diff_per_frame), healthbar_panel_ypos);
+            }
+            else
+            {
+                healthbar_panel_current_state = "";
+            }
+        }
+        
         //---updates for powerup section
         if(powerup_state_current == "powerup_indicator_activating")
         {
@@ -215,7 +240,8 @@ public class GameHUDScript : MonoBehaviour
         {
             healthbar_object_list[health_bar].SetActive(true);
         }
-        //---NEED TO RESET HEALTHBAR PANEL HERE!!! --- //
+        //---reser healthbar panel
+        healthbar_panel.GetComponent<RectTransform>().anchoredPosition = new Vector2(healthbar_panel_xpos_shield_inactive, healthbar_panel_ypos);
         //---reset shieldbars
         for(int shield_bar = 0; shield_bar < shieldbar_object_list.Count; shield_bar++)
         {
@@ -260,7 +286,7 @@ public class GameHUDScript : MonoBehaviour
             if(which_healthbar_ == 3)
             {
                 //---move healthbar panel over
-                healthbar_panel.GetComponent<RectTransform>().anchoredPosition = new Vector2(healthbar_panel_xpos_shield_inactive, healthbar_panel_ypos);
+                healthbar_panel_current_state = "healthbar_panel_state_shieldbars_deactivating";
             }
         }
         //...else just remove a healthbar
@@ -277,7 +303,7 @@ public class GameHUDScript : MonoBehaviour
             healthbar_object_list[healthbar_object].SetActive(true);
         }
         //---move healthbar panel over
-        healthbar_panel.GetComponent<RectTransform>().anchoredPosition = new Vector2(healthbar_panel_xpos_shield_active, healthbar_panel_ypos);
+        healthbar_panel_current_state = "healthbar_panel_state_shieldbars_activating";
         //---set all shieldbars to active
         for(int shieldbar_object = 0; shieldbar_object < shieldbar_object_list.Count; shieldbar_object++)
         {
