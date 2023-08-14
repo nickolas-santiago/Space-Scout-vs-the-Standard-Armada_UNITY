@@ -21,6 +21,8 @@ public class EnemyScript : MonoBehaviour
     public int enemy_health_current;
     private int iframe_max = 50;
     private int iframe_current;
+    //private List<GameObject> list_of_grenades_in_current_collision = new List<GameObject>();
+    private List<Collider2D> list_of_grenades_in_current_collision = new List<Collider2D>();
     
     //---set variables for enemy points
     public int points_worth;
@@ -53,6 +55,21 @@ public class EnemyScript : MonoBehaviour
             {
                 GetComponent<SpriteRenderer>().color = Color.white;
             }
+            //---check each grenade an enemy might be in current collision with and see if it it is currently exploding and if the enemy can take damage
+            for(int grenade_in_current_collision = 0; grenade_in_current_collision <= (list_of_grenades_in_current_collision.Count - 1); grenade_in_current_collision++)
+            {
+                if(list_of_grenades_in_current_collision[grenade_in_current_collision] == null)
+                {
+                    list_of_grenades_in_current_collision.Remove(list_of_grenades_in_current_collision[grenade_in_current_collision]);
+                }
+                else
+                {
+                    if((list_of_grenades_in_current_collision[grenade_in_current_collision].GetComponent<GrenadeScript>().state_current == "state_exploding") && (iframe_current <= 0))
+                    {
+                        TakeDamage(list_of_grenades_in_current_collision[grenade_in_current_collision].GetComponent<GrenadeScript>().damage);
+                    }
+                }
+            }
         }
         else
         {
@@ -66,16 +83,10 @@ public class EnemyScript : MonoBehaviour
         if(coll.gameObject.tag == "PlayerBullet")
         {
             //Debug.Log("NPC hit by bullet");
-            if(coll.GetComponent<BulletScript>() == null)
+            //---when collided with an enemy, a grenade has to get added to a list so they can be checked for proper explosion collision
+            if(coll.GetComponent<GrenadeScript>() != null)
             {
-                //---WILL COME BACK TO
-                if(coll.GetComponent<GrenadeScript>().state_current == "state_exploding")
-                {
-                    if(iframe_current <= 0)
-                    {
-                        TakeDamage(coll.GetComponent<GrenadeScript>().damage);
-                    }
-                }
+                list_of_grenades_in_current_collision.Add(coll);
             }
             else
             {
@@ -97,12 +108,15 @@ public class EnemyScript : MonoBehaviour
             }
         }
     }
-    
-    private void OnCollisionStay2D(Collision2D coll)
+    private void OnTriggerExit2D(Collider2D coll)
     {
         if(coll.gameObject.tag == "PlayerBullet")
         {
-            Debug.Log("Helloo");
+            //---when a grenade's collision has ended, it has to be removed from the list
+            if(coll.GetComponent<GrenadeScript>() != null)
+            {
+                list_of_grenades_in_current_collision.Remove(coll);
+            }
         }
     }
     
@@ -154,5 +168,4 @@ public class EnemyScript : MonoBehaviour
             }
         }
     }
-    
 }
