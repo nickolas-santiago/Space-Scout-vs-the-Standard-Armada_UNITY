@@ -16,6 +16,7 @@ public class BomberEnemyScript : MonoBehaviour
     
     //---set variables for making enemy reactive
     private bool is_reactive;
+    public Sprite sprite_bomber_enemy_reactive;
     
     // Start is called before the first frame update
     void Start()
@@ -49,6 +50,7 @@ public class BomberEnemyScript : MonoBehaviour
                     {
                         is_reactive = true;
                         //Debug.Log("im reactive now");
+                        gameObject.GetComponent<SpriteRenderer>().sprite = sprite_bomber_enemy_reactive;
                     }
                 }
                 //---update the rigidbody's velocity with the caluculated direction and the public regular force

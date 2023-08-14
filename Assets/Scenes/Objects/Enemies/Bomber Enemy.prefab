@@ -74,6 +74,8 @@ MonoBehaviour:
   reactive_force: 7
   enemy_max_health: 1
   points_worth: 0
+  sprite_bomber_enemy_reactive: {fileID: 21300000, guid: 9b887c90593bf2648aca762d079a9615,
+    type: 3}
 --- !u!50 &6850750529760789159
 Rigidbody2D:
   serializedVersion: 4
@@ -129,10 +131,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 138818951
+  m_SortingLayer: 5
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9b887c90593bf2648aca762d079a9615, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0482a8d68a549824fbff48dbe531dbc3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -160,7 +162,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.66, y: 2.12}
+    oldSize: {x: 1.65, y: 2.13}
     newSize: {x: 0.16, y: 0.16}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

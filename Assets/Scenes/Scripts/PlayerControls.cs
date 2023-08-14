@@ -173,8 +173,6 @@ public class PlayerControls : MonoBehaviour
             
             
             float ship_angle = Mathf.Atan2((transform.position.y - (transform.position.y + movement.y)), (transform.position.x - (transform.position.x + movement.x))) * Mathf.Rad2Deg;
-            Debug.Log(ship_rotation_current);
-            //Debug.Log(inputX);
             gameObject.transform.GetChild(0).gameObject.transform.rotation = Quaternion.Euler (new Vector3(0f,0f, (ship_rotation_current + 90)));
             
             

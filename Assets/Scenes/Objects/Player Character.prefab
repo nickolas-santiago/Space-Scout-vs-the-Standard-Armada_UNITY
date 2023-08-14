@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2217001545509438171}
   - component: {fileID: 2810156758298733448}
   m_Layer: 0
-  m_Name: New Sprite
+  m_Name: Scout Ship
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65,8 +65,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1678429491
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 0e7ee16006c69634cbeb465bb528d8d4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -144,8 +144,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 824620873
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: a17f260eea9503a4ebd0090b122ae2ae, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -217,6 +217,7 @@ MonoBehaviour:
   speedy: 17
   border_limit_x: 0
   border_limit_y: 0
+  ship_rotation_current: 0
   projectile_prefab: {fileID: 7501979095678634194, guid: 8238eff422bbc534d9610a607553e5f0,
     type: 3}
   multishot_prefab: {fileID: 1353512158593897370, guid: d050577da0acd2040b3e900339f1095c,

@@ -50,6 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: {x: 0, y: 0}
   spawner_object: {fileID: 0}
+  part_of_current_wave: 0
   powerup_object_prefab: {fileID: 3579360478366662633, guid: 0d6f4d36a3b3a964c92e6153ad5af5d0,
     type: 3}
   game_state_playing: 0
@@ -88,6 +89,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   force: 1
   enemy_max_health: 2
+  sprite_damaged: {fileID: 0}
   points_worth: 0
   enemy_bullet_object: {fileID: 2741618122835359047, guid: d023f4b032a61e2409b7907296a9c506,
     type: 3}
@@ -175,8 +177,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 138818951
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 1273f4ca1952a6b4597d46313625c76d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

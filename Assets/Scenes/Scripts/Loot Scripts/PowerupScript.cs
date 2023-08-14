@@ -45,7 +45,7 @@ public class PowerupScript : MonoBehaviour
         powerup_spriterenderer = GetComponent<SpriteRenderer>();
         powerup_spriterenderer.sprite = powerup_list[powerup].powerup_sprite_;
     
-        scene_object =  GameObject.FindGameObjectWithTag("GameController");
+        scene_object = GameObject.FindGameObjectWithTag("GameController");
         scene_object.GetComponent<SceneScript>().game_objects_list.Add(this.gameObject);
     }
 
