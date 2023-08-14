@@ -30,6 +30,8 @@ public class PlayerControls : MonoBehaviour
     public float border_limit_x; //---represents a border beyond the game's screen
     public float border_limit_y; //---represents a border beyond the game's screen
     
+    public float ship_rotation_current;
+    
     
     //---set some vars for shooting
     public GameObject projectile_prefab;
@@ -93,7 +95,9 @@ public class PlayerControls : MonoBehaviour
         supercooldown_time_max = 7;
         
         
-        Debug.Log(gameObject.transform.GetChild(0).gameObject);
+        
+        
+        ship_rotation_current = -90f;
     }
 
     // Update is called once per frame
@@ -152,7 +156,27 @@ public class PlayerControls : MonoBehaviour
                 Debug.DrawLine(transform.position, mouse_pos, Color.red);
             }
             float angle = Mathf.Atan2(transform.position.y - mouse_pos.y, transform.position.x - mouse_pos.x) * Mathf.Rad2Deg;
-            gameObject.transform.GetChild(0).gameObject.transform.rotation = Quaternion.Euler (new Vector3(0f,0f,angle));
+            gameObject.transform.GetChild(1).gameObject.transform.rotation = Quaternion.Euler (new Vector3(0f,0f,angle));
+            
+            //Debug.Log(movement);
+            //---FIX SHIP ROTATION HERE--///
+            
+            if(inputX == 0 && inputY == 0)
+            {
+                ship_rotation_current = ship_rotation_current;
+            }
+            else
+            {
+                ship_rotation_current = Mathf.Atan2((transform.position.y - (transform.position.y + movement.y)), (transform.position.x - (transform.position.x + movement.x))) * Mathf.Rad2Deg;
+            }
+            
+            
+            
+            float ship_angle = Mathf.Atan2((transform.position.y - (transform.position.y + movement.y)), (transform.position.x - (transform.position.x + movement.x))) * Mathf.Rad2Deg;
+            Debug.Log(ship_rotation_current);
+            //Debug.Log(inputX);
+            gameObject.transform.GetChild(0).gameObject.transform.rotation = Quaternion.Euler (new Vector3(0f,0f, (ship_rotation_current + 90)));
+            
             
             //---update iframes/health
             if(iframe_current > 0)
