@@ -86,7 +86,7 @@ public class SpawnScript : MonoBehaviour
         waves_array[20] = new int[]{0, 1, 0};
         percentage_needed_to_spawn_next_wave_array[20] = 60;
         
-        GenerateWave(0);
+        //GenerateWave(0);
     }
 
     // Update is called once per frame
@@ -109,7 +109,9 @@ public class SpawnScript : MonoBehaviour
                 * /
             }*/
             
-            //---WAVE TYPE A
+            /*
+            TURNED OFF FOR DEBUGGING
+            /---WAVE TYPE A
             if(delta_time % 45 == 0)
             {
                 if((wave_current < (waves_array.Length - 1)) &&  (enemy_object_list_current_wave.Count <= (wave_size_max - (wave_size_max * (percentage_needed_to_spawn_next_wave * 0.01)))))
@@ -121,7 +123,7 @@ public class SpawnScript : MonoBehaviour
                         GenerateWave(wave_current);
                     }
                 }
-            }
+            }*/
         }
     }
     
