@@ -7,8 +7,8 @@ public class BossShip1_ContainerObjectScript : MonoBehaviour
     private GameObject scene_object;
     public bool game_state_playing;
     
-    
     public List<GameObject> list_of_boss_ship_health_points = new List<GameObject>();
+    public int time_alive;
     
     // Start is called before the first frame update
     void Start()
@@ -23,6 +23,7 @@ public class BossShip1_ContainerObjectScript : MonoBehaviour
         if(scene_object.GetComponent<SceneScript>().current_game_state == "game_state_playing")
         {
             game_state_playing = true;
+            time_alive++;
         }
         else
         {

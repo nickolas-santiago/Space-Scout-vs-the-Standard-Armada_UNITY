@@ -104,12 +104,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2088304144060456988}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89fc0eb9bea2aaa41bbd14cc20faed80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   boss_ship_container_object: {fileID: 2088304145406867699}
+  enemy_bullet_object: {fileID: 2741618122835359047, guid: d023f4b032a61e2409b7907296a9c506,
+    type: 3}
 --- !u!61 &2088304144060456990
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -436,6 +438,7 @@ MonoBehaviour:
   - {fileID: 2088304144060456988}
   - {fileID: 2088304145174165332}
   - {fileID: 2088304144413082502}
+  time_alive: 0
 --- !u!1 &2088304145705650440
 GameObject:
   m_ObjectHideFlags: 0
@@ -619,12 +622,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2088304145862962568}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89fc0eb9bea2aaa41bbd14cc20faed80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   boss_ship_container_object: {fileID: 2088304145406867699}
+  enemy_bullet_object: {fileID: 2741618122835359047, guid: d023f4b032a61e2409b7907296a9c506,
+    type: 3}
 --- !u!61 &2088304145862962570
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -788,6 +793,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boss_ship_container_object: {fileID: 2088304145406867699}
+  enemy_bullet_object: {fileID: 2741618122835359047, guid: d023f4b032a61e2409b7907296a9c506,
+    type: 3}
 --- !u!1 &2088304146165328996
 GameObject:
   m_ObjectHideFlags: 0
