@@ -156,7 +156,7 @@ public class PlayerControls : MonoBehaviour
                 Debug.DrawLine(transform.position, mouse_pos, Color.red);
             }
             float angle = Mathf.Atan2(transform.position.y - mouse_pos.y, transform.position.x - mouse_pos.x) * Mathf.Rad2Deg;
-            gameObject.transform.GetChild(1).gameObject.transform.rotation = Quaternion.Euler (new Vector3(0f,0f,angle));
+            gameObject.transform.GetChild(1).gameObject.transform.rotation = Quaternion.Euler(new Vector3(0f,0f,angle));
             
             //Debug.Log(movement);
             //---FIX SHIP ROTATION HERE--///

@@ -4,18 +4,30 @@ using UnityEngine;
 
 public class BossShip1_ContainerObjectScript : MonoBehaviour
 {
+    private GameObject scene_object;
+    public bool game_state_playing;
+    
+    
     public List<GameObject> list_of_boss_ship_health_points = new List<GameObject>();
     
     // Start is called before the first frame update
     void Start()
     {
-        
+        scene_object = GameObject.FindGameObjectWithTag("GameController");
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        //---let the other ship parts know what state the game is in
+        if(scene_object.GetComponent<SceneScript>().current_game_state == "game_state_playing")
+        {
+            game_state_playing = true;
+        }
+        else
+        {
+            game_state_playing = false;
+        }
     }
     
     public void CheckIfDefeated()
@@ -39,6 +51,7 @@ public class BossShip1_ContainerObjectScript : MonoBehaviour
         if(defeated == true)
         {
             //---begin some sort of animarion
+            Object.Destroy(this.gameObject);
         }
     }
 }

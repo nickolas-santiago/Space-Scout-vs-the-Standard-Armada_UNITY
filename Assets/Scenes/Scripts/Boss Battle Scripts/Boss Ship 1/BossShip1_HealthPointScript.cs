@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BossShip1_HealthPointScript : MonoBehaviour
 {
-    private GameObject scene_object;
     public GameObject boss_ship_container_object;
     
     //---vars for health
@@ -17,7 +16,6 @@ public class BossShip1_HealthPointScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        scene_object = GameObject.FindGameObjectWithTag("GameController");
         //---vars for health
         health_current = 10;
         iframes_max = 50;
@@ -27,8 +25,9 @@ public class BossShip1_HealthPointScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(scene_object.GetComponent<SceneScript>().current_game_state == "game_state_playing")
+        if(boss_ship_container_object.GetComponent<BossShip1_ContainerObjectScript>().game_state_playing == true)
         {
+            //---turn the enemy red if the iframes are on
             if(iframes_current > 0)
             {
                 iframes_current--;
